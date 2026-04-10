@@ -1,0 +1,19 @@
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-family: var(--font-vela);
+  font-size: 15px;
+  line-height: var(--lh-xs);
+  letter-spacing: var(--ls-s);
+
+  @media (--hover) {
+    &:hover {
+      color: var(--color-text-secondary);
+    }
+  }
+}

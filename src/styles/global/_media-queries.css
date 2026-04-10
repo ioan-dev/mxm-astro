@@ -1,0 +1,14 @@
+/* MOBILE */
+@custom-media --mobile (width <= 767px);
+@custom-media --mobile-above (width > 767px);
+
+/* TABLET */
+@custom-media --tablet (width <= 1023px);
+@custom-media --tablet-above (width > 1023px);
+
+/* LAPTOP */
+@custom-media --laptop (width <= 1440px);
+@custom-media --laptop-above (width > 1440px);
+
+/* HOVER */
+@custom-media --hover (hover: hover) and (prefers-reduced-motion: no-preference);

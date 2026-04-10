@@ -1,0 +1,61 @@
+:root {
+  /* ---- FONTS ---- */
+  --font-vela: "VelaSans", sans-serif;
+  --font-inter: "InterTight", sans-serif;
+
+  /* ---- TYPOGRAPHY ---- */
+
+  /* Line Height */
+  --lh-xxs: 0.85;
+  --lh-xs: 1;
+  --lh-s: 1.1;
+  --lh-m: 1.2;
+  /* --lh-l: 1.2; */
+
+  /* Letter spacing */
+  --ls-s: -0.02em;
+  --ls-m: -0.04em;
+
+  /* ---- COLORS ---- */
+  --color-bg-primary: #0d0d0d;
+  --color-bg-primary-inverse: #fbfbfb;
+  --color-bg-secondary: #1b1b1b;
+  --color-bg-secondary-inverse: #ededed;
+  --color-text-primary: #fbfbfb;
+  --color-text-primary-inverse: #0d0d0d;
+  --color-text-secondary: #656565;
+
+  /* ---- SPACING ---- */
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-25: 100px;
+  --spacing-40: 160px;
+  --spacing-45: 180px;
+  --spacing-52: 208px;
+
+  /* ---- BORDERS ---- */
+  --border-radius-s: 2px;
+  --border-radius-m: 4px;
+
+  /* VW */
+  /* 16px в пересчете на vw для разных размеров */
+
+  --vw-1920: 0.833vw;
+  --vw-1512: 1.058vw;
+  --vw-1440: 1.143vw;
+  --vw-1280: 1.25vw;
+  --vw-1024: 1.563vw;
+  --vw-992: 1.613vw;
+  --vw-736: 2.174vw;
+  --vw-768: 2.083vw;
+  --vw-480: 3.333vw;
+  --vw-375: 4.267vw;
+  --vw-320: 5vw;
+}

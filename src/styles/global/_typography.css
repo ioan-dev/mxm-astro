@@ -1,0 +1,87 @@
+html {
+  font-size: --vw-1512;
+
+  @media (--laptop) {
+    font-size: --vw-1440;
+  }
+
+  @media (--tablet) {
+    font-size: --vw-768;
+  }
+
+  @media (--mobile) {
+    font-size: --vw-320;
+  }
+}
+
+body {
+  font-size: 20px;
+  color: var(--color-text-primary);
+  line-height: var(--lh-s);
+  letter-spacing: var(--ls-s);
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+.heading-large,
+.display-medium {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: 129px;
+  line-height: var(--lh-xxs);
+  letter-spacing: var(--ls-m);
+}
+
+.display-large {
+  font-size: 161px;
+}
+
+h2,
+h3,
+.heading-medium,
+.heading-small {
+  font-family: var(--font-vela);
+  font-weight: 600;
+  line-height: var(--lh-xs);
+  letter-spacing: var(--ls-s);
+}
+
+.heading-medium {
+  font-size: 38px;
+}
+
+.heading-small {
+  font-size: 20px;
+  line-height: var(--lh-s);
+}
+
+.text-medium {
+  font-size: 20px;
+}
+
+.text-small {
+  font-size: 15px;
+  line-height: var(--lh-xs);
+}
+
+.label-huge {
+  font-size: 38px;
+  line-height: var(--lh-xs);
+}
+
+.label-large {
+  font-size: 20px;
+  line-height: var(--lh-s);
+}
+
+.label-medium {
+  font-size: 15px;
+}
+
+.caption {
+  font-size: 8px;
+  line-height: var(--lh-xs);
+}

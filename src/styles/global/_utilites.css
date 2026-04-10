@@ -1,0 +1,33 @@
+/* --color-bg-primary: #0d0d0d;
+  --color-bg-primary-inverse: #fbfbfb;
+  --color-bg-secondary: #1b1b1b;
+  --color-bg-secondary-inverse: #ededed;
+  --color-text-primary: #fbfbfb;
+  --color-text-primary-inverse: #0d0d0d;
+  --color-text-secondary: #656565; */
+
+/* ---- COLOR ---- */
+
+.text-color-primary {
+  color: var(--color-text-primary);
+}
+
+.text-color-secondary {
+  color: var(--color-text-secondary);
+}
+
+.bg-color-primary {
+  color: var(--color-bg-primary);
+}
+
+.bg-color-secondary {
+  color: var(--color-bg-secondary);
+}
+
+/* COMPOSITION */
+
+.grid {
+  --columns: 12;
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+}

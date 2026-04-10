@@ -1,0 +1,74 @@
+{
+    "Media mobile": {
+        "scope": "css,postcss,astro",
+        "prefix": "@media --mobile",
+        "body": [
+            "@media (--mobile) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "mobile: width <= 767px"
+    },
+    "Media mobile-above": {
+        "scope": "css,postcss,astro",
+        "prefix": "@media --mobile-above",
+        "body": [
+            "@media (--mobile-above) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "mobile-above: width > 767px"
+    },
+    "Media tablet": {
+        "scope": "css,postcss,astro",
+        "prefix": "@media --tablet",
+        "body": [
+            "@media (--tablet) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "tablet: width <= 1023px"
+    },
+    "Media tablet-above": {
+        "scope": "css,postcss,astro",
+        "prefix": "@media --tablet-above",
+        "body": [
+            "@media (--tablet-above) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "tablet-above: width > 1023px"
+    },
+    "Media laptop": {
+        "scope": "css,postcss,astro",
+        "prefix": "@media --laptop",
+        "body": [
+            "@media (--laptop) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "laptop: width <= 1440px"
+    },
+    "Media laptop-above": {
+        "scope": "css,postcss,astro",
+        "prefix": "@media --laptop-above",
+        "body": [
+            "@media (--laptop-above) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "laptop-above: width > 1440px"
+    },
+"Media hover": {
+    "scope": "css,postcss,astro",
+    "prefix": "@media --hover",
+    "body": [
+        "@media (--hover) {",
+        "\t&:hover {",
+        "\t\t$0",
+        "\t}",
+        "}"
+    ],
+    "description": "hover: hover device, no reduced motion"
+}
+}

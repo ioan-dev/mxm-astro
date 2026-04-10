@@ -1,0 +1,52 @@
+---
+import { Icon } from "astro-icon/components";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  iconLeft?: string;
+  iconRight?: string;
+  iconSize?: number;
+}
+
+const {
+  iconLeft,
+  iconRight,
+  iconSize = 24,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<button class:list={["button-link", className]} {...rest}>
+  {iconLeft && <Icon name={iconLeft} size={iconSize} />}
+  <slot />
+  {iconRight && <Icon name={iconRight} size={iconSize} />}
+</button>
+
+<style>
+  .button-link {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 8px;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-family: var(--font-vela);
+    font-size: 15px;
+    line-height: var(--lh-xs);
+    letter-spacing: var(--ls-s);
+    padding: 0;
+    background-color: transparent;
+    border: none;
+
+    @media (--hover) {
+      &:hover {
+        color: var(--color-text-secondary);
+      }
+    }
+
+    [data-icon] {
+      width: 16px;
+      height: 16px;
+    }
+  }
+</style>

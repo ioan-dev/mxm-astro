@@ -1,0 +1,75 @@
+@define-mixin hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@define-mixin show {
+  opacity: 1;
+  visibility: visible;
+}
+
+@define-mixin abs-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+@define-mixin abs-x {
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+}
+
+@define-mixin abs-y {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+@define-mixin square $size {
+  width: $size;
+  height: $size;
+}
+
+@define-mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@define-mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+@define-mixin hover {
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover {
+      @mixin-content;
+    }
+  }
+}
+
+@define-mixin linear-gradient $deg, $clr-1, $clr-2 {
+  background-image: linear-gradient($deg, $clr-1, $clr-2);
+}
+
+@define-mixin btn-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: var(--font-vela);
+}

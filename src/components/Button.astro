@@ -1,0 +1,63 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+  href?: string;
+}
+
+const sizes = {
+  lg: "button--lg",
+  md: "button--md",
+  sm: "button--sm",
+};
+
+const { size = "md", href, ...attrs } = Astro.props;
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag class:list={["button", sizes[size]]} {...attrs} href={href}><slot /></Tag>
+
+<style>
+  .button {
+    /* @include btn-reset; */
+    border-radius: var(--border-radius-m);
+    color: var(--color-text-primary-inverse);
+    font-size: 15px;
+    line-height: var(--lh-xs);
+    letter-spacing: var(--ls-s);
+    background-color: var(--color-bg-primary-inverse);
+    padding-block: var(--spacing-2);
+    padding-inline: var(--spacing-4);
+
+    @media (--hover) {
+      &:hover {
+        background-color: var(--color-bg-secondary-inverse);
+      }
+    }
+
+    /* SIZE */
+
+    &.button--sm {
+      padding-block: var(--spacing-0);
+      padding-inline: var(--spacing-0);
+    }
+
+    &.button--md {
+      padding-block: var(--spacing-2);
+      padding-inline: var(--spacing-2);
+    }
+
+    &.button--lg {
+      padding-block: var(--spacing-4);
+      width: 100%;
+    }
+
+    @media (--tablet) {
+      padding-block: var(--spacing-3);
+    }
+
+    @media (--mobile) {
+      padding-block: 10px;
+    }
+  }
+</style>

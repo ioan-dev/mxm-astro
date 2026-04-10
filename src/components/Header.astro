@@ -1,0 +1,61 @@
+---
+import ButtonLink from "./Button-link.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<header class="header">
+  <div class="grid">
+    <div class="logo">logo</div>
+    <nav>
+      <ul>
+        <li>
+          <a href="#">Главная</a>
+        </li>
+        <li>
+          <a href="#">Проекты</a>
+        </li>
+        <li>
+          <a href="#">О нас</a>
+        </li>
+        <li>
+          <a href="#">Контакты</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header__buttons">
+      <ButtonLink iconLeft="contrast" data-theme> Светлая тема </ButtonLink>
+      <ButtonLink iconRight="arrow-right">Связаться</ButtonLink>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: var(--spacing-4);
+      background: #60216a;
+
+    nav {
+      grid-column: 5 / 9;
+
+      ul {
+        display: flex;
+        gap: var(--spacing-2);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .header__buttons {
+      grid-column: 9 / -1;
+      display: flex;
+      justify-content: space-between;
+      row-gap: var(--spacing-4);
+    }
+  }
+</style>

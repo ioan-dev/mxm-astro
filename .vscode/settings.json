@@ -1,0 +1,6 @@
+{
+  "css.styleSheets": [
+    "src/styles/global/**/*.css",
+    "src/**/*.css"
+  ]
+}
