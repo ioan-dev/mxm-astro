@@ -8,6 +8,12 @@ import HeroImageScroll from "../components/sections/Hero-image-scroll.astro";
 ---
 
 <Layout>
-  <Header />
-  <HeroImageScroll title={"MXM"} />
+  <c-fade-box class="c-fade-box">
+    <p>Привет, я анимированный блок</p>
+  </c-fade-box>
 </Layout>
+
+<script>
+  import { load } from "piecesjs";
+  load("c-fade-box", () => import("../assets/js/components/FadeBox"));
+</script>

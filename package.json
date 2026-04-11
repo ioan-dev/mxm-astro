@@ -12,7 +12,9 @@
     "@astrojs/node": "^10.0.4",
     "@directus/sdk": "^21.2.1",
     "astro": "^6.0.8",
-    "astro-icon": "^1.1.5"
+    "astro-icon": "^1.1.5",
+    "gsap": "^3.14.2",
+    "piecesjs": "^0.5.5"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^4.0.0",

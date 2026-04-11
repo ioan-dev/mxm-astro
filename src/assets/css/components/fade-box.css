@@ -1,0 +1,9 @@
+/* assets/css/components/fade-box.css */
+.c-fade-box {
+  display: block;
+  padding: 24px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  cursor: pointer;
+  width: fit-content;
+}
