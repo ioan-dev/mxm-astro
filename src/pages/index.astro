@@ -1,14 +1,38 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import HeroImageScroll from "../components/sections/HeroImageScroll.astro";
 import { client, readSingleton } from "../lib/directus.js";
 
-// readSingleton — специальный метод для синглтон-коллекций
-// (тех, у которых включена настройка "Singleton" в Directus)
 const page = await client.request(
   readSingleton("page_home", {
-    fields: ["*", "blocks.*", "blocks.item.*"],
+    fields: [
+      "*",
+      {
+        blocks: [
+          "*",
+          {
+            item: {
+              block_homepage_hero: ["*"],
+              block_homepage_team: ["*"],
+            },
+          },
+        ],
+      },
+    ],
   }),
 );
+
+const { blocks } = page;
 ---
 
-<Layout />
+<Layout>
+  {
+    blocks.map((block: any) => {
+      const View =
+        block.collection === "block_homepage_hero" ? HeroImageScroll : null;
+
+      // Передаём весь block — компонент сам возьмёт .item
+      return View && <View {...block} />;
+    })
+  }
+</Layout>

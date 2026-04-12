@@ -1,18 +1,19 @@
 ---
 import { Image } from "astro:assets";
 
-interface Props {
-  title: string;
-}
-
-const { title } = Astro.props;
+const { headline = "" } = Astro.props.item as { headline?: string };
+const astroPr = Astro.props;
 ---
+
+<div>
+  <pre>{JSON.stringify(astroPr.item, null, 2)}</pre>
+</div>
 
 <section class="hero-scroll">
   <div class="hero-scroll__inner grid">
     <div class="hero-scroll__item">
       <h1 class="hero-scroll__heading heading-medium">
-        {title}
+        {headline}
       </h1>
     </div>
     <div class="hero-scroll__item">
