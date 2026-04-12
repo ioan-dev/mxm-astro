@@ -1,40 +1,7 @@
-import { createDirectus, rest } from '@directus/sdk';
 
-type Global = {
-  title: string;
-  description: string;
-}
+import { createDirectus, rest, readSingleton } from '@directus/sdk';
 
-type Author = {
-  name: string
-}
+// Создаём клиент, указываем адрес твоего Directus
+const client = createDirectus('https://cms.max-mikhailov.com').with(rest());
 
-type Page = {
-  title: string;
-  content: string;
-  slug: string;
-}
-
-type Post = {
-  image: string;
-  title: string;
-  author: Author;
-  content: string;
-  published_date: string
-  slug: string;
-}
-
-type HomePage = {
-  title: string;
-}
-
-type Schema = {
-  posts: Post[];
-  global: Global;
-  pages: Page[];
-  home_page: HomePage;
-}
-
-const directus = createDirectus<Schema>('http://localhost:8055').with(rest());
-
-export default directus;
+export { client, readSingleton };

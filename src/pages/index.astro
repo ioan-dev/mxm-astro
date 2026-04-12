@@ -1,19 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import HeroImageScroll from "../components/sections/Hero-image-scroll.astro";
+import { client, readSingleton } from "../lib/directus.js";
 
-// import directus from "../lib/directus";
-// import { readSingleton } from "@directus/sdk";
+// readSingleton — специальный метод для синглтон-коллекций
+// (тех, у которых включена настройка "Singleton" в Directus)
+const page = await client.request(
+  readSingleton("page_home", {
+    fields: ["*", "blocks.*", "blocks.item.*"],
+  }),
+);
 ---
 
-<Layout>
-  <script>
-    //   import { load } from "piecesjs";
-    //   load(
-    //     "c-fade-box",
-    //     () => import("../components/sections/Hero-image-scroll.pieces"),
-    //   );
-    //
-  </script>
-</Layout>
+<Layout />
