@@ -1,33 +1,48 @@
 ---
-interface Props {
-  size?: "sm" | "md" | "lg";
-  href?: string;
-}
+import type { HTMLAttributes } from "astro/types";
 
-const sizes = {
-  lg: "button--lg",
-  md: "button--md",
-  sm: "button--sm",
-};
+type ButtonProps = HTMLAttributes<"button"> & { href?: never };
+type AnchorProps = HTMLAttributes<"a"> & { href: string };
+type Props = { size?: "medium" | "large" } & (ButtonProps | AnchorProps);
 
-const { size = "md", href, ...attrs } = Astro.props;
-
-const Tag = href ? "a" : "button";
+const { size = "medium", class: className, ...rest } = Astro.props;
 ---
 
-<Tag class:list={["button", sizes[size]]} {...attrs} href={href}><slot /></Tag>
+{
+  "href" in rest ? (
+    <a
+      class:list={["button", className]}
+      data-size={size}
+      {...(rest as HTMLAttributes<"a">)}
+    >
+      <slot>label</slot>
+    </a>
+  ) : (
+    <button
+      class:list={["button", className]}
+      data-size={size}
+      {...(rest as HTMLAttributes<"button">)}
+    >
+      <slot>label</slot>
+    </button>
+  )
+}
 
 <style>
+  button,
   .button {
-    /* @include btn-reset; */
     border-radius: var(--border-radius-m);
     color: var(--color-text-primary-inverse);
+
+    font-family: var(--font-vela);
     font-size: 15px;
+    font-weight: 600;
     line-height: var(--lh-xs);
     letter-spacing: var(--ls-s);
+
     background-color: var(--color-bg-primary-inverse);
-    padding-block: var(--spacing-2);
-    padding-inline: var(--spacing-4);
+
+    /* STATE */
 
     @media (--hover) {
       &:hover {
@@ -37,27 +52,14 @@ const Tag = href ? "a" : "button";
 
     /* SIZE */
 
-    &.button--sm {
-      padding-block: var(--spacing-0);
-      padding-inline: var(--spacing-0);
-    }
-
-    &.button--md {
+    &[data-size="medium"] {
       padding-block: var(--spacing-2);
-      padding-inline: var(--spacing-2);
+      padding-inline: var(--spacing-4);
     }
 
-    &.button--lg {
+    &[data-size="large"] {
       padding-block: var(--spacing-4);
-      width: 100%;
-    }
-
-    @media (--tablet) {
-      padding-block: var(--spacing-3);
-    }
-
-    @media (--mobile) {
-      padding-block: 10px;
+      padding-inline: var(--spacing-4);
     }
   }
 </style>

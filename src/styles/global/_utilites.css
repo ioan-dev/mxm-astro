@@ -31,3 +31,15 @@
   display: grid;
   grid-template-columns: repeat(var(--columns), 1fr);
 }
+
+.repel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: var(--repel-vertical-alignment, center);
+  /* gap: var(--gutter, var(--space-m)); */
+}
+
+.repel[data-nowrap] {
+  flex-wrap: nowrap;
+}
