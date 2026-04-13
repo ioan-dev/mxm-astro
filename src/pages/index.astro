@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import HeroImageScroll from "../components/sections/HeroImageScroll.astro";
 import { client, readSingleton } from "../lib/directus.js";
 import Button from "../components/Button.astro";
+import IconButton from "../components/IconButton.astro";
 
 const page = await client.request(
   readSingleton("page_home", {
@@ -27,13 +28,17 @@ const { blocks } = page;
 ---
 
 <Layout>
-  <!-- {
-    blocks.map((block: any) => {
+  <IconButton icon="close" />
+  <!--
+    {blocks.map((block: any) => {
       const View =
         block.collection === "block_homepage_hero" ? HeroImageScroll : null;
 
       // Передаём весь block — компонент сам возьмёт .item
       return View && <View {...block} />;
-    })
-  } -->
+    })}
+    --
+  />
 </Layout>
+--></Layout
+>

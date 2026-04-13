@@ -3,54 +3,44 @@ import type { HTMLAttributes } from "astro/types";
 
 type ButtonProps = HTMLAttributes<"button"> & { href?: never };
 type AnchorProps = HTMLAttributes<"a"> & { href: string };
-type Props = { size?: "medium" | "large" } & (ButtonProps | AnchorProps);
+
+type Props = {
+  size?: "medium" | "large";
+} & (ButtonProps | AnchorProps);
 
 const { size = "medium", class: className, ...rest } = Astro.props;
+
+const isLink = "href" in rest;
+const Tag = isLink ? "a" : "button";
 ---
 
-{
-  "href" in rest ? (
-    <a
-      class:list={["button", className]}
-      data-size={size}
-      {...(rest as HTMLAttributes<"a">)}
-    >
-      <slot>label</slot>
-    </a>
-  ) : (
-    <button
-      class:list={["button", className]}
-      data-size={size}
-      {...(rest as HTMLAttributes<"button">)}
-    >
-      <slot>label</slot>
-    </button>
-  )
-}
+<Tag class:list={["button", className]} data-size={size} {...rest as any}>
+  <slot />
+</Tag>
 
 <style>
-  button,
   .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
     border-radius: var(--border-radius-m);
+    background-color: var(--color-bg-primary-inverse);
     color: var(--color-text-primary-inverse);
-
     font-family: var(--font-vela);
     font-size: 15px;
     font-weight: 600;
     line-height: var(--lh-xs);
     letter-spacing: var(--ls-s);
-
-    background-color: var(--color-bg-primary-inverse);
-
-    /* STATE */
+    cursor: pointer;
+    text-decoration: none;
 
     @media (--hover) {
       &:hover {
         background-color: var(--color-bg-secondary-inverse);
       }
     }
-
-    /* SIZE */
 
     &[data-size="medium"] {
       padding-block: var(--spacing-2);

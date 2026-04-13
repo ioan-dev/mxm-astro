@@ -1,0 +1,91 @@
+---
+import { Icon } from "astro-icon/components";
+import type { HTMLAttributes } from "astro/types";
+
+type ButtonProps = HTMLAttributes<"button"> & { href?: never };
+type AnchorProps = HTMLAttributes<"a"> & { href: string };
+
+type Props = {
+  /** Размер иконочной кнопки */
+  size?: "medium" | "large";
+
+  /** Название иконки из astro-icon (например: "mdi:close") */
+  icon:
+    | "arrow-right"
+    | "chevron-right"
+    | "chevron-left"
+    | "close"
+    | "contrast"
+    | "menu"
+    | "plus";
+
+  /** Дополнительный размер иконки в px (необязательно) */
+  iconSize?: number;
+} & (ButtonProps | AnchorProps);
+
+const {
+  size = "medium",
+  icon,
+  iconSize,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const isLink = "href" in rest;
+const Tag = isLink ? "a" : "button";
+
+// Автоматический aria-label, если пользователь не передал свой
+const ariaLabel = rest["aria-label"] || "Кнопка";
+---
+
+<Tag
+  class:list={["icon-button", className]}
+  data-size={size}
+  aria-label={ariaLabel}
+  {...rest as any}
+>
+  <Icon name={icon} size={iconSize} />
+</Tag>
+
+<style>
+  .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: var(--color-bg-primary-inverse);
+    color: var(--color-text-primary-inverse);
+    cursor: pointer;
+    border-radius: 50%; /* всегда круглая */
+    text-decoration: none;
+
+    /* Hover */
+    @media (--hover) {
+      &:hover {
+        background-color: var(--color-bg-secondary-inverse);
+      }
+    }
+
+    /* Размеры */
+    &[data-size="medium"] {
+      width: 44px;
+      height: 44px;
+    }
+
+    &[data-size="large"] {
+      width: 52px;
+      height: 52px;
+    }
+
+    /* Размер иконки */
+    &[data-size="medium"] :global(svg) {
+      width: 20px;
+      height: 20px;
+    }
+
+    &[data-size="large"] :global(svg) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+</style>
