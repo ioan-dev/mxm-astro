@@ -2,43 +2,54 @@
 import Layout from "../layouts/Layout.astro";
 import HeroImageScroll from "../components/sections/HeroImageScroll.astro";
 import { client, readSingleton } from "../lib/directus.js";
-import Button from "../components/Button.astro";
-import IconButton from "../components/IconButton.astro";
+import HomePageTeam from "../components/HomePageTeam.astro";
 
-const page = await client.request(
-  readSingleton("page_home", {
-    fields: [
+const blockFields = {
+  block_homepage_hero: ["*"],
+  block_homepage_team: ["*"],
+};
+
+const fields = [
+  "*",
+  {
+    blocks: [
       "*",
       {
-        blocks: [
-          "*",
-          {
-            item: {
-              block_homepage_hero: ["*"],
-              block_homepage_team: ["*"],
-            },
-          },
-        ],
+        item: blockFields,
       },
     ],
+  },
+];
+
+// 3. Выполняем запрос
+const page = await client.request(
+  readSingleton("page_home", {
+    fields,
   }),
 );
 
 const { blocks } = page;
+
+// 1. Определяем допустимые типы блоков
+type BlockType = "block_homepage_hero" | "block_homepage_team";
+
+const BlockComponents = {
+  block_homepage_hero: HeroImageScroll,
+  block_homepage_team: HomePageTeam,
+} as const;
 ---
 
 <Layout>
-  <IconButton icon="close" />
-  <!--
-    {blocks.map((block: any) => {
-      const View =
-        block.collection === "block_homepage_hero" ? HeroImageScroll : null;
+  {
+    blocks.map((block: any) => {
+      const Component = BlockComponents[block.collection as BlockType];
 
-      // Передаём весь block — компонент сам возьмёт .item
-      return View && <View {...block} />;
-    })}
-    --
-  />
+      if (!Component) {
+        console.warn(`Неизвестный тип блока: ${block.collection}`);
+        return null;
+      }
+
+      return <Component {...block} />;
+    })
+  }
 </Layout>
---></Layout
->
