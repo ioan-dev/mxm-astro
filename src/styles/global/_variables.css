@@ -44,9 +44,12 @@
   --border-radius-s: 2px;
   --border-radius-m: 4px;
 
+  /* ---- COMPOSITION ---- */
+
+  --flow-space: var(--spacing-6);
+
   /* VW */
   /* 16px в пересчете на vw для разных размеров */
-
   --vw-1920: 0.833vw;
   --vw-1512: 1.058vw;
   --vw-1440: 1.143vw;

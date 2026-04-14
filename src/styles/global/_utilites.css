@@ -26,6 +26,10 @@
 
 /* COMPOSITION */
 
+.flow > * + * {
+  margin-block-start: var(--flow-space, 1em);
+}
+
 .grid {
   --columns: 12;
   display: grid;

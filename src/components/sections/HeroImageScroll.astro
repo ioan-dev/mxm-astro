@@ -3,6 +3,12 @@ import { Image } from "astro:assets";
 
 const { headline = "" } = Astro.props.item as { headline?: string };
 const astroPr = Astro.props;
+
+const directusUrl = "https://cms.max-mikhailov.com";
+
+const imageId = "aa3c8b46-a06f-451c-ada3-7cf7231d799e";
+
+const imageSrc = `${directusUrl}/assets/${imageId}`;
 ---
 
 <!-- <div>
@@ -17,7 +23,7 @@ const astroPr = Astro.props;
     </div>
     <div class="hero-scroll__item">
       <div class="hero-scroll__image-wrapper">
-        <img src="/public/assets/images/hero-scroll/slide-photo-1.jpg" alt="" />
+        <img src={imageSrc} alt="" />
       </div>
     </div>
     <div class="hero-scroll__item">

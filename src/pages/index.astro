@@ -5,7 +5,29 @@ import { client, readSingleton } from "../lib/directus.js";
 import HomePageTeam from "../components/HomePageTeam.astro";
 
 const blockFields = {
-  block_homepage_hero: ["*"],
+  block_homepage_hero: [
+    "*",
+    {
+      images_wrapper: [
+        "*",
+        {
+          item: { block_image_and_inverse: ["*"] },
+        },
+      ],
+      images_wrapper_2: [
+        "*",
+        {
+          item: { block_image_and_inverse: ["*"] },
+        },
+      ],
+      images_wrapper_3: [
+        "*",
+        {
+          item: { block_image_and_inverse: ["*"] },
+        },
+      ],
+    },
+  ],
   block_homepage_team: ["*"],
 };
 
