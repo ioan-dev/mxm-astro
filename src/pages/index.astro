@@ -30,3 +30,17 @@ const BlockComponents = {
     })
   }
 </Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("hero:ready", (event) => {
+    const e = event as CustomEvent;
+    let { imageMove } = e.detail;
+
+    console.log(imageMove);
+    gsap.set(imageMove, { yPercent: 101 });
+
+    gsap.to(imageMove, { yPercent: 0, duration: 3 });
+  });
+</script>
