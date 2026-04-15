@@ -1,58 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import HeroImageScroll from "../components/sections/HeroImageScroll.astro";
-import { client, readSingleton } from "../lib/directus.js";
 import HomePageTeam from "../components/HomePageTeam.astro";
+import { getHomePage } from "../lib/queries/page-home.ts";
 
-const blockFields = {
-  block_homepage_hero: [
-    "*",
-    {
-      images_wrapper: [
-        "*",
-        {
-          item: { block_image_and_inverse: ["*"] },
-        },
-      ],
-      images_wrapper_2: [
-        "*",
-        {
-          item: { block_image_and_inverse: ["*"] },
-        },
-      ],
-      images_wrapper_3: [
-        "*",
-        {
-          item: { block_image_and_inverse: ["*"] },
-        },
-      ],
-    },
-  ],
-  block_homepage_team: ["*"],
-};
-
-const fields = [
-  "*",
-  {
-    blocks: [
-      "*",
-      {
-        item: blockFields,
-      },
-    ],
-  },
-];
-
-// 3. Выполняем запрос
-const page = await client.request(
-  readSingleton("page_home", {
-    fields,
-  }),
-);
-
+// Один вызов — вся логика скрыта в отдельном файле
+const page = await getHomePage();
 const { blocks } = page;
 
-// 1. Определяем допустимые типы блоков
 type BlockType = "block_homepage_hero" | "block_homepage_team";
 
 const BlockComponents = {

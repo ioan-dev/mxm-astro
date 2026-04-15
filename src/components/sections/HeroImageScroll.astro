@@ -1,19 +1,42 @@
 ---
 import { Image } from "astro:assets";
 
-const { headline = "" } = Astro.props.item as { headline?: string };
+// Получаем данные блока hero
+const {
+  headline = "",
+  images_wrapper = [],
+  images_wrapper_2 = [],
+  images_wrapper_3 = [],
+} = Astro.props.item || {};
 const astroPr = Astro.props;
 
 const directusUrl = "https://cms.max-mikhailov.com";
 
-const imageId = "aa3c8b46-a06f-451c-ada3-7cf7231d799e";
+// Функция-помощник, чтобы легко создавать ссылку на любое изображение из Directus
+function getDirectusImageUrl(
+  fileId: string,
+  width?: number,
+  height?: number,
+): string {
+  let url = `${directusUrl}/assets/${fileId}`;
 
-const imageSrc = `${directusUrl}/assets/${imageId}`;
+  // Добавляем параметры трансформации (опционально)
+  const params = [];
+  if (width) params.push(`width=${width}`);
+  if (height) params.push(`height=${height}`);
+  // Можно добавить: format=webp, quality=80, fit=cover и т.д.
+
+  if (params.length > 0) {
+    url += "?" + params.join("&");
+  }
+
+  return url;
+}
 ---
 
-<!-- <div>
+<div>
   <pre>{JSON.stringify(astroPr.item, null, 2)}</pre>
-</div> -->
+</div>
 <section class="hero-scroll">
   <div class="hero-scroll__inner grid">
     <div class="hero-scroll__item">
@@ -21,15 +44,45 @@ const imageSrc = `${directusUrl}/assets/${imageId}`;
         {headline}
       </h1>
     </div>
+
     <div class="hero-scroll__item">
-      <div class="hero-scroll__image-wrapper">
-        <img src={imageSrc} alt="" />
-      </div>
+      {
+        images_wrapper.map((wrapper: any) => {
+          const img = wrapper.item; // вот здесь настоящий объект с картинкой
+          if (!img?.image) return null;
+
+          return (
+            <div class="hero-scroll__image-wrapper">
+              <img
+                src={getDirectusImageUrl(img.image, 1200)}
+                alt="Архитектурное фото"
+                loading="lazy"
+                class:list={[img.inverse && "inverse"]}
+              />
+            </div>
+          );
+        })
+      }
     </div>
+
     <div class="hero-scroll__item">
-      <div class="hero-scroll__image-wrapper">
-        <img src="" alt="" />
-      </div>
+      {
+        images_wrapper.map((wrapper: any) => {
+          const img = wrapper.item; // вот здесь настоящий объект с картинкой
+          if (!img?.image) return null;
+
+          return (
+            <div class="hero-scroll__image-wrapper">
+              <img
+                src={getDirectusImageUrl(img.image, 1200)}
+                alt="Архитектурное фото"
+                loading="lazy"
+                class:list={[img.inverse && "inverse"]}
+              />
+            </div>
+          );
+        })
+      }
     </div>
   </div>
 </section>
