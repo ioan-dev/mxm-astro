@@ -34,9 +34,9 @@ function getDirectusImageUrl(
 }
 ---
 
-<div>
+<!-- <div>
   <pre>{JSON.stringify(astroPr.item, null, 2)}</pre>
-</div>
+</div> -->
 <section class="hero-scroll">
   <div class="hero-scroll__inner grid">
     <div class="hero-scroll__item">
@@ -52,12 +52,17 @@ function getDirectusImageUrl(
           if (!img?.image) return null;
 
           return (
-            <div class="hero-scroll__image-wrapper">
+            <div
+              class:list={[
+                "hero-scroll__image-wrapper",
+                img.inverse && "inverse",
+              ]}
+              data-hero-image="down"
+            >
               <img
                 src={getDirectusImageUrl(img.image, 1200)}
                 alt="Архитектурное фото"
                 loading="lazy"
-                class:list={[img.inverse && "inverse"]}
               />
             </div>
           );
@@ -72,12 +77,17 @@ function getDirectusImageUrl(
           if (!img?.image) return null;
 
           return (
-            <div class="hero-scroll__image-wrapper">
+            <div
+              class:list={[
+                "hero-scroll__image-wrapper",
+                img.inverse && "inverse",
+              ]}
+              data-hero-image="down"
+            >
               <img
                 src={getDirectusImageUrl(img.image, 1200)}
                 alt="Архитектурное фото"
                 loading="lazy"
-                class:list={[img.inverse && "inverse"]}
               />
             </div>
           );
@@ -107,6 +117,11 @@ function getDirectusImageUrl(
   .hero-scroll__item {
     grid-column: span 4;
 
+    &:has(img) {
+      position: relative;
+      overflow: hidden;
+    }
+
     &:first-child {
       padding-bottom: var(--spacing-8);
       align-self: end;
@@ -115,6 +130,23 @@ function getDirectusImageUrl(
 
   .hero-scroll__image-wrapper {
     height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    /* &[data-hero-image="down"] {
+      translate: 0% 101%;
+    } */
+
+    &.inverse::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: #ffffff;
+      z-index: 10;
+      mix-blend-mode: difference;
+    }
 
     img {
       width: 100%;
