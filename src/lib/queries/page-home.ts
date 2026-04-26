@@ -9,14 +9,11 @@ const blockFields = {
     "headline",
     {
       images_wrapper: [
-        { item: { block_image_and_inverse: ["*"] } },
+        { item: { block_images_item: ["*"] } },
       ],
       images_wrapper_2: [
-        { item: { block_image_and_inverse: ["*"] } },
-      ],
-      images_wrapper_3: [
-        { item: { block_image_and_inverse: ["*"] } },
-      ],
+        { item: { block_images_item: ["*"] } },
+      ]
     },
   ],
   block_homepage_team: ["headline"],
