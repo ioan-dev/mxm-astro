@@ -2,11 +2,12 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node'
 import icon from 'astro-icon';
+import { imageService } from "@unpic/astro/service";
 
 // https://astro.build/config
 export default defineConfig({
   image: {
-    domains: ["dev.max-mikhailov.com"]
+    service: imageService(),
   },
   output: 'server',
     integrations: [icon()],

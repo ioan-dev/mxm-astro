@@ -1,16 +1,16 @@
 html {
-  font-size: --vw-1512;
+  font-size: var(--vw-1512);
 
   @media (--laptop) {
-    font-size: --vw-1440;
+    font-size: var(--vw-1440);
   }
 
   @media (--tablet) {
-    font-size: --vw-768;
+    font-size: var(--vw-768);
   }
 
   @media (--mobile) {
-    font-size: --vw-320;
+    font-size: var(--vw-320);
   }
 }
 

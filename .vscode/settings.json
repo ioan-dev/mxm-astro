@@ -1,6 +1,11 @@
 {
-  "css.styleSheets": [
-    "src/styles/global/**/*.css",
-    "src/**/*.css"
-  ]
+"cssvar.files": [
+  "src/styles/variables/*.css"
+],
+"cssvar.extensions": [
+  "css",
+  "tsx",
+  "jsx",
+  "astro"
+]
 }

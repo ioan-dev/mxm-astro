@@ -1,0 +1,1 @@
+export const ASSETS_URL = "https://cms.max-mikhailov.com/assets";
