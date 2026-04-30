@@ -1,7 +1,7 @@
 ---
-import { Image } from "@unpic/astro";
 import { safeJsonDebug } from "../../utils/jsonHelpers";
 import { ASSETS_URL } from "../../lib/constants";
+import RenderHeroImage from "../RenderHeroImage.astro";
 
 // Получаем данные блока hero
 const {
@@ -11,10 +11,6 @@ const {
 } = Astro.props.item || {};
 ---
 
-<!-- <div>
-  <h2>Отладка данных из Directus</h2>
-  <pre>{safeJsonDebug(images_wrapper)}</pre>
-</div> -->
 <section class="hero-scroll">
   <div class="hero-scroll__inner grid">
     <div class="hero-scroll__item">
@@ -25,53 +21,17 @@ const {
 
     <div class="hero-scroll__item">
       {
-        images_wrapper.map((wrapper: any) => {
-          const img = wrapper.item; // вот здесь настоящий объект с картинкой
-          if (!img?.image) return null;
-
-          return (
-            <div
-              class:list={[
-                "hero-scroll__image-wrapper",
-                img.inverse && "inverse",
-              ]}
-              data-hero-image="down"
-            >
-              <Image
-                alt={""}
-                layout="fullWidth"
-                src={`${ASSETS_URL}/${img.image}`}
-                cdn="directus"
-              />
-            </div>
-          );
-        })
+        images_wrapper.map((wrapper: any) => (
+          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} />
+        ))
       }
     </div>
 
     <div class="hero-scroll__item">
       {
-        images_wrapper_2.map((wrapper: any) => {
-          const img = wrapper.item; // вот здесь настоящий объект с картинкой
-          if (!img?.image) return null;
-
-          return (
-            <div
-              class:list={[
-                "hero-scroll__image-wrapper",
-                img.inverse && "inverse",
-              ]}
-              data-hero-image="down"
-            >
-              <Image
-                alt={""}
-                layout="fullWidth"
-                src={`${ASSETS_URL}/${img.image}`}
-                cdn="directus"
-              />
-            </div>
-          );
-        })
+        images_wrapper_2.map((wrapper: any) => (
+          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} />
+        ))
       }
     </div>
   </div>
@@ -90,8 +50,8 @@ const {
     padding-top: var(--height-value);
     height: 100vh;
 
-    position: sticky;
-    top: 0;
+    /* position: sticky;
+    top: 0; */
   }
 
   .hero-scroll__heading {
@@ -115,27 +75,6 @@ const {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-  }
-
-  .hero-scroll__image-wrapper {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    /* &[data-hero-image="down"] {
-      translate: 0% 101%;
-    } */
-
-    &.inverse::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-color: #ffffff;
-      z-index: 10;
-      mix-blend-mode: difference;
     }
   }
 
