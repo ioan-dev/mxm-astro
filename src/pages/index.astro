@@ -3,20 +3,31 @@ import Layout from "../layouts/Layout.astro";
 import HeroImageScroll from "../components/sections/HeroImageScroll.astro";
 import HomePageTeam from "../components/HomePageTeam.astro";
 import { getHomePage } from "../lib/queries/page-home.ts";
+import HomePageAbout from "../components/HomePageAbout.astro";
+import { safeJsonDebug } from "../utils/jsonHelpers";
+import Logo from "../components/Logo.astro";
 
 // Один вызов — вся логика скрыта в отдельном файле
 const page = await getHomePage();
 const { blocks } = page;
 
-type BlockType = "block_homepage_hero" | "block_homepage_team";
+type BlockType =
+  | "block_homepage_hero"
+  | "block_homepage_team"
+  | "block_homepage_about";
 
 const BlockComponents = {
   block_homepage_hero: HeroImageScroll,
   block_homepage_team: HomePageTeam,
+  block_homepage_about: HomePageAbout,
 } as const;
 ---
 
 <Layout>
+  <!-- <pre>
+    {safeJsonDebug(blocks)}
+</pre> -->
+
   {
     blocks.map((block: any) => {
       const Component = BlockComponents[block.collection as BlockType];

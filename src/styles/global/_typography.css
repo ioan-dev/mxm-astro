@@ -16,9 +16,11 @@ html {
 
 body {
   font-size: 20px;
+  font-family: var(--font-vela);
+  font-weight: 600;
   color: var(--color-text-primary);
-  line-height: var(--lh-s);
-  letter-spacing: var(--ls-s);
+  line-height: var(--lh-medium);
+  letter-spacing: var(--ls-medium);
 }
 
 a {
@@ -31,12 +33,18 @@ h1,
   font-family: var(--font-inter);
   font-weight: 700;
   font-size: 129px;
-  line-height: var(--lh-xxs);
-  letter-spacing: var(--ls-m);
+  line-height: var(--lh-micro);
+  letter-spacing: var(--ls-small);
 }
 
 .display-large {
   font-size: 161px;
+
+  @media (--mobile) {
+    font-size: 23px;
+    letter-spacing: var(--ls-medium);
+    font-weight: 600;
+  }
 }
 
 h2,
@@ -45,43 +53,33 @@ h3,
 .heading-small {
   font-family: var(--font-vela);
   font-weight: 600;
-  line-height: var(--lh-xs);
-  letter-spacing: var(--ls-s);
+  line-height: var(--lh-small);
+  letter-spacing: var(--ls-medium);
 }
 
 .heading-medium {
   font-size: 38px;
 }
 
-.heading-small {
-  font-size: 20px;
-  line-height: var(--lh-s);
+.text-large {
+  font-size: 28px;
+}
+
+.text-small {
+  font-size: 15px;
+  line-height: var(--lh-small);
 }
 
 .text-medium {
   font-size: 20px;
 }
 
-.text-small {
+.label {
   font-size: 15px;
-  line-height: var(--lh-xs);
-}
-
-.label-huge {
-  font-size: 38px;
-  line-height: var(--lh-xs);
-}
-
-.label-large {
-  font-size: 20px;
-  line-height: var(--lh-s);
-}
-
-.label-medium {
-  font-size: 15px;
+  line-height: var(--lh-small);
 }
 
 .caption {
   font-size: 8px;
-  line-height: var(--lh-xs);
+  line-height: var(--lh-small);
 }

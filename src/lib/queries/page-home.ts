@@ -16,6 +16,11 @@ const blockFields = {
       ]
     },
   ],
+  block_homepage_about: ["editor", "button_group",  {
+    images: [
+        { item: { block_images_item: ["*"] } },
+      ]
+  }],
   block_homepage_team: ["headline"],
 };
 
