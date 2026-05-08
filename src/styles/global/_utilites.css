@@ -24,6 +24,10 @@
   color: var(--color-bg-secondary);
 }
 
+.text-uppercase {
+  text-transform: uppercase;
+}
+
 /* COMPOSITION */
 
 .flow > * + * {
@@ -46,4 +50,8 @@
 
 .repel[data-nowrap] {
   flex-wrap: nowrap;
+}
+
+.wrapper {
+  padding-inline: var(--spacing-4);
 }

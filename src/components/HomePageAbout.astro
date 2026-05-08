@@ -1,15 +1,30 @@
 ---
 import { safeJsonDebug } from "../utils/jsonHelpers";
-const { images = [] } = Astro.props.item || {};
+import { ASSETS_URL } from "../lib/constants";
+import { Image } from "@unpic/astro";
+import Button from "./Button.astro";
 ---
 
 <section class="about">
-  <div class="about__inner">
-    <div class="about__grid grid">
+  <div class="about__inner wrapper">
+    <div class="grid">
+      <div class="about_image-item">
+        <!-- Тут будем выводить из цикла два изображения -->
+        <div class:list={["hero-scroll__image-wrapper"]}>
+          <Image
+            alt=""
+            layout="fullWidth"
+            src="https://cms.max-mikhailov.com/assets/64cda5de-0632-408e-9d12-be8c10f3aa77?width=640&withoutEnlargement=true&fit=cover"
+            cdn="directus"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="grid">
       <div class="about__headline-wrapper">
         <div class="about__headline">
           <div class="about__word-wrapper">
-            <p class="text-small" data-split="about-subheader">
+            <p class="text-small text-uppercase" data-split="about-subheader">
               Where thoughts become
             </p>
             <span class="about__mind">
@@ -90,7 +105,9 @@ const { images = [] } = Astro.props.item || {};
           </span>
 
           <div class="about__word-wrapper">
-            <p class="text-small" data-split="about-subheader">Space</p>
+            <p class="text-small text-uppercase" data-split="about-subheader">
+              Space
+            </p>
             <span class="about__matter">
               <!--?xml version="1.0" encoding="utf-8"?-->
               <!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
@@ -146,7 +163,7 @@ const { images = [] } = Astro.props.item || {};
       </div>
 
       <div class="about__body">
-        <div class="about__text">
+        <div class="about__text flow">
           <p>
             Cоздаём и реализуем уникальные архитектурные и градостроительныe
             решения, от идеи до результата.
@@ -156,66 +173,74 @@ const { images = [] } = Astro.props.item || {};
             и красоты, инженерной точности и экономики проекта.
           </p>
         </div>
-        <div class="about__footer">
-          <div class="about__time">
+        <div class="about__footer repel">
+          <div class="about__time text-color-secondary">
             <span class="text-small" data-js-time>00:00</span>
             <span class="text-small">GMT +3</span>
           </div>
-          <a class="about__link btn" href="/">Подробнее</a>
+          <Button>Подробнее</Button>
         </div>
       </div>
     </div>
   </div>
+
+  <style>
+    .about {
+      /* margin-top: -70px; */
+    }
+
+    .about__headline-wrapper {
+      grid-column: span 8;
+    }
+
+    .about__headline {
+      display: flex;
+      align-items: flex-end;
+      column-gap: 50px;
+    }
+
+    .about_image-item {
+      grid-column: span 4;
+    }
+
+    .about__body {
+      grid-column: 10 / span 3;
+
+      display: flex;
+      flex-direction: column;
+
+      padding-top: 23px;
+
+      row-gap: var(--spacing-8);
+    }
+
+    .about__text {
+      --flow-space: var(--spacing-4);
+    }
+
+    .about__word-wrapper {
+      display: flex;
+      flex-direction: column;
+      row-gap: 8px;
+    }
+
+    .about__mind {
+      flex: none;
+      height: 94px;
+    }
+
+    .about__matter {
+      flex: none;
+      height: 94px;
+    }
+
+    .about__icon {
+      width: 94px;
+      height: 94px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+  </style>
 </section>
-
-<style>
-  .about {
-    /* margin-top: -70px; */
-  }
-
-  .about__headline-wrapper {
-    grid-column: span 8;
-  }
-
-  .about__headline {
-    display: flex;
-    align-items: flex-end;
-    column-gap: 50px;
-  }
-
-  .about__body {
-    grid-column: 10 / span 3;
-
-    display: flex;
-    flex-direction: column;
-
-    padding-top: 23px;
-
-    row-gap: var(--spacing-l);
-  }
-
-  .about__word-wrapper {
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
-  }
-
-  .about__mind {
-    flex: none;
-    height: 94px;
-  }
-
-  .about__matter {
-    flex: none;
-    height: 94px;
-  }
-
-  .about__icon {
-    width: 94px;
-    height: 94px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-</style>
