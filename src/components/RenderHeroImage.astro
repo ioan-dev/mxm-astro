@@ -9,8 +9,9 @@ if (!img?.image) {
 ---
 
 <div
-  class:list={["hero-scroll__image-wrapper", img.inverse && "inverse"]}
+  class:list={["hero-scroll__image-wrapper frame", img.inverse && "inverse"]}
   data-hero-image="down"
+  data-frame-type="vh"
 >
   <Image
     alt=""
@@ -22,8 +23,6 @@ if (!img?.image) {
 
 <style>
   .hero-scroll__image-wrapper {
-    height: 100%;
-    width: 100%;
     position: absolute;
     left: 0;
     top: 0;
@@ -31,14 +30,5 @@ if (!img?.image) {
     /* &[data-hero-image="down"] {
       translate: 0% 101%;
     } */
-
-    &.inverse::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-color: #ffffff;
-      z-index: 10;
-      mix-blend-mode: difference;
-    }
   }
 </style>
