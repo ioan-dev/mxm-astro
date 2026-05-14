@@ -1,7 +1,50 @@
 ---
-const { headline = "" } = Astro.props.item;
+const { headline = '' } = Astro.props.item;
 ---
 
-<section>
-  <h2>{headline}</h2>
+<!--  TEAM-->
+<section class="team">
+  <div class="wrapper">
+    <div class="team_inner flow">
+      <h2 class="heading-medium">{headline}</h2>
+      <div class="team__grid grid">
+        <div class="team__show-wrapper">
+          <div class="team__show team__show--active">
+            <div class="team__show-image">
+              <img src="/images/team/01.png" alt="" />
+            </div>
+            <div class="team__show-footer">
+              <span class="team__show-name text-medium">Максим Михайлов</span>
+              <span class="team__show-post text-medium">Основатель</span>
+            </div>
+          </div>
+          <div class="team__show">
+            <div class="team__show-image">
+              <img src="/images/team/02.png" alt="" />
+            </div>
+            <div class="team__show-footer">
+              <span class="team__show-name text-medium">Максим Михайлов</span>
+              <span class="team__show-post text-medium">Основатель</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="team__miniatures">
+          <div
+            class="team__item team__item--active"
+            data-team-name="Алексей Иванов"
+            data-team-post="Главный архитектор"
+          >
+            <img src="/images/team/01.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<style>
+  .team__inner {
+    --flow-space: var(--spacing-8);
+  }
+</style>

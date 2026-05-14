@@ -1,20 +1,18 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import HeroImageScroll from "../components/sections/HeroImageScroll.astro";
-import HomePageTeam from "../components/HomePageTeam.astro";
-import { getHomePage } from "../lib/queries/page-home.ts";
-import HomePageAbout from "../components/HomePageAbout.astro";
-import { safeJsonDebug } from "../utils/jsonHelpers";
-import Logo from "../components/Logo.astro";
+import Layout from '../layouts/Layout.astro';
+import HeroImageScroll from '../components/sections/HeroImageScroll.astro';
+import HomePageTeam from '../components/HomePageTeam.astro';
+import { getHomePage } from '../lib/queries/page-home.ts';
+import HomePageAbout from '../components/HomePageAbout.astro';
+import { safeJsonDebug } from '../utils/jsonHelpers';
+import Logo from '../components/Logo.astro';
+import { login } from '@directus/sdk';
 
 // Один вызов — вся логика скрыта в отдельном файле
 const page = await getHomePage();
 const { blocks } = page;
 
-type BlockType =
-  | "block_homepage_hero"
-  | "block_homepage_team"
-  | "block_homepage_about";
+type BlockType = 'block_homepage_hero' | 'block_homepage_team' | 'block_homepage_about';
 
 const BlockComponents = {
   block_homepage_hero: HeroImageScroll,
@@ -23,11 +21,10 @@ const BlockComponents = {
 } as const;
 ---
 
-<Layout>
-  <!-- <pre>
-    {safeJsonDebug(blocks)}
+<!-- <pre>
+  {safeJsonDebug(blocks)}
 </pre> -->
-
+<Layout>
   {
     blocks.map((block: any) => {
       const Component = BlockComponents[block.collection as BlockType];

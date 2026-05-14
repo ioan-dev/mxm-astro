@@ -1,15 +1,11 @@
 ---
-import { safeJsonDebug } from "../utils/jsonHelpers";
-import { ASSETS_URL } from "../lib/constants";
-import { Image } from "@unpic/astro";
-import Button from "./Button.astro";
+import { safeJsonDebug } from '../utils/jsonHelpers';
+import { ASSETS_URL } from '../lib/constants';
+import { Image } from '@unpic/astro';
+import Button from './Button.astro';
 
-const props = Astro.props;
-
-// Извлекаем данные из вложенного item
-const item = props.item || props; // защита на всякий случай
-const editor = item.editor;
-const images = item.images || [];
+const { editor, images, button_group } = Astro.props.item || {};
+const buttons = button_group?.buttons || [];
 ---
 
 <section class="about">
@@ -21,7 +17,7 @@ const images = item.images || [];
 
           return (
             <div class="about__image-item">
-              <div class:list={["hero-scroll__image-wrapper"]}>
+              <div class:list={['hero-scroll__image-wrapper']}>
                 <div class="frame" data-frame-type="vh">
                   <Image
                     alt=""
@@ -72,10 +68,8 @@ const images = item.images || [];
                   fill="currentColor"
                   d="M215.4,0.1v94h-17.3L157.1,35h-0.8v59.1h-19.9v-94h17.5l40.8,59.1h0.8V0.1H215.4z"
                 ></path>
-                <path
-                  data-about="mind-letter"
-                  fill="currentColor"
-                  d="M129.5,0.1v94h-20v-94H129.5z"></path>
+                <path data-about="mind-letter" fill="currentColor" d="M129.5,0.1v94h-20v-94H129.5z"
+                ></path>
                 <polygon
                   data-about="mind-letter"
                   fill="currentColor"
@@ -103,15 +97,11 @@ const images = item.images || [];
               xml:space="preserve"
             >
               <path d="M45.1,54L9.6,94H0.1l41.5-46.7L45.1,54z"></path>
-              <path fill="#FBFBFB" d="M45.1,54L9.6,94H0.1l41.5-46.7L45.1,54z"
-              ></path>
+              <path fill="#FBFBFB" d="M45.1,54L9.6,94H0.1l41.5-46.7L45.1,54z"></path>
               <path d="M55.2,42.7L51.7,36l32-36h9.4L55.2,42.7z"></path>
-              <path fill="#FBFBFB" d="M55.2,42.7L51.7,36l32-36h9.4L55.2,42.7z"
+              <path fill="#FBFBFB" d="M55.2,42.7L51.7,36l32-36h9.4L55.2,42.7z"></path>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M69.7,94L20.9,0l8,0l48.7,94H69.7z"
               ></path>
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M69.7,94L20.9,0l8,0l48.7,94H69.7z"></path>
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -121,9 +111,7 @@ const images = item.images || [];
           </span>
 
           <div class="about__word-wrapper">
-            <p class="text-small text-uppercase" data-split="about-subheader">
-              Space
-            </p>
+            <p class="text-small text-uppercase" data-split="about-subheader">Space</p>
             <span class="about__matter">
               <!--?xml version="1.0" encoding="utf-8"?-->
               <!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
@@ -151,8 +139,7 @@ const images = item.images || [];
                 <path
                   data-about="matter-letter"
                   fill="currentColor"
-                  d="M338.9,94.6v-94h63.4V17h-43.6v22.1H399v16.1h-40.3v23h43.7v16.4H338.9z"
-                ></path>
+                  d="M338.9,94.6v-94h63.4V17h-43.6v22.1H399v16.1h-40.3v23h43.7v16.4H338.9z"></path>
                 <path
                   data-about="matter-letter"
                   fill="currentColor"
@@ -179,22 +166,29 @@ const images = item.images || [];
       </div>
 
       <div class="about__body">
-        <div class="about__text flow">
-          <p>
-            Cоздаём и реализуем уникальные архитектурные и градостроительныe
-            решения, от идеи до результата.
-          </p>
-          <p>
-            К нам приходят за сильными архитектурными решениями, на стыке смысла
-            и красоты, инженерной точности и экономики проекта.
-          </p>
-        </div>
+        <div class="about__text flow" set:html={editor} />
         <div class="about__footer repel">
           <div class="about__time text-color-secondary">
             <span class="text-small" data-js-time>00:00</span>
             <span class="text-small">GMT +3</span>
           </div>
-          <Button>Подробнее</Button>
+          {
+            buttons.map((btn: any) => {
+              const { label, type, page } = btn;
+
+              // Если это ссылка на страницу
+              if (type === 'page' && page?.slug) {
+                return (
+                  <Button href={page.slug} size="medium">
+                    {label}
+                  </Button>
+                );
+              }
+
+              // Если вдруг будет просто кнопка (без ссылки)
+              return <Button size="medium">{label}</Button>;
+            })
+          }
         </div>
       </div>
     </div>

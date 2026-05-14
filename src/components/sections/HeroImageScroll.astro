@@ -1,14 +1,10 @@
 ---
-import { safeJsonDebug } from "../../utils/jsonHelpers";
-import { ASSETS_URL } from "../../lib/constants";
-import RenderHeroImage from "../RenderHeroImage.astro";
+import { safeJsonDebug } from '../../utils/jsonHelpers';
+import { ASSETS_URL } from '../../lib/constants';
+import RenderHeroImage from '../RenderHeroImage.astro';
 
 // Получаем данные блока hero
-const {
-  headline = "",
-  images_wrapper = [],
-  images_wrapper_2 = [],
-} = Astro.props.item || {};
+const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.props.item || {};
 ---
 
 <section class="hero-scroll">
