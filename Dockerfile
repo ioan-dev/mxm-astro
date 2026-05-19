@@ -8,7 +8,7 @@ FROM base AS deps
 # Копируем только файлы с описанием зависимостей
 COPY package.json package-lock.json ./
 # Устанавливаем зависимости (ci = чистая установка по lock-файлу)
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # ── Этап 3: собираем проект ────────────────────────────────────
 FROM base AS build
