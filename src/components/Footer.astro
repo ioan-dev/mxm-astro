@@ -1,0 +1,125 @@
+---
+import { client, readItems } from '../lib/directus.js';
+
+const socialLinks = await client.request(readItems('social_link'));
+// const { socialLinks = [] } = Astro.props;
+---
+
+<footer class="footer">
+  <div class="wrapper">
+    <div class="footer__inner">
+      <div class="footer__body">
+        <!-- Переделать сетку -->
+        <div class="grid">
+          <div class="footer__address text-small line-height-small">
+            Нижний Новгород, ул. Суетинская 1а , офис 212
+          </div>
+
+          <a class="footer__made label-small" href="#">Design by SHCH</a>
+
+          <div class="footer__contacts">
+            <ul class="footer__list" role="list">
+              {
+                socialLinks.map((link: any) => {
+                  return (
+                    <li>
+                      <a class="label-small" href={link.link}>
+                        {link.name}
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
+          <a class="footer__politics label-small text-color-secondary" href="#"
+            >Политика конфиденциальности</a
+          >
+          <a class="footer__approval label-small text-color-secondary" href="#"
+            >Согласие на обработку персональных данных</a
+          >
+          <a class="footer__cookie label-small text-color-secondary" href="#"
+            >Политика конфиденциальности файлов cookie</a
+          >
+
+          <p class="footer__caption caption text-color-secondary">
+            *Instagram — проект компании Meta Platforms Inc., признанной экстремистской организацией
+            и запрещённой в РФ
+          </p>
+        </div>
+      </div>
+      <div class="footer__bg">
+        <!-- Тащить из public -->
+        <img alt="footer bg" class="footer__image" src="/footer_bg.svg" />
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-top: 320px;
+    position: relative;
+  }
+
+  .footer__body {
+    padding-top: 90px;
+    padding-bottom: var(--spacing-4);
+
+    background: linear-gradient(0deg, rgb(13, 13, 13) 0%, rgba(13, 13, 13, 0) 100%);
+
+    & .grid {
+      --columns: 3;
+      grid-row: 3;
+      gap: var(--spacing-2);
+    }
+  }
+
+  .footer__inner {
+    position: relative;
+  }
+
+  .footer__address {
+    align-self: end;
+  }
+
+  .footer__contacts {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  .footer__list {
+    display: flex;
+    gap: var(--spacing-2);
+  }
+
+  .footer__made {
+    /* grid-column: 2 / 3; */
+    justify-self: end;
+    align-self: end;
+  }
+
+  .footer__approval {
+    justify-self: center;
+  }
+
+  .footer__cookie {
+    justify-self: end;
+  }
+
+  .footer__bg {
+    position: absolute;
+    /* padding-bottom: 0.375rem; */
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    z-index: -1;
+    /* padding-inline: var(--spacing-4); */
+
+    & img {
+      width: 100%;
+      height: auto;
+    }
+  }
+</style>

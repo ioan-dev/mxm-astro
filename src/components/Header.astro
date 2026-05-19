@@ -1,42 +1,49 @@
 ---
-import ButtonLink from "./Button-link.astro";
-import { Icon } from "astro-icon/components";
+import ButtonLink from './Button-link.astro';
 ---
 
 <header class="header">
   <div class="grid">
-    <div class="logo">logo</div>
+    <div class="header__logo">
+      <img src="/logo_home.svg" alt="logo" />
+    </div>
     <nav>
-      <ul>
+      <ul class="header__nav" role="list">
         <li>
-          <a href="">Главная</a>
+          <a class="header__nav-link label-small" href="/">Главная</a>
         </li>
         <li>
-          <a href="#">Проекты</a>
+          <a class="header__nav-link label-small" href="#">Проекты</a>
         </li>
         <li>
-          <a href="/about">О нас</a>
+          <a class="header__nav-link label-small" href="/about">О нас</a>
         </li>
         <li>
-          <a href="#">Контакты</a>
+          <a class="header__nav-link label-small" href="#">Контакты</a>
         </li>
       </ul>
     </nav>
 
     <div class="header__buttons">
-      <ButtonLink iconLeft="contrast" data-theme> Светлая тема </ButtonLink>
-      <ButtonLink iconRight="arrow-right">Связаться</ButtonLink>
+      <ButtonLink iconLeft="light-theme" data-theme> Светлая тема </ButtonLink>
+      <ButtonLink iconRight="move-right-link">Связаться</ButtonLink>
     </div>
   </div>
 </header>
 
 <style>
   .header {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 90;
     width: 100%;
     padding: var(--spacing-4);
+    pointer-events: none;
+
+    & .grid {
+      align-items: start;
+    }
 
     nav {
       grid-column: 5 / 9;
@@ -56,5 +63,13 @@ import { Icon } from "astro-icon/components";
       justify-content: space-between;
       row-gap: var(--spacing-4);
     }
+  }
+
+  & :is(.button-link, .header__nav-link) {
+    pointer-events: auto;
+  }
+
+  .header__logo {
+    grid-column: span 4;
   }
 </style>

@@ -20,9 +20,17 @@
   text-transform: uppercase;
 }
 
+.line-height-small {
+  line-height: var(--lh-small);
+}
+
+.line-height-large {
+  line-height: var(--lh-large);
+}
+
 .inverse {
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background-color: #ffffff;
@@ -44,23 +52,27 @@
   margin-block-start: var(--flow-space, 1em);
 }
 
+.flow-space-large {
+  --flow-space: var(--spacing-50);
+}
+
 .grid {
   --columns: 12;
   display: grid;
   grid-template-columns: repeat(var(--columns), 1fr);
 }
 
-.grid[data-layout="50-50"] {
+.grid[data-layout='50-50'] {
   --grid-placement: auto-fit;
   --grid-min-item-size: clamp(16rem, 50vw, 26rem);
 }
 
-.grid[data-layout="33x3"] {
+.grid[data-layout='33x3'] {
   --grid-placement: auto-fit;
   --grid-min-item-size: clamp(16rem, 33vw, 18rem);
 }
 
-.grid[data-rows="masonry"] {
+.grid[data-rows='masonry'] {
   grid-template-rows: masonry;
   align-items: start;
 }
@@ -95,23 +107,55 @@
 }
 
 .frame {
-  --n: 16;
-  --d: 9;
-  aspect-ratio: var(--n) / var(--d);
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  &[data-frame-type="vh"] {
+  &[data-frame-type='vh'] {
     --padding-top: 55px;
     width: 100%;
     height: calc(100vh - var(--padding-top));
   }
 
-  & > img {
+  &[data-frame-type='square'] {
+    --n: 1;
+    --d: 1;
+    aspect-ratio: var(--n) / var(--d);
+  }
+
+  &[data-frame-type] > img {
     max-width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  &:not([data-frame-type]) > img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* .page-wrapper {
+  overflow: hidden;
+} */
+
+/* ICON SIZE */
+
+svg {
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
+
+  &[data-icon-size='micro'] {
+    --icon-size: var(--icon-size-micro);
+  }
+  &[data-icon-size='small'] {
+    --icon-size: var(--icon-size-small);
+  }
+  &[data-icon-size='medium'] {
+    --icon-size: var(--icon-size-medium);
+  }
+  &[data-icon-size='large'] {
+    --icon-size: var(--icon-size-large);
   }
 }

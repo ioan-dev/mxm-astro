@@ -195,6 +195,9 @@ const buttons = button_group?.buttons || [];
   </div>
 
   <style>
+    .about {
+      --flow-space: var(--spacing-0);
+    }
     .about__content {
       margin-top: -70px;
     }
@@ -251,6 +254,15 @@ const buttons = button_group?.buttons || [];
       align-items: center;
       justify-content: center;
       overflow: hidden;
+    }
+
+    .about__mind,
+    .about__icon,
+    .about__matter {
+      & svg {
+        width: 100%;
+        height: 100%;
+      }
     }
   </style>
 </section>

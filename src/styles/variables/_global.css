@@ -1,7 +1,7 @@
 :root {
   /* ---- FONTS ---- */
-  --font-vela: "VelaSans", sans-serif;
-  --font-inter: "InterTight", sans-serif;
+  --font-vela: 'VelaSans', sans-serif;
+  --font-inter: 'InterTight', sans-serif;
 
   /* ---- TYPOGRAPHY ---- */
 
@@ -37,7 +37,7 @@
   --spacing-25: 100px;
   --spacing-40: 160px;
   --spacing-45: 180px;
-  --spacing-52: 208px;
+  --spacing-50: 200px;
 
   /* ---- BORDERS ---- */
   --border-radius-s: 2px;
@@ -60,4 +60,10 @@
   --vw-480: 3.333vw;
   --vw-375: 4.267vw;
   --vw-320: 5vw;
+
+  /* ICON-SIZE */
+  --icon-size-micro: 16px;
+  --icon-size-small: 20px;
+  --icon-size-medium: 24px;
+  --icon-size-large: 32px;
 }

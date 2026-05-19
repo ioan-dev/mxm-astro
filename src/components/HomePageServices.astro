@@ -1,0 +1,257 @@
+---
+import { Image } from '@unpic/astro/base';
+import { Icon } from 'astro-icon/components';
+import { ASSETS_URL } from '../lib/constants';
+
+const { contents_block } = Astro.props.item || {};
+// Сделать один контейнер для preview на десктопе и рендерить их туда. Потом анимировать.
+---
+
+<section class="services">
+  <div class="wrapper">
+    <div class="grid">
+      <!-- 1. Кнопки-вкладки (группы) -->
+      <div class="services__head">
+        {
+          contents_block.map((el: any, index: number) => {
+            const data = el.item;
+
+            return (
+              <button
+                class="services__btn heading-medium"
+                data-service-btn={index}
+                data-state={index === 0 ? 'active' : undefined}
+              >
+                {data.headline}
+              </button>
+            );
+          })
+        }
+      </div>
+
+      <!-- 2. Контейнер для аккордеонов -->
+      <div class="services__body">
+        {
+          contents_block.map((el: any, groupIndex: number) => {
+            const data = el.item;
+            const accordionItems = data.content_items;
+
+            if (!accordionItems || accordionItems.length === 0) return null;
+
+            return (
+              <div
+                class="accordion"
+                data-service-accordion={groupIndex}
+                data-state={groupIndex === 0 ? 'active' : undefined}
+              >
+                <div class="accordion__body">
+                  <div class="accordion__all-preview">
+                    {accordionItems.map((subItem: any) => {
+                      const itemData = subItem.item;
+
+                      return (
+                        <div class="accordion_preview" data-accordion-preview>
+                          <div class="frame" data-frame-type="square">
+                            <Image
+                              alt=""
+                              layout="fullWidth"
+                              src={`${ASSETS_URL}/${itemData.preview}`}
+                              cdn="directus"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {accordionItems.map((subItem: any) => {
+                    const itemData = subItem.item;
+
+                    return (
+                      <div class="accordion__item" data-accordion-item>
+                        <div class="accordion__header" data-accordion-header>
+                          <p class="accordion__title text-large">{itemData.headline}</p>
+                          <span class="accordion__icon">
+                            <Icon name="plus" data-icon-size="small" />
+                          </span>
+                        </div>
+                        <div class="accordion__content" data-accordion-content>
+                          <div
+                            class="accordion__text text-small line-height-large flow"
+                            set:html={itemData.content}
+                          />
+
+                          <div class="accordion_preview" data-accordion-preview>
+                            <div class="frame" data-frame-type="square">
+                              <Image
+                                alt=""
+                                layout="fullWidth"
+                                src={`${ASSETS_URL}/${itemData.preview}`}
+                                cdn="directus"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    color: var(--color-text-secondary);
+  }
+  .services__head {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+  .services__btn {
+    background: transparent;
+    border: none;
+    text-align: start;
+    padding: 0;
+    color: inherit;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+
+    &[data-state='active'] {
+      color: var(--color-text-primary);
+    }
+  }
+  .services__body {
+    grid-column: 5 / span 8;
+  }
+
+  .accordion {
+    display: none;
+    position: relative;
+    &[data-state='active'] {
+      display: block;
+    }
+  }
+
+  .accordion__item {
+    padding: var(--spacing-3);
+    cursor: pointer;
+    border-radius: var(--border-radius-m);
+    transition: background-color 0.2s ease;
+
+    &.is-open {
+      background-color: var(--color-bg-secondary);
+      z-index: 2;
+
+      :is(.accordion__header, .accordion__icon) {
+        color: var(--color-text-primary);
+      }
+    }
+
+    @media (--hover) {
+      &:hover {
+        background-color: var(--color-bg-secondary);
+      }
+    }
+  }
+
+  .accordion__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-2);
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .accordion__icon {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+
+    .is-open & {
+      transform: rotate(45deg);
+    }
+  }
+
+  .accordion__content {
+    --flow-space: var(--spacing-2);
+
+    max-height: 0px;
+    max-width: 620px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .accordion__text {
+    padding-top: var(--spacing-3);
+  }
+
+  .accordion__all-preview {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    z-index: 10;
+    pointer-events: none;
+
+    & .accordion_preview {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+    }
+  }
+
+  & .accordion_preview {
+    display: none;
+    /* position: absolute;
+    right: 100px;
+    top: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100; */
+  }
+</style>
+
+<script>
+  import accordion from '../modules/accordion';
+  import { accordionPreviewAnimation } from '../modules/accordionPreviewAnimation';
+
+  function init() {
+    // Переключение вкладок (групп)
+    const buttons = document.querySelectorAll('[data-service-btn]');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const index = button.getAttribute('data-service-btn');
+
+        buttons.forEach((btn) => {
+          btn.removeAttribute('data-state');
+        });
+
+        button.setAttribute('data-state', 'active');
+
+        document.querySelectorAll('[data-service-accordion]').forEach((group) => {
+          group.removeAttribute('data-state');
+        });
+
+        const activeAccordion = document.querySelector(`[data-service-accordion="${index}"]`);
+        if (activeAccordion) {
+          activeAccordion.setAttribute('data-state', 'active');
+        }
+      });
+    });
+
+    accordion();
+    accordionPreviewAnimation();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>

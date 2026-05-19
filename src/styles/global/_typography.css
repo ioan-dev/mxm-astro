@@ -73,10 +73,20 @@ h3,
 .text-medium {
   font-size: 20px;
 }
-
-.label {
-  font-size: 15px;
+:is(.label-large, .label-medium, .label-small) {
   line-height: var(--lh-small);
+}
+
+.label-large {
+  font-size: 15px;
+}
+
+.label-medium {
+  font-size: 20px;
+}
+
+.label-small {
+  font-size: 15px;
 }
 
 .caption {

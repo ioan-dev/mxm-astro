@@ -7,10 +7,13 @@ import HomePageAbout from '../components/HomePageAbout.astro';
 import { safeJsonDebug } from '../utils/jsonHelpers';
 import Logo from '../components/Logo.astro';
 import { login } from '@directus/sdk';
+import HomePageProjects from '../components/HomePageProjects.astro';
+import HomePageSecvices from '../components/HomePageServices.astro';
+import HomePageForm from '../components/HomePageForm.astro';
 
 // Один вызов — вся логика скрыта в отдельном файле
 const page = await getHomePage();
-const { blocks } = page;
+const { blocks, socialLinks } = page;
 
 type BlockType = 'block_homepage_hero' | 'block_homepage_team' | 'block_homepage_about';
 
@@ -18,25 +21,34 @@ const BlockComponents = {
   block_homepage_hero: HeroImageScroll,
   block_homepage_team: HomePageTeam,
   block_homepage_about: HomePageAbout,
+  block_homepage_projects: HomePageProjects,
+  block_homepage_services: HomePageSecvices,
+  block_homepage_form: HomePageForm,
 } as const;
 ---
 
 <!-- <pre>
-  {safeJsonDebug(blocks)}
+  {safeJsonDebug(socialLinks )}
 </pre> -->
 <Layout>
-  {
-    blocks.map((block: any) => {
-      const Component = BlockComponents[block.collection as BlockType];
+  <div class="page-wrapper flow flow-space-large">
+    {
+      blocks.map((block: any) => {
+        const Component = BlockComponents[block.collection as BlockType];
 
-      if (!Component) {
-        console.warn(`Неизвестный тип блока: ${block.collection}`);
-        return null;
-      }
+        if (!Component) {
+          console.warn(`Неизвестный тип блока: ${block.collection}`);
+          return null;
+        }
 
-      return <Component {...block} />;
-    })
-  }
+        const extraProps = ['block_homepage_form'].includes(block.collection)
+          ? { socialLinks }
+          : {};
+
+        return <Component {...block} {...extraProps} />;
+      })
+    }
+  </div>
 
   <script>
     // import { gsap } from "gsap";

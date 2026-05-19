@@ -1,5 +1,7 @@
 ---
-const { headline = '' } = Astro.props.item;
+import { ASSETS_URL } from '../lib/constants';
+import { Image } from '@unpic/astro';
+const { headline = '', list } = Astro.props.item || [];
 ---
 
 <!--  TEAM-->
@@ -9,34 +11,46 @@ const { headline = '' } = Astro.props.item;
       <h2 class="heading-medium">{headline}</h2>
       <div class="team__grid grid">
         <div class="team__show-wrapper">
-          <div class="team__show team__show--active">
-            <div class="team__show-image">
-              <img src="/images/team/01.png" alt="" />
-            </div>
-            <div class="team__show-footer">
-              <span class="team__show-name text-medium">Максим Михайлов</span>
-              <span class="team__show-post text-medium">Основатель</span>
-            </div>
-          </div>
-          <div class="team__show">
-            <div class="team__show-image">
-              <img src="/images/team/02.png" alt="" />
-            </div>
-            <div class="team__show-footer">
-              <span class="team__show-name text-medium">Максим Михайлов</span>
-              <span class="team__show-post text-medium">Основатель</span>
-            </div>
-          </div>
+          {
+            list.map((el: any, index: number) => {
+              if (el.type === 'Сотрудник') {
+                return (
+                  <div class={`team__show ${index === 0 ? 'team__show--active' : ''}`}>
+                    <div class="frame" data-frame-type="square">
+                      <div class="team__show-image">
+                        <img src={`${ASSETS_URL}/${el.photo}`} alt={el.name} />
+                      </div>
+                    </div>
+                    <div class="team__show-footer text-small line-height-small">
+                      <span class="team__show-name">{el.name}</span>
+                      <span class="team__show-post text-color-secondary">{el.position}</span>
+                    </div>
+                  </div>
+                );
+              }
+            })
+          }
         </div>
 
         <div class="team__miniatures">
-          <div
-            class="team__item team__item--active"
-            data-team-name="Алексей Иванов"
-            data-team-post="Главный архитектор"
-          >
-            <img src="/images/team/01.png" alt="" />
-          </div>
+          {
+            list.map((el: any, index: number) => {
+              if (el.type === 'Сотрудник') {
+                return (
+                  <div class="team__item" data-team-name={el.name} data-team-post={el.position}>
+                    <div class="frame" data-frame-type="square">
+                      <Image
+                        alt=""
+                        layout="fullWidth"
+                        src={`${ASSETS_URL}/${el.photo}`}
+                        cdn="directus"
+                      />
+                    </div>
+                  </div>
+                );
+              }
+            })
+          }
         </div>
       </div>
     </div>
@@ -44,7 +58,69 @@ const { headline = '' } = Astro.props.item;
 </section>
 
 <style>
-  .team__inner {
+  .team {
     --flow-space: var(--spacing-8);
   }
+  .team__show-wrapper {
+    position: relative;
+    min-height: 520px;
+    grid-column: 1 / span 4;
+  }
+
+  .team__show {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-2);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .team__show--active {
+    opacity: 1;
+  }
+
+  .team__show-footer {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .team__miniatures {
+    grid-column: 5 / span 8;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-content: start;
+  }
+
+  .team__item {
+    position: relative;
+    cursor: pointer;
+
+    &::before {
+      position: absolute;
+      content: '';
+      z-index: 10;
+      background-color: var(--color-bg-primary);
+      opacity: 0.5;
+      inset: 0px;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .team__item--active {
+    &::before {
+      opacity: 0;
+    }
+  }
 </style>
+
+<script>
+  import { teamGridAnimation } from '../modules/teamGridAnimation';
+
+  document.addEventListener('DOMContentLoaded', teamGridAnimation);
+</script>
