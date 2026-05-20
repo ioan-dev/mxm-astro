@@ -8,8 +8,8 @@ a {
   text-decoration: none;
   font-family: var(--font-vela);
   font-size: 15px;
-  line-height: var(--lh-xs);
-  letter-spacing: var(--ls-s);
+  line-height: var(--lh-small);
+  letter-spacing: var(--ls-medium);
 
   @media (--hover) {
     &:hover {
