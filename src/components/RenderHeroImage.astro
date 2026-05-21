@@ -1,24 +1,21 @@
 ---
-import { Image } from "@unpic/astro";
-const { imageData, ASSETS_URL } = Astro.props;
+import { Image } from '@unpic/astro';
+const { imageData, ASSETS_URL, index } = Astro.props;
 const img = imageData?.item;
 
 if (!img?.image) {
   return null;
 }
+
+const direction = index === 0 ? 'up' : 'down';
 ---
 
 <div
-  class:list={["hero-scroll__image-wrapper frame", img.inverse && "inverse"]}
-  data-hero-image="down"
+  class:list={['hero-scroll__image-wrapper frame', img.inverse && 'inverse']}
+  data-hero-image={direction}
   data-frame-type="vh"
 >
-  <Image
-    alt=""
-    layout="fullWidth"
-    src={`${ASSETS_URL}/${img.image}`}
-    cdn="directus"
-  />
+  <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${img.image}`} cdn="directus" />
 </div>
 
 <style>

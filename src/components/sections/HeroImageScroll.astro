@@ -17,16 +17,16 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
 
     <div class="hero-scroll__item">
       {
-        images_wrapper.map((wrapper: any) => (
-          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} />
+        images_wrapper.map((wrapper: any, index: number) => (
+          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} index={index} />
         ))
       }
     </div>
 
     <div class="hero-scroll__item">
       {
-        images_wrapper_2.map((wrapper: any) => (
-          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} />
+        images_wrapper_2.map((wrapper: any, index: number) => (
+          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} index={index} />
         ))
       }
     </div>
@@ -38,6 +38,11 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
   .hero-scroll {
     padding-inline: var(--spacing-4);
     position: relative;
+    border: 1px solid tomato;
+  }
+
+  .hero-scroll__spacer {
+    height: 100vh;
   }
 
   .hero-scroll__inner {
@@ -46,8 +51,8 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
     padding-top: var(--height-value);
     height: 100vh;
 
-    /* position: sticky;
-    top: 0; */
+    position: sticky;
+    top: 0;
   }
 
   .hero-scroll__heading {
@@ -136,3 +141,74 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
     // window.heroInstance = heroData;
   });
 </script> -->
+
+<script>
+  import { gsap } from 'gsap';
+
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function scrollingAnimation() {
+    let mm = gsap.matchMedia();
+
+    mm.add({ isLarge: '(min-width: 1024px)', isSmall: '(max-width: 1023px)' }, (context) => {
+      let { isLarge, isSmall } = context.conditions || {};
+
+      if (isLarge) {
+        let tlHero = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.hero-scroll',
+            start: 'top top',
+            end: 'bottom bottom',
+          },
+        });
+
+        // -------- tlMoveImage Start--------
+
+        let tlMoveImage = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.hero-scroll',
+            id: 'image',
+            start: 'top top',
+            end: '40%',
+            scrub: true,
+          },
+        });
+
+        let imagesDown = document.querySelectorAll('[data-hero-image="down"]');
+        gsap.set(imagesDown, { yPercent: 100 });
+
+        let images = document.querySelectorAll('.hero-scroll .hero-scroll__image-wrapper');
+
+        // Собрать изображения
+
+        tlMoveImage.to(images, {
+          yPercent: 0,
+          stagger: 0.2,
+          duration: 0.9,
+          ease: 'power1.out',
+        });
+        // -------- tlMoveImage End --------
+
+        let logo = document.querySelector('.logo');
+        let logoText = document.querySelector('.logo__letter');
+
+        let tlLogoScale = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.hero-scroll',
+            start: 'top top',
+            end: '40%',
+            scrub: true,
+          },
+        });
+
+        tlLogoScale
+          .to(logo, { scale: 0.4, duration: 1, transformOrigin: 'top left' })
+          .to(logoText, { autoAlpha: 0, yPercent: -300 }, '<');
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', scrollingAnimation);
+</script>
