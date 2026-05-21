@@ -10,6 +10,7 @@ import { login } from '@directus/sdk';
 import HomePageProjects from '../components/HomePageProjects.astro';
 import HomePageSecvices from '../components/HomePageServices.astro';
 import HomePageForm from '../components/HomePageForm.astro';
+import Preloader from '../components/Preloader.astro';
 
 // Один вызов — вся логика скрыта в отдельном файле
 const page = await getHomePage();
@@ -49,6 +50,8 @@ const BlockComponents = {
       })
     }
   </div>
+
+  <Preloader />
 
   <script>
     // import { gsap } from "gsap";
