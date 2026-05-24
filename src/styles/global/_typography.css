@@ -39,12 +39,9 @@ h1,
 
 .display-large {
   font-size: 161px;
-
-  @media (--mobile) {
-    font-size: 23px;
-    letter-spacing: var(--ls-medium);
-    font-weight: 600;
-  }
+  font-family: var(--font-inter);
+  line-height: var(--lh-micro);
+  letter-spacing: var(--ls-small);
 }
 
 h2,
