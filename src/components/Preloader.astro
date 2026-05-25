@@ -3,7 +3,7 @@
 ---
 
 <div class="preloader">
-  <div class="flow">
+  <div class="preloader__inner flow">
     <div class="preloader__logo-wrapper repel">
       <div class="mxm">
         <svg viewBox="0 0 244 117" xmlns="http://www.w3.org/2000/svg">
@@ -125,6 +125,10 @@
     padding: var(--spacing-4);
   }
 
+  :is(.counter, .preloader__inner) {
+    visibility: hidden;
+  }
+
   .preloader__logo-wrapper {
     position: relative;
   }
@@ -211,10 +215,11 @@
     });
 
     tlMaster
-      .add('start', '0')
-      .add(tlLetter(letterMikhailov, 0), '<')
+      .to(['.preloader__inner', '.counter'], { autoAlpha: 1, duration: 0.1 })
+      .add('start', '0.3')
       .add(tlLetter(letterArhitecture), 'start')
       .add(tlLetter(letterMax), 'start')
+      .add(tlLetter(letterMikhailov), '<')
       .to(counterWrapper, { yPercent: 0 }, 'start')
       .call(counter, null, 'start+=0.5')
       .add('timerEnd', '4')
@@ -225,7 +230,7 @@
       .add(tlLetter(letterMikhailovNotM, valueTo, false), '<')
       .add(tlLetter(letterArhitecture, valueTo, false), '<+=5%')
       .call(flip, null, '<')
-      .to('.preloader', { autoAlpha: 0, duration: 0.1 }, '6');
+      .to('.preloader', { autoAlpha: 0, duration: 0.1 }, '5');
 
     function tlLetter(letters: any, value = 0, direction = true, dur = 0.5, stag = 0.02) {
       let tl = gsap.timeline();

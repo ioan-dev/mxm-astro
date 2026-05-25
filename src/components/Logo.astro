@@ -23,3 +23,30 @@
     }
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { SplitText } from 'gsap/SplitText';
+
+  gsap.registerPlugin(SplitText);
+
+  // Ждём загрузки всех шрифтов, и только потом запускаем SplitText
+  document.fonts.ready.then(() => {
+    let text = document.querySelector('.logo__text');
+
+    if (text) {
+      const splitText = SplitText.create(text, {
+        type: 'chars, lines',
+        charsClass: 'char',
+        linesClass: 'lineParent',
+        mask: 'lines',
+      });
+
+      gsap.set(splitText.chars, { yPercent: 102 });
+
+      window.addEventListener('preloader:complete', () => {
+        gsap.to(splitText.chars, { yPercent: 0, stagger: 0.009, duration: 0.25 });
+      });
+    }
+  });
+</script>
