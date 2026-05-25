@@ -206,7 +206,7 @@
 
     let tlMaster = gsap.timeline({
       onComplete: () => {
-        console.log('finish');
+        window.dispatchEvent(new CustomEvent('preloader:complete'));
       },
     });
 

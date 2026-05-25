@@ -175,12 +175,17 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
           },
         });
 
+        let imagesUp = document.querySelectorAll('[data-hero-image="up"]');
         let imagesDown = document.querySelectorAll('[data-hero-image="down"]');
-        gsap.set(imagesDown, { yPercent: 100 });
+        gsap.set([imagesDown, imagesUp], { yPercent: 102 });
 
         let images = document.querySelectorAll('.hero-scroll .hero-scroll__image-wrapper');
 
-        // Собрать изображения
+        let tlImageUp = gsap.timeline();
+
+        window.addEventListener('preloader:complete', () => {
+          tlImageUp.to(imagesUp, { yPercent: 0, stagger: 0.2, duration: 0.9, ease: 'power1.out' });
+        });
 
         tlMoveImage.to(images, {
           yPercent: 0,
@@ -209,5 +214,5 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
     });
   }
 
-  // document.addEventListener('DOMContentLoaded', scrollingAnimation);
+  scrollingAnimation();
 </script>

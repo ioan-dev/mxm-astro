@@ -65,14 +65,14 @@ label {
 
 /* Удаляем стили списков для элементов с role="list" */
 
-ul[role="list"],
-ol[role="list"] {
+ul[role='list'],
+ol[role='list'] {
   list-style: none;
 }
 
 /* Удаляем стили списков у элементов с role="list" и классом */
 
-[role="list"][class] {
+[role='list'][class] {
   list-style: none;
   margin-block: 0;
   padding: 0;
