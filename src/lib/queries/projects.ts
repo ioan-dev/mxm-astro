@@ -17,7 +17,28 @@ export async function getProjectBySlug(slug: string) {
       filter: {
         slug: { _eq: slug },
       },
-      fields: ['title', 'slug'],
+      fields: [
+        'title',
+        'slug',
+        'date',
+        {
+          areas: ['name'],
+          location: ['name'],
+          categories: ['name'],
+          stage: ['name'],
+          blocks: [
+            'collection',
+            {
+              item: {
+                block_projects_hero: ['image', 'layout'],
+                block_projects_intro: ['*'],
+                block_text: ['*'],
+                block_images: ['*'],
+              },
+            },
+          ],
+        },
+      ],
       limit: 1,
     })
   )) as any[];

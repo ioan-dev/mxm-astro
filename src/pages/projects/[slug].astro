@@ -1,7 +1,13 @@
 ---
+import { safeJsonDebug } from '../../utils/jsonHelpers';
 // src/pages/projects/[slug].astro
 
 import { getAllProjects, getProjectBySlug } from '../../lib/queries/projects.js';
+import Layout from '../../layouts/Layout.astro';
+import ProjectsHero from '../../components/ProjectsHero.astro';
+import ProjectsIntro from '../../components/ProjectsIntro.astro';
+import BlockImages from '../../components/BlockImages.astro';
+import BlockText from '../../components/BlockText.astro';
 
 export async function getStaticPaths() {
   const projects = await getAllProjects();
@@ -17,6 +23,38 @@ const project = await getProjectBySlug(slug);
 if (!project) {
   return Astro.redirect('/404');
 }
+
+const blockComponents: Record<string, any> = {
+  block_projects_hero: ProjectsHero,
+  block_projects_intro: ProjectsIntro,
+  block_text: BlockText,
+  block_images: BlockImages,
+};
 ---
 
-<h1>{project.title}</h1>
+<Layout>
+  <div class="page-wrapper">
+    <!-- <pre>
+      {safeJsonDebug( project )}
+    </pre> -->
+
+    {
+      project.blocks?.map((block: any) => {
+        const Component = blockComponents[block.collection];
+        // Если компонент не найден — пропускаем блок
+        if (!Component) return null;
+
+        // Рендерим компонент, передавая данные блока как пропсы
+        return (
+          <Component {...block.item} projectTitle={project.title} projectDate={project.date} />
+        );
+      })
+    }
+  </div>
+</Layout>
+
+<style>
+  .page-wrapper {
+    padding-top: 200px;
+  }
+</style>

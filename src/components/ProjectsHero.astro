@@ -1,0 +1,33 @@
+---
+import { ASSETS_URL } from '../lib/constants';
+import { Image } from '@unpic/astro';
+let { projectTitle, projectDate, image, layout = 'default' } = Astro.props;
+
+const layoutClasses = {
+  default: 'hero--default',
+  full: 'hero--full',
+  right: 'hero--right',
+};
+---
+
+<!-- Тут мне нужно будет проставлять классы для определенного layout -->
+<div class:list={['flow', 'hero', layoutClasses[layout]]}>
+  <div class="hero__title-wrapper">
+    <h1 class="heading-large">{projectTitle}</h1>
+    <span class="text-small">{projectDate}</span>
+  </div>
+  <div class="frame">
+    <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${image}`} cdn="directus" />
+  </div>
+</div>
+
+<style>
+  .hero {
+    --flow-space: var(--spacing-16);
+  }
+
+  .hero__title-wrapper {
+    display: flex;
+    column-gap: var(--spacing-2);
+  }
+</style>
