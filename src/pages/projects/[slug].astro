@@ -1,0 +1,22 @@
+---
+// src/pages/projects/[slug].astro
+
+import { getAllProjects, getProjectBySlug } from '../../lib/queries/projects.js';
+
+export async function getStaticPaths() {
+  const projects = await getAllProjects();
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const project = await getProjectBySlug(slug);
+
+if (!project) {
+  return Astro.redirect('/404');
+}
+---
+
+<h1>{project.title}</h1>
