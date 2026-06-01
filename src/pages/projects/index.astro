@@ -8,6 +8,7 @@ const projects = await getAllProjectsForCatalog();
 import { safeJsonDebug } from '../../utils/jsonHelpers';
 import { categories } from '../../lib/queries/categories';
 import { location } from '../../lib/queries/location';
+import Button from '../../components/Button.astro';
 ---
 
 <Layout>
@@ -79,6 +80,7 @@ import { location } from '../../lib/queries/location';
                         </div>
                       );
                     })}
+                    <span class="projects__previews-name text-small">{project.title}</span>
                   </a>
                 );
               })
@@ -88,6 +90,30 @@ import { location } from '../../lib/queries/location';
         </div>
       </div>
     </div>
+
+    <div class="filters">
+      <div class="filters__content">
+        <div class="filters__categories">
+          <ButtonLink>Все</ButtonLink>
+          {
+            categories.map((item) => {
+              return <ButtonLink>{item.name}</ButtonLink>;
+            })
+          }
+        </div>
+        <div class="filters__locations">
+          <ButtonLink>Все</ButtonLink>
+          {
+            location.map((item) => {
+              return <ButtonLink>{item.name}</ButtonLink>;
+            })
+          }
+        </div>
+      </div>
+      <Button>Фильтры</Button>
+    </div>
+
+    <div class="shadow"></div>
   </div>
 </Layout>
 
@@ -117,6 +143,66 @@ import { location } from '../../lib/queries/location';
   .projects {
     position: relative;
     align-items: start;
+  }
+
+  .filters {
+    position: fixed;
+
+    display: flex;
+    flex-direction: column;
+    bottom: var(--spacing-4);
+    right: var(--spacing-4);
+    z-index: 10;
+    gap: var(--spacing-2);
+
+    .button {
+      width: 302px;
+    }
+
+    .button-link {
+      color: var(--color-text-secondary);
+    }
+
+    .button-link.is-active {
+      color: var(--color-text-primary-inverse);
+    }
+  }
+
+  .filters__content {
+    background-color: var(--color-bg-primary-inverse);
+    color: var(--color-text-primary-inverse);
+    padding: var(--spacing-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    border-radius: var(--border-radius-m);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .filters__content.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .filters__categories {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  .filters__locations {
+    display: flex;
+    gap: var(--spacing-2);
+  }
+
+  .shadow {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, rgba(13, 13, 13, 0.5) 100%);
+    pointer-events: none;
   }
 
   .spacer {
@@ -149,6 +235,7 @@ import { location } from '../../lib/queries/location';
   .projects__previews {
     --flow-space: var(--spacing-12);
     --columns: 8;
+    position: relative;
   }
 
   .projects__previews.is-active {
@@ -157,6 +244,14 @@ import { location } from '../../lib/queries/location';
         opacity: 0;
       }
     }
+  }
+
+  .projects__previews-name {
+    position: absolute;
+    color: var(--color-text-primary);
+    pointer-events: none;
+    z-index: 10;
+    /* opacity: 0; */
   }
 
   .frame {
@@ -204,57 +299,86 @@ import { location } from '../../lib/queries/location';
     },
   });
 
+  let filtersBtn = document.querySelector('.filters .button');
+  let filterContent = document.querySelector('.filters__content');
+
+  filtersBtn?.addEventListener('click', () => {
+    filterContent?.classList.toggle('is-active');
+  });
+
   // Адаптировать логику перемещения под кейсы
   // Появление из opacity а не маски
 
-  export function accordionPreviewAnimation() {
-    const accordions = document.querySelectorAll('.accordion');
+  namePreviewAnimation();
 
-    accordions.forEach((accordion) => {
-      const preview = accordion.querySelector('.accordion__all-preview');
-      if (!preview) return;
+  function namePreviewAnimation() {
+    const previews = document.querySelectorAll('.projects__previews');
 
-      gsap.set(preview, { xPercent: 10, yPercent: 12 });
+    previews.forEach((previewItem) => {
+      const caseName = previewItem.querySelector('.projects__previews-name');
+      if (!caseName) return;
 
-      const xTo = gsap.quickTo(preview, 'x', { duration: 0.6, ease: 'power3' });
-      const yTo = gsap.quickTo(preview, 'y', { duration: 0.6, ease: 'power3' });
+      // Смещение от курсора (подстрой под себя)
+      const offsetX = 20;
+      const offsetY = 20;
 
-      // Все превью сразу скрываем
-      const previews = preview.querySelectorAll('.accordion_preview');
-      gsap.set(previews, { clipPath: 'inset(100% 0% 0% 0%)' });
+      gsap.set(caseName, { autoAlpha: 0 });
 
-      // Следование за курсором
-      accordion.addEventListener('mousemove', (e) => {
-        const rect = accordion.getBoundingClientRect();
-        xTo(e.clientX - rect.left);
-        yTo(e.clientY - rect.top);
+      const xTo = gsap.quickTo(caseName, 'x', { duration: 0.6, ease: 'power3' });
+      const yTo = gsap.quickTo(caseName, 'y', { duration: 0.6, ease: 'power3' });
+
+      const handleMouseMove = (e) => {
+        const rect = previewItem.getBoundingClientRect();
+        xTo(e.clientX - rect.left + offsetX);
+        yTo(e.clientY - rect.top + offsetY);
+      };
+
+      previewItem.addEventListener('mouseenter', (e) => {
+        const rect = previewItem.getBoundingClientRect();
+
+        // СРАЗУ ставим рядом с курсором, без анимации
+        gsap.set(caseName, {
+          x: e.clientX - rect.left + offsetX,
+          y: e.clientY - rect.top + offsetY,
+        });
+
+        // Потом плавно проявляем
+        gsap.to(caseName, { autoAlpha: 1, duration: 0.3 });
+
+        previewItem.addEventListener('mousemove', handleMouseMove);
       });
 
-      // Hover на items
-      const items = accordion.querySelectorAll('[data-accordion-item]');
-
-      items.forEach((item, index) => {
-        const targetPreview = previews[index];
-        if (!targetPreview) return;
-
-        item.addEventListener('mouseenter', () => {
-          gsap.to(targetPreview, {
-            clipPath: 'inset(0% 0% 0% 0%)',
-            duration: 0.4,
-            ease: 'power.out',
-          });
-        });
-
-        item.addEventListener('mouseleave', () => {
-          gsap.to(targetPreview, {
-            clipPath: 'inset(100% 0% 0% 0%)',
-            duration: 0.4,
-            ease: 'power.in',
-          });
-        });
+      previewItem.addEventListener('mouseleave', () => {
+        gsap.to(caseName, { autoAlpha: 0, duration: 0.1 });
+        previewItem.removeEventListener('mousemove', handleMouseMove);
       });
     });
   }
+  // function namePreviewAnimation() {
+  //   const previews = document.querySelectorAll('.projects__previews');
+
+  //   previews.forEach((previewItem) => {
+  //     const caseName = previewItem.querySelector('.projects__previews-name');
+  //     if (!caseName) return;
+
+  //     gsap.set(caseName, { xPercent: 50, yPercent: 60, autoAlpha: 0 });
+
+  //     const xTo = gsap.quickTo(caseName, 'x', { duration: 0.6, ease: 'power3' });
+  //     const yTo = gsap.quickTo(caseName, 'y', { duration: 0.6, ease: 'power3' });
+
+  //     // Следование за курсором
+  //     previewItem.addEventListener('mousemove', (e) => {
+  //       const rect = previewItem.getBoundingClientRect();
+  //       xTo(e.clientX - rect.left);
+  //       yTo(e.clientY - rect.top);
+  //       gsap.to(caseName, { autoAlpha: 1, duration: 0.3 });
+  //     });
+
+  //     previewItem.addEventListener('mouseleave', (e) => {
+  //       gsap.to(caseName, { autoAlpha: 0, duration: 0.1 });
+  //     });
+  //   });
+  // }
 
   function initHoverSync() {
     const cases = document.querySelectorAll('.projects__case');
