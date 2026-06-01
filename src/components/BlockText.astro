@@ -1,5 +1,102 @@
 ---
+const { headline, layout, editor_top, editor_left, editor_right } = Astro.props;
 
+const layoutClasses = {
+  columns: 'text-block--columns',
+  full: 'text-block--full',
+  full_Columns: 'text-block--full-columns',
+};
+
+const validLayouts = ['columns', 'full', 'full_Columns'];
+const currentLayout = validLayouts.includes(layout) ? layout : 'columns';
 ---
 
-<h1>Text block</h1>
+{
+  layout === 'columns' && (
+    <div class:list={['text-block', layoutClasses[layout]]}>
+      <div class="wrapper">
+        <div class="grid">
+          <div class="text-block__title">
+            <h2 class="heading-medium">{headline}</h2>
+          </div>
+
+          <div class="text-block__columns">
+            <div class="text-block__col flow" data-text-column="left" set:html={editor_left} />
+            <div class="text-block__col flow" data-text-column="right" set:html={editor_right} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  layout === 'full' && (
+    <div class:list={['text-block', layoutClasses[layout]]}>
+      <div class="wrapper">
+        <div class="grid">
+          <div class="text-block__title">
+            <h2 class="heading-medium">{headline}</h2>
+          </div>
+
+          <div class="text-block__columns">
+            <div class="text-block__col flow" set:html={editor_left} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  layout === 'full_Columns' && (
+    <div class:list={['text-block', layoutClasses[layout]]}>
+      <div class="wrapper">
+        <div class="grid">
+          <div class="text-block__title">
+            <h2 class="heading-medium">{headline}</h2>
+          </div>
+
+          <div class="text-block__columns">
+            <div class="text-block__col flow" data-text-column="top" set:html={editor_top} />
+            <div class="text-block__col flow" data-text-column="left" set:html={editor_left} />
+            <div class="text-block__col flow" data-text-column="right" set:html={editor_right} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .text-block {
+  }
+  .text-block--columns {
+    .text-block__columns {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .text-block--full-columns {
+    .text-block__columns {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    [data-text-column='top'] {
+      grid-column: span 2;
+    }
+  }
+
+  .text-block__title {
+    grid-column: span 4;
+    padding-right: var(--spacing-4);
+  }
+
+  .text-block__columns {
+    --flow-space: var(--spacing-4);
+
+    display: grid;
+    gap: var(--spacing-8);
+    grid-column: span 8;
+  }
+</style>

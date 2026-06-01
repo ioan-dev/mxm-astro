@@ -1,3 +1,108 @@
 ---
-
+const { headline, projectStage, projectTeam, projectCategories, projectAreas } = Astro.props;
 ---
+
+<div class="intro">
+  <!-- Получить из проекта пропсом -->
+  <!-- Status -->
+  <!-- Team -->
+  <!-- Тип проекта -->
+  <!-- Разделы -->
+
+  <div class="wrapper">
+    <div class="grid">
+      <div class="intro__title">
+        <h2 class="heading-medium">{headline}</h2>
+      </div>
+
+      <div class="intro__body flow">
+        <div class="intro__details details flow">
+          <div class="details__item">
+            <p class="text-medium text-color-secondary">Статус:</p>
+            <p class="text-medium">{projectStage}</p>
+          </div>
+
+          <div class="details__item">
+            <p class="text-medium text-color-secondary">Команда:</p>
+            <p class="text-medium">
+              {
+                projectTeam.map((member: any, i: number) => (
+                  <>
+                    {member.type === 'Партнер' && member.link ? (
+                      <a href={member.link} target="_blank" rel="noopener">
+                        {member.name}
+                      </a>
+                    ) : (
+                      member.name
+                    )}
+                    {i < projectTeam.length - 1 ? ', ' : ''}
+                  </>
+                ))
+              }
+            </p>
+          </div>
+
+          <div class="details__item">
+            <p class="text-medium text-color-secondary">Тип проекта:</p>
+            <p class="text-medium">
+              {
+                projectCategories.map((category: any, i: number) => (
+                  <>
+                    {category.name}
+                    {i < projectCategories.length - 1 ? ', ' : ''}
+                  </>
+                ))
+              }
+            </p>
+          </div>
+
+          <div class="details__item">
+            <p class="text-medium text-color-secondary">Разделы:</p>
+            <p class="text-medium">
+              {
+                projectAreas.map((category: any, i: number) => (
+                  <>
+                    {category.name}
+                    {i < projectAreas.length - 1 ? ', ' : ''}
+                  </>
+                ))
+              }
+            </p>
+          </div>
+        </div>
+
+        <div class="intro__text editor">
+          <!-- <div class="editor__item" set:html={editor_top} />
+          <div class="editor__item" set:html={editor_top} /> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .intro {
+    a {
+      font: inherit;
+      text-decoration: underline;
+    }
+  }
+  .intro__title {
+    grid-column: span 4;
+    padding-right: var(--spacing-4);
+  }
+
+  .intro__body {
+    --flow-space: var(--spacing-8);
+    grid-column: span 8;
+  }
+
+  .details {
+    --flow-space: 6px;
+  }
+
+  .details__item {
+    display: flex;
+    column-gap: var(--spacing-1);
+  }
+</style>

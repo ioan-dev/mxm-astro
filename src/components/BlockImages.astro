@@ -1,1 +1,145 @@
+---
+import { ASSETS_URL } from '../lib/constants';
+import { Image } from '@unpic/astro';
 
+interface Props {
+  size: 'large' | 'medium' | 'small';
+  align: 'left' | 'right' | 'center';
+  builder: Array<{
+    item: {
+      image: string;
+      // можно добавить: span?: number — если хочешь управлять отдельными картинками
+    };
+  }>;
+}
+
+let { size = 'large', align = 'left', builder } = Astro.props;
+
+// Валидация
+const validSizes = ['large', 'medium', 'small'] as const;
+const validAligns = ['left', 'right', 'center'] as const;
+
+const currentSize = validSizes.includes(size as any) ? size : 'large';
+const currentAlign = validAligns.includes(align as any) ? align : 'left';
+---
+
+{
+  size === 'large' && (
+    <div class:list={['image-block', `size-${currentSize}`, `align-${currentAlign}`]}>
+      <div class="wrapper">
+        <div class="image-block__inner">
+          <div class="grid">
+            {builder.map((block) => (
+              <div class="frame">
+                <Image
+                  alt=""
+                  layout="fullWidth"
+                  src={`${ASSETS_URL}/${block.item.image}`}
+                  cdn="directus"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  size === 'medium' && (
+    <div class:list={['image-block', `size-${currentSize}`, `align-${currentAlign}`]}>
+      <div class="wrapper">
+        <div class="image-block__inner">
+          <div class="grid">
+            <div class="frame-wrapper">
+              {builder.map((block) => (
+                <div class="frame">
+                  <Image
+                    alt=""
+                    layout="fullWidth"
+                    src={`${ASSETS_URL}/${block.item.image}`}
+                    cdn="directus"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<!-- Small -->
+
+{
+  size === 'small' && (
+    <div class:list={['image-block', `size-${currentSize}`, `align-${currentAlign}`]}>
+      <div class="wrapper">
+        <div class="image-block__inner">
+          <div class="grid">
+            {builder.map((block) => (
+              <div class="frame">
+                <Image
+                  alt=""
+                  layout="fullWidth"
+                  src={`${ASSETS_URL}/${block.item.image}`}
+                  cdn="directus"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  /* Large */
+  .size-large {
+    .frame {
+      grid-column: 1 / span 8;
+    }
+
+    &.align-right {
+      .frame {
+        grid-column: span 8 / -1;
+      }
+    }
+  }
+
+  /* Medium */
+  .size-medium {
+    .frame-wrapper {
+      grid-column: 1 / span 8;
+
+      display: flex;
+    }
+
+    .frame {
+      flex-basis: 50%;
+      aspect-ratio: 14 / 17;
+
+      & > img {
+        height: 100%;
+      }
+    }
+
+    &.align-right {
+      .frame-wrapper {
+        grid-column: span 8 / -1;
+      }
+    }
+  }
+
+  /* Small */
+
+  .size-small {
+    .frame {
+      grid-column: span 2;
+      align-items: start;
+    }
+  }
+</style>

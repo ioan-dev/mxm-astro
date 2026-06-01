@@ -26,6 +26,7 @@ export async function getProjectBySlug(slug: string) {
           location: ['name'],
           categories: ['name'],
           stage: ['name'],
+          team: ['type', 'name', 'link'],
           blocks: [
             'collection',
             {
@@ -33,7 +34,17 @@ export async function getProjectBySlug(slug: string) {
                 block_projects_hero: ['image', 'layout'],
                 block_projects_intro: ['*'],
                 block_text: ['*'],
-                block_images: ['*'],
+                block_images: [
+                  'size',
+                  'align',
+                  {
+                    builder: [
+                      {
+                        item: ['image', 'inverse'],
+                      },
+                    ],
+                  },
+                ],
               },
             },
           ],
@@ -44,4 +55,34 @@ export async function getProjectBySlug(slug: string) {
   )) as any[];
 
   return items[0] ?? null;
+}
+
+// Для каталога — список проектов с нужными полями
+export async function getAllProjectsForCatalog() {
+  return client.request(
+    readItems('projects', {
+      fields: [
+        'title',
+        'slug',
+        'date',
+        {
+          stage: ['name'],
+          categories: ['name'],
+          areas: ['name'],
+          location: ['name'],
+          preview: ['directus_files_id'],
+          blocks: [
+            'collection',
+            {
+              item: {
+                // Берём только hero, чтобы достать превью
+                block_projects_hero: ['image', 'layout'],
+              },
+            },
+          ],
+        },
+      ],
+      limit: -1,
+    })
+  ) as Promise<any[]>;
 }

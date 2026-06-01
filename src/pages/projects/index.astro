@@ -1,7 +1,288 @@
 ---
+import ButtonLink from '../../components/Button-link.astro';
 import Layout from '../../layouts/Layout.astro';
+import { ASSETS_URL } from '../../lib/constants';
+import { Image } from '@unpic/astro';
+import { getAllProjectsForCatalog } from '../../lib/queries/projects.js';
+const projects = await getAllProjectsForCatalog();
+import { safeJsonDebug } from '../../utils/jsonHelpers';
+import { categories } from '../../lib/queries/categories';
+import { location } from '../../lib/queries/location';
 ---
 
 <Layout>
-  <h1>Проекты</h1>
+  <div class="page-wrapper">
+    <!-- <pre>
+      {safeJsonDebug( projects )}
+    </pre> -->
+
+    <div class="wrapper">
+      <div class="flow">
+        <div class="filters-top">
+          <div class="filters-top__inner grid">
+            <div class="filters-top__categories">
+              <ButtonLink>Все</ButtonLink>
+              {
+                categories.map((item) => {
+                  return <ButtonLink>{item.name}</ButtonLink>;
+                })
+              }
+            </div>
+            <div class="filters-top__location">
+              <ButtonLink>Все</ButtonLink>
+              {
+                location.map((item) => {
+                  return <ButtonLink>{item.name}</ButtonLink>;
+                })
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="projects grid">
+          <div class="projects__case-wrapper flow">
+            {
+              projects.map((project) => {
+                return (
+                  <a
+                    class="projects__case"
+                    href={`/projects/${project.slug}`}
+                    data-slug={project.slug}
+                  >
+                    <h2 class="heading-medium">{project.title}</h2>
+                    <span class="text-small">{project.date}</span>
+                  </a>
+                );
+              })
+            }
+          </div>
+
+          <div class="projects__previews-wrapper flow">
+            {
+              projects.map((project: any) => {
+                let preview = project.preview;
+                return (
+                  <a
+                    class="projects__previews grid"
+                    href={`/projects/${project.slug}`}
+                    data-slug={project.slug}
+                  >
+                    {preview.map((item: any) => {
+                      return (
+                        <div class="frame">
+                          <Image
+                            alt=""
+                            layout="fullWidth"
+                            src={`${ASSETS_URL}/${item.directus_files_id}`}
+                            cdn="directus"
+                          />
+                        </div>
+                      );
+                    })}
+                  </a>
+                );
+              })
+            }
+            <div class="spacer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>
+
+<style>
+  .page-wrapper {
+    --flow-space: var(--spacing-8);
+    padding-top: 30vh;
+  }
+
+  :is(.filters-top__categories, .filters-top__location) {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--spacing-3);
+    row-gap: var(--spacing-2);
+  }
+
+  .filters-top__categories {
+    grid-column: span 6;
+  }
+
+  .filters-top__location {
+    grid-column: span 2 / -1;
+    justify-self: end;
+    align-items: flex-end;
+  }
+
+  .projects {
+    position: relative;
+    align-items: start;
+  }
+
+  .spacer {
+    height: 30vh;
+  }
+
+  .projects__case-wrapper {
+    --flow-space: var(--spacing-2);
+    grid-column: span 3;
+
+    position: sticky;
+    top: 30vh;
+  }
+  .projects__previews-wrapper {
+    grid-column: 5 / -1;
+  }
+  .projects__case {
+    display: flex;
+    column-gap: var(--spacing-2);
+    justify-content: space-between;
+    align-items: flex-start;
+
+    cursor: pointer;
+  }
+
+  .projects__case.is-active {
+    color: var(--color-text-secondary);
+  }
+
+  .projects__previews {
+    --flow-space: var(--spacing-12);
+    --columns: 8;
+  }
+
+  .projects__previews.is-active {
+    .frame {
+      &::after {
+        opacity: 0;
+      }
+    }
+  }
+
+  .frame {
+    grid-column: span 2;
+    align-items: flex-start;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      mix-blend-mode: hue;
+    }
+
+    & > img {
+      height: auto;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const nav = document.querySelector('.projects__case-wrapper');
+  const content = document.querySelector('.projects__previews-wrapper');
+  let contentHeight = content?.clientHeight;
+  let contentTopPadding = content?.getBoundingClientRect().top;
+  console.log(contentTopPadding);
+
+  let tlMoveCase = gsap.timeline();
+
+  tlMoveCase.to(nav, {
+    yPercent: -50,
+    duration: 5,
+    scrollTrigger: {
+      trigger: content,
+      start: 'top 30%',
+      // markers: true,
+      scrub: true,
+    },
+  });
+
+  // Адаптировать логику перемещения под кейсы
+  // Появление из opacity а не маски
+
+  export function accordionPreviewAnimation() {
+    const accordions = document.querySelectorAll('.accordion');
+
+    accordions.forEach((accordion) => {
+      const preview = accordion.querySelector('.accordion__all-preview');
+      if (!preview) return;
+
+      gsap.set(preview, { xPercent: 10, yPercent: 12 });
+
+      const xTo = gsap.quickTo(preview, 'x', { duration: 0.6, ease: 'power3' });
+      const yTo = gsap.quickTo(preview, 'y', { duration: 0.6, ease: 'power3' });
+
+      // Все превью сразу скрываем
+      const previews = preview.querySelectorAll('.accordion_preview');
+      gsap.set(previews, { clipPath: 'inset(100% 0% 0% 0%)' });
+
+      // Следование за курсором
+      accordion.addEventListener('mousemove', (e) => {
+        const rect = accordion.getBoundingClientRect();
+        xTo(e.clientX - rect.left);
+        yTo(e.clientY - rect.top);
+      });
+
+      // Hover на items
+      const items = accordion.querySelectorAll('[data-accordion-item]');
+
+      items.forEach((item, index) => {
+        const targetPreview = previews[index];
+        if (!targetPreview) return;
+
+        item.addEventListener('mouseenter', () => {
+          gsap.to(targetPreview, {
+            clipPath: 'inset(0% 0% 0% 0%)',
+            duration: 0.4,
+            ease: 'power.out',
+          });
+        });
+
+        item.addEventListener('mouseleave', () => {
+          gsap.to(targetPreview, {
+            clipPath: 'inset(100% 0% 0% 0%)',
+            duration: 0.4,
+            ease: 'power.in',
+          });
+        });
+      });
+    });
+  }
+
+  function initHoverSync() {
+    const cases = document.querySelectorAll('.projects__case');
+    const previews = document.querySelectorAll('.projects__previews');
+
+    const syncBySlug = (slug, isActive) => {
+      const caseEl = document.querySelector(`.projects__case[data-slug="${slug}"]`);
+      const previewEl = document.querySelector(`.projects__previews[data-slug="${slug}"]`);
+
+      if (isActive) {
+        caseEl?.classList.add('is-active');
+        previewEl?.classList.add('is-active');
+      } else {
+        caseEl?.classList.remove('is-active');
+        previewEl?.classList.remove('is-active');
+      }
+    };
+
+    cases.forEach((caseEl) => {
+      caseEl.addEventListener('mouseenter', () => syncBySlug(caseEl.dataset.slug, true));
+      caseEl.addEventListener('mouseleave', () => syncBySlug(caseEl.dataset.slug, false));
+    });
+
+    previews.forEach((previewEl) => {
+      previewEl.addEventListener('mouseenter', () => syncBySlug(previewEl.dataset.slug, true));
+      previewEl.addEventListener('mouseleave', () => syncBySlug(previewEl.dataset.slug, false));
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initHoverSync);
+</script>

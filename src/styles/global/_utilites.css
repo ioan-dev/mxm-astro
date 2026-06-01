@@ -124,6 +124,18 @@
     aspect-ratio: var(--n) / var(--d);
   }
 
+  &[data-frame-type='landscape'] {
+    --n: 16;
+    --d: 9;
+    aspect-ratio: var(--n) / var(--d);
+  }
+
+  &[data-frame-type='large-format'] {
+    --n: 5;
+    --d: 4;
+    aspect-ratio: var(--n) / var(--d);
+  }
+
   &[data-frame-type] > img {
     max-width: 100%;
     height: 100%;

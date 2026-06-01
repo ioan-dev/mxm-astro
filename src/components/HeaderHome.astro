@@ -1,0 +1,85 @@
+---
+import { links } from '../lib/queries/nav-links';
+import { safeJsonDebug } from '../utils/jsonHelpers';
+import ButtonLink from './Button-link.astro';
+import LogoHome from './LogoHome.astro';
+---
+
+<header class="header">
+  <!-- <pre>
+  {safeJsonDebug(links)}
+</pre> -->
+  <div class="grid">
+    <div class="header__logo">
+      <LogoHome />
+    </div>
+    <nav>
+      <ul class="header__nav" role="list">
+        {
+          links.map((item) => {
+            return (
+              <li>
+                <a class="header__nav-link label-small" href={item.slug}>
+                  {item.name}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="header__buttons">
+      <ButtonLink iconLeft="light-theme" data-theme> Светлая тема </ButtonLink>
+      <ButtonLink iconRight="move-right-link">Связаться</ButtonLink>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 90;
+    width: 100%;
+    padding: var(--spacing-4);
+    pointer-events: none;
+
+    & .grid {
+      align-items: start;
+    }
+
+    nav {
+      grid-column: 5 / 9;
+
+      ul {
+        display: flex;
+        align-items: start;
+        gap: var(--spacing-2);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+      }
+    }
+
+    .header__buttons {
+      grid-column: 9 / -1;
+      display: flex;
+      justify-content: space-between;
+      row-gap: var(--spacing-4);
+    }
+  }
+
+  & :is(.button-link, .header__nav-link) {
+    pointer-events: auto;
+  }
+
+  .header__logo {
+    grid-column: span 4;
+  }
+</style>

@@ -32,8 +32,8 @@ const blockComponents: Record<string, any> = {
 };
 ---
 
-<Layout>
-  <div class="page-wrapper">
+<Layout isProject>
+  <div class="page-wrapper flow">
     <!-- <pre>
       {safeJsonDebug( project )}
     </pre> -->
@@ -46,15 +46,45 @@ const blockComponents: Record<string, any> = {
 
         // Рендерим компонент, передавая данные блока как пропсы
         return (
-          <Component {...block.item} projectTitle={project.title} projectDate={project.date} />
+          <Component
+            {...block.item}
+            projectTitle={project.title}
+            projectDate={project.date}
+            projectStage={project.stage.name}
+            projectTeam={project.team}
+            projectCategories={project.categories}
+            projectAreas={project.areas}
+          />
         );
       })
     }
+
+    <div class="switch-projects">
+      <div class="wrapper">
+        <div class="repel">
+          <div class="switch-projects__item">
+            <h3 class="heading-medium">Prev title</h3>
+            <p class="text-small">Предыдущий проект</p>
+          </div>
+
+          <div class="switch-projects__item">
+            <h3 class="heading-medium">Next title</h3>
+            <p class="text-small">Следующий проект</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </Layout>
 
 <style>
   .page-wrapper {
-    padding-top: 200px;
+    --flow-space: var(--spacing-16);
+    padding-top: 250px;
+  }
+
+  .switch-projects__item {
+    display: flex;
+    grid-row: var(--spacing-2);
   }
 </style>

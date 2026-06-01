@@ -8,18 +8,59 @@ const layoutClasses = {
   full: 'hero--full',
   right: 'hero--right',
 };
+
+// Валидация пропса
+const validLayouts = ['default', 'full', 'right'];
+const currentLayout = validLayouts.includes(layout) ? layout : 'default';
 ---
 
-<!-- Тут мне нужно будет проставлять классы для определенного layout -->
-<div class:list={['flow', 'hero', layoutClasses[layout]]}>
-  <div class="hero__title-wrapper">
-    <h1 class="heading-large">{projectTitle}</h1>
-    <span class="text-small">{projectDate}</span>
-  </div>
-  <div class="frame">
-    <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${image}`} cdn="directus" />
-  </div>
-</div>
+{
+  layout === 'default' && (
+    <div class:list={['flow', 'hero', layoutClasses[layout]]}>
+      <div class="hero__title-wrapper">
+        <h1 class="heading-large">{projectTitle}</h1>
+        <span class="text-small">{projectDate}</span>
+      </div>
+      <div class="frame" data-frame-type="landscape">
+        <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${image}`} cdn="directus" />
+      </div>
+    </div>
+  )
+}
+
+{
+  layout === 'full' && (
+    <div class:list={['hero', layoutClasses[layout]]}>
+      <div class="wrapper">
+        <div class="hero__title-wrapper">
+          <h1 class="heading-large">{projectTitle}</h1>
+          <span class="text-small">{projectDate}</span>
+        </div>
+        <div class="frame" data-frame-type="large-format">
+          <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${image}`} cdn="directus" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  layout === 'right' && (
+    <div class:list={['hero', layoutClasses[layout]]}>
+      <div class="wrapper">
+        <div class="grid">
+          <div class="hero__title-wrapper">
+            <h1 class="heading-large">{projectTitle}</h1>
+            <span class="text-small">{projectDate}</span>
+          </div>
+          <div class="frame" data-frame-type="large-format">
+            <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${image}`} cdn="directus" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 <style>
   .hero {
@@ -28,6 +69,44 @@ const layoutClasses = {
 
   .hero__title-wrapper {
     display: flex;
-    column-gap: var(--spacing-2);
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+
+  .hero--full {
+    position: relative;
+
+    .hero__title-wrapper {
+      position: absolute;
+      left: var(--spacing-4);
+      top: 180px;
+      z-index: 10;
+    }
+
+    .frame {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        content: '';
+        inset: 0;
+        background: linear-gradient(rgb(13, 13, 13), rgba(13, 13, 13, 0) 100%);
+      }
+    }
+  }
+
+  .hero--right {
+    position: relative;
+
+    .hero__title-wrapper {
+      position: absolute;
+      top: 0;
+      left: var(--spacing-4);
+    }
+    .frame {
+      aspect-ratio: 8 / 5;
+      width: 100%;
+      grid-column: 5 / span 8;
+    }
   }
 </style>
