@@ -20,6 +20,7 @@ export async function getProjectBySlug(slug: string) {
       fields: [
         'title',
         'slug',
+        'sort',
         'date',
         {
           areas: ['name'],
@@ -32,8 +33,8 @@ export async function getProjectBySlug(slug: string) {
             {
               item: {
                 block_projects_hero: ['image', 'layout'],
-                block_projects_intro: ['*'],
-                block_text: ['*'],
+                block_projects_intro: ['headline', 'editor_left', 'editor_right'],
+                block_text: ['*', 'headline'],
                 block_images: [
                   'size',
                   'align',
@@ -86,3 +87,7 @@ export async function getAllProjectsForCatalog() {
     })
   ) as Promise<any[]>;
 }
+
+export const projects = await client.request(
+  readItems('projects', { fields: ['title', 'sort', 'slug'] })
+);

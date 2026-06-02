@@ -8,6 +8,7 @@ import ProjectsHero from '../../components/ProjectsHero.astro';
 import ProjectsIntro from '../../components/ProjectsIntro.astro';
 import BlockImages from '../../components/BlockImages.astro';
 import BlockText from '../../components/BlockText.astro';
+import { projects } from '../../lib/queries/projects.js';
 
 export async function getStaticPaths() {
   const projects = await getAllProjects();
@@ -30,12 +31,18 @@ const blockComponents: Record<string, any> = {
   block_text: BlockText,
   block_images: BlockImages,
 };
+
+const sorted = [...projects].sort((a, b) => a.sort - b.sort);
+const currentIndex = sorted.findIndex((p) => p.slug === slug);
+
+const prevProject = sorted[(currentIndex - 1 + sorted.length) % sorted.length];
+const nextProject = sorted[(currentIndex + 1) % sorted.length];
 ---
 
 <Layout isProject>
   <div class="page-wrapper flow">
     <!-- <pre>
-      {safeJsonDebug( project )}
+      {safeJsonDebug( projects )}
     </pre> -->
 
     {
@@ -62,15 +69,15 @@ const blockComponents: Record<string, any> = {
     <div class="switch-projects">
       <div class="wrapper">
         <div class="repel">
-          <div class="switch-projects__item">
-            <h3 class="heading-medium">Prev title</h3>
+          <a href={`/projects/${prevProject.slug}`} class="switch-projects__item">
+            <h3 class="heading-medium">{prevProject.title}</h3>
             <p class="text-small">Предыдущий проект</p>
-          </div>
+          </a>
 
-          <div class="switch-projects__item">
-            <h3 class="heading-medium">Next title</h3>
+          <a href={`/projects/${nextProject.slug}`} class="switch-projects__item">
+            <h3 class="heading-medium">{nextProject.title}</h3>
             <p class="text-small">Следующий проект</p>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -83,8 +90,12 @@ const blockComponents: Record<string, any> = {
     padding-top: 250px;
   }
 
+  .switch-projects {
+    padding-block: 200px;
+  }
+
   .switch-projects__item {
     display: flex;
-    grid-row: var(--spacing-2);
+    column-gap: var(--spacing-2);
   }
 </style>

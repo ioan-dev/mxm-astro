@@ -1,5 +1,13 @@
 ---
-const { headline, projectStage, projectTeam, projectCategories, projectAreas } = Astro.props;
+const {
+  headline,
+  projectStage,
+  projectTeam,
+  projectCategories,
+  projectAreas,
+  editor_left,
+  editor_right,
+} = Astro.props;
 ---
 
 <div class="intro">
@@ -72,8 +80,8 @@ const { headline, projectStage, projectTeam, projectCategories, projectAreas } =
         </div>
 
         <div class="intro__text editor">
-          <!-- <div class="editor__item" set:html={editor_top} />
-          <div class="editor__item" set:html={editor_top} /> -->
+          <div class="editor__item" set:html={editor_left} />
+          <div class="editor__item" set:html={editor_right} />
         </div>
       </div>
     </div>
