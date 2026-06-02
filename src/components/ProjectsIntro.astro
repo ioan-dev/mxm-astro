@@ -95,6 +95,14 @@ const {
       text-decoration: underline;
     }
   }
+
+  /* Тут нужно отступы между абзацев */
+
+  .intro__text {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--spacing-8);
+  }
   .intro__title {
     grid-column: span 4;
     padding-right: var(--spacing-4);
