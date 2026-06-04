@@ -1,4 +1,5 @@
 import { client, readItems } from '../directus.js';
+import { categories } from './categories.js';
 
 // Только slug — для getStaticPaths
 export async function getAllProjects() {
@@ -68,7 +69,11 @@ export async function getAllProjectsForCatalog() {
         'date',
         {
           stage: ['name'],
-          categories: ['name'],
+          categories: [
+            {
+              categories_id: ['name'],
+            },
+          ],
           areas: ['name'],
           location: ['name'],
           preview: ['directus_files_id'],

@@ -7,7 +7,7 @@ import { getAllProjectsForCatalog } from '../../lib/queries/projects.js';
 const projects = await getAllProjectsForCatalog();
 import { safeJsonDebug } from '../../utils/jsonHelpers';
 import { categories } from '../../lib/queries/categories';
-import { location } from '../../lib/queries/location';
+import { locations } from '../../lib/queries/location';
 import Button from '../../components/Button.astro';
 ---
 
@@ -22,18 +22,30 @@ import Button from '../../components/Button.astro';
         <div class="filters-top">
           <div class="filters-top__inner grid">
             <div class="filters-top__categories">
-              <ButtonLink>Все</ButtonLink>
+              <ButtonLink class:list={['is-active']} data-filter="category" data-value=""
+                >Все</ButtonLink
+              >
               {
                 categories.map((item) => {
-                  return <ButtonLink>{item.name}</ButtonLink>;
+                  return (
+                    <ButtonLink data-filter="category" data-value={item.name}>
+                      {item.name}
+                    </ButtonLink>
+                  );
                 })
               }
             </div>
             <div class="filters-top__location">
-              <ButtonLink>Все</ButtonLink>
+              <ButtonLink class:list={['is-active']} data-filter="location" data-value=""
+                >Все</ButtonLink
+              >
               {
-                location.map((item) => {
-                  return <ButtonLink>{item.name}</ButtonLink>;
+                locations.map((item) => {
+                  return (
+                    <ButtonLink data-filter="location" data-value={item.name}>
+                      {item.name}
+                    </ButtonLink>
+                  );
                 })
               }
             </div>
@@ -44,11 +56,20 @@ import Button from '../../components/Button.astro';
           <div class="projects__case-wrapper flow">
             {
               projects.map((project) => {
+                const cats =
+                  project.categories
+                    ?.map((c: any) => c.categories_id?.name)
+                    .filter(Boolean) // убираем null/undefined на случай пустых записей
+                    .join(',') ?? '';
+                // Локация — берём первый элемент массива (или пустую строку)
+                const loc = project.location?.name ?? '';
                 return (
                   <a
                     class="projects__case"
                     href={`/projects/${project.slug}`}
                     data-slug={project.slug}
+                    data-categories={cats}
+                    data-location={loc}
                   >
                     <h2 class="heading-medium">{project.title}</h2>
                     <span class="text-small">{project.date}</span>
@@ -62,11 +83,20 @@ import Button from '../../components/Button.astro';
             {
               projects.map((project: any) => {
                 let preview = project.preview;
+                const cats =
+                  project.categories
+                    ?.map((c: any) => c.categories_id?.name)
+                    .filter(Boolean) // убираем null/undefined на случай пустых записей
+                    .join(',') ?? '';
+                // Локация — берём первый элемент массива (или пустую строку)
+                const loc = project.location?.name ?? '';
                 return (
                   <a
                     class="projects__previews grid"
                     href={`/projects/${project.slug}`}
                     data-slug={project.slug}
+                    data-categories={cats}
+                    data-location={loc}
                   >
                     {preview.map((item: any) => {
                       return (
@@ -94,18 +124,30 @@ import Button from '../../components/Button.astro';
     <div class="filters">
       <div class="filters__content">
         <div class="filters__categories">
-          <ButtonLink>Все</ButtonLink>
+          <ButtonLink class:list={['is-active']} data-filter="category" data-value=""
+            >Все</ButtonLink
+          >
           {
             categories.map((item) => {
-              return <ButtonLink>{item.name}</ButtonLink>;
+              return (
+                <ButtonLink data-filter="category" data-value={item.name}>
+                  {item.name}
+                </ButtonLink>
+              );
             })
           }
         </div>
         <div class="filters__locations">
-          <ButtonLink>Все</ButtonLink>
+          <ButtonLink class:list={['is-active']} data-filter="location" data-value=""
+            >Все</ButtonLink
+          >
           {
-            location.map((item) => {
-              return <ButtonLink>{item.name}</ButtonLink>;
+            locations.map((item) => {
+              return (
+                <ButtonLink data-filter="location" data-value={item.name}>
+                  {item.name}
+                </ButtonLink>
+              );
             })
           }
         </div>
@@ -132,12 +174,28 @@ import Button from '../../components/Button.astro';
 
   .filters-top__categories {
     grid-column: span 6;
+
+    .button-link {
+      color: var(--color-text-secondary);
+    }
+
+    .button-link.is-active {
+      color: var(--color-text-primary);
+    }
   }
 
   .filters-top__location {
     grid-column: span 2 / -1;
     justify-self: end;
     align-items: flex-end;
+
+    .button-link {
+      color: var(--color-text-secondary);
+    }
+
+    .button-link.is-active {
+      color: var(--color-text-primary);
+    }
   }
 
   .projects {
@@ -409,5 +467,57 @@ import Button from '../../components/Button.astro';
     });
   }
 
-  document.addEventListener('DOMContentLoaded', initHoverSync);
+  // На:
+  document.addEventListener('DOMContentLoaded', () => {
+    initHoverSync();
+    initFilters();
+  });
+
+  // И добавить саму функцию:
+  function initFilters() {
+    const active = { category: '', location: '' };
+    const filterBtns = document.querySelectorAll('[data-filter]');
+
+    function applyFilters() {
+      const cases = document.querySelectorAll('.projects__case');
+      const previews = document.querySelectorAll('.projects__previews');
+
+      function isVisible(el) {
+        const elCats = el.dataset.categories || '';
+        const elLoc = el.dataset.location || '';
+        const catMatch = active.category === '' || elCats.split(',').includes(active.category);
+        const locMatch = active.location === '' || elLoc === active.location;
+        return catMatch && locMatch;
+      }
+
+      cases.forEach((el) => {
+        el.style.display = isVisible(el) ? '' : 'none';
+      });
+      previews.forEach((el) => {
+        el.style.display = isVisible(el) ? '' : 'none';
+      });
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filterType = btn.dataset.filter;
+        const filterValue = btn.dataset.value;
+
+        active[filterType] = filterValue;
+
+        // Снимаем is-active со всех кнопок этого типа — в ОБОИХ панелях
+        document
+          .querySelectorAll(`[data-filter="${filterType}"]`)
+          .forEach((b) => b.classList.remove('is-active'));
+
+        // Ставим is-active на все кнопки с тем же value — тоже в обоих панелях
+        // Это синхронизирует .filters-top и .filters между собой
+        document
+          .querySelectorAll(`[data-filter="${filterType}"][data-value="${filterValue}"]`)
+          .forEach((b) => b.classList.add('is-active'));
+
+        applyFilters();
+      });
+    });
+  }
 </script>

@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { safeJsonDebug } from '../utils/jsonHelpers';
+import { aboutPage } from '../lib/queries/about';
+---
+
+<Layout>
+  <div class="page-wrapper">
+    <pre>
+  {safeJsonDebug(aboutPage)}
+</pre>
+  </div>
+</Layout>
+
+<style>
+  .page-wrapper {
+    padding-top: 210px;
+  }
+</style>
