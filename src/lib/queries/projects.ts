@@ -26,7 +26,11 @@ export async function getProjectBySlug(slug: string) {
         {
           areas: ['name'],
           location: ['name'],
-          categories: ['name'],
+          categories: [
+            {
+              categories_id: ['name', 'slug', 'id'], // ← Поля из коллекции categories
+            },
+          ],
           stage: ['name'],
           team: ['type', 'name', 'link'],
           blocks: [
@@ -71,7 +75,7 @@ export async function getAllProjectsForCatalog() {
           stage: ['name'],
           categories: [
             {
-              categories_id: ['name'],
+              categories_id: ['name'], // Поля из коллекции categories
             },
           ],
           areas: ['name'],

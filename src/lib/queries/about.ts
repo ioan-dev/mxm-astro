@@ -5,15 +5,20 @@ export const aboutPage = await client.request(
     fields: [
       {
         blocks: [
-          '*',
+          'collection',
           {
-            item: [
-              '*',
-              {
-                intro_text: ['layout', 'headline', 'editor_top', 'editor_left', 'editor_right'],
-                about_team: ['name', 'photo'],
-              },
-            ],
+            item: {
+              block_aboutpage_team: [
+                {
+                  intro_text: ['layout', 'headline', 'editor_top', 'editor_left', 'editor_right'],
+                },
+                {
+                  about_team: ['name', 'photo'],
+                },
+              ],
+              block_text: ['layout', 'headline', 'editor_top', 'editor_left', 'editor_right'],
+              section_form: ['headline'],
+            },
           },
         ],
       },

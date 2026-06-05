@@ -48,9 +48,9 @@ const {
             <p class="text-medium text-color-secondary">Тип проекта:</p>
             <p class="text-medium">
               {
-                projectCategories.map((category: any, i: number) => (
+                projectCategories?.map((category: any, i: number) => (
                   <>
-                    {category.name}
+                    {category.categories_id.name}
                     {i < projectCategories.length - 1 ? ', ' : ''}
                   </>
                 ))

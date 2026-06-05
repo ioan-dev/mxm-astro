@@ -2,18 +2,44 @@
 import Layout from '../layouts/Layout.astro';
 import { safeJsonDebug } from '../utils/jsonHelpers';
 import { aboutPage } from '../lib/queries/about';
+import AbautPageTeam from '../components/AbautPageTeam.astro';
+import BlockText from '../components/BlockText.astro';
+import Form from '../components/Form.astro';
+
+const blockComponents: Record<string, any> = {
+  block_aboutpage_team: AbautPageTeam,
+  block_text: BlockText,
+  section_form: Form,
+} as const;
 ---
 
 <Layout>
   <div class="page-wrapper">
-    <pre>
+    <!-- <pre>
   {safeJsonDebug(aboutPage)}
-</pre>
+</pre> -->
+
+    <!-- Рендер компонентов -->
+    <div class="about__blocks flow">
+      {
+        aboutPage.blocks.map((block: any) => {
+          const Component = blockComponents[block.collection];
+          // Если компонент не найден — пропускаем блок
+          if (!Component) return null;
+
+          return <Component {...block.item} />;
+        })
+      }
+    </div>
   </div>
 </Layout>
 
 <style>
   .page-wrapper {
     padding-top: 210px;
+  }
+
+  .about__blocks {
+    --flow-space: var(--spacing-50);
   }
 </style>

@@ -1,0 +1,108 @@
+---
+import LayoutContacts from '../layouts/LayoutContacts.astro';
+import { links } from '../lib/queries/social-link';
+---
+
+<LayoutContacts>
+  <div class="page-wrapper">
+    <div class="links">
+      <div class="links__inner wrapper">
+        {
+          links.map((item) => {
+            return (
+              <a class="label-large" href={item.link}>
+                {item.name}
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <div class="contacts__bg">
+      <div class="contacts__bg-inner">
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 1512 850"
+          preserveAspectRatio="xMidYMid slice"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M594.923 0.939453L1036.15 850.5H965.095L523.864 0.939453H594.923ZM1439.24 0.936523L1614.16 543.044L1614.27 543.391H1617.38L1617.49 543.044L1792.41 0.936523H2053.5V850.495H1852.08V321.126H1848.83L1848.72 321.482L1690.46 850.495H1541.18L1382.92 321.482L1382.82 321.126H1379.56V850.495H1178.15V0.936523H1439.24ZM741.694 489.068L419.921 850.495H335.596L710.627 429.248L741.694 489.068ZM-281.41 0.936523L-106.489 543.044L-106.378 543.391H-103.269L-103.156 543.044L71.7637 0.936523H332.854V850.495H131.436V321.126H128.182L128.075 321.482L-30.1816 850.495H-179.465L-337.721 321.482L-337.827 321.126H-341.081V850.495H-542.5V0.936523H-281.41ZM1176.69 0.5L833.571 385.873L802.504 326.053L1092.36 0.5H1176.69Z"
+            stroke="blue"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div class="contacts__footer">
+      <p class="contacts__address text-small">Нижний Новгород, Белинского 29А, офис 21</p>
+      <p class="contacts__caption caption text-color-secondary">
+        *Instagram — проект компании Meta Platforms Inc., признанной экстремистской организацией и
+        запрещённой в РФ
+      </p>
+      <a href="/" class="contacts__by text-small">Design by SHCH</a>
+    </div>
+  </div>
+</LayoutContacts>
+
+<style>
+  .page-wrapper {
+    height: 100vh;
+  }
+
+  .links {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .links__inner {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .contacts__bg {
+    position: absolute;
+    overflow: hidden;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .contacts__bg-inner {
+    height: 100%;
+    color: var(--color-bg-secondary);
+
+    svg {
+      fill: none;
+      stroke: var(--color-bg-secondary);
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .contacts__footer {
+    padding-inline: 1rem;
+    position: absolute;
+    left: 0;
+    bottom: 1rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .contacts__address {
+    justify-self: start;
+  }
+
+  .contacts__caption {
+    justify-self: center;
+  }
+
+  .contacts__by {
+    justify-self: end;
+  }
+</style>

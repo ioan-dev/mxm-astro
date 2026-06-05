@@ -1,0 +1,42 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import '../styles/main.css';
+
+interface Props {
+  isProject?: boolean;
+}
+
+const { isProject = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Title</title>
+    <meta name="description" content="description" />
+  </head>
+  <body class={isProject ? 'page-project' : ''}>
+    <Header />
+    <slot />
+  </body>
+</html>
+
+<style>
+  html {
+    scrollbar-gutter: auto;
+  }
+</style>
+
+<script>
+  import Lenis from 'lenis';
+  import 'lenis/dist/lenis.css';
+
+  const lenis = new Lenis({
+    autoRaf: true,
+  });
+
+  lenis.start();
+</script>
