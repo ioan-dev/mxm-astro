@@ -298,10 +298,8 @@ import Button from '../../components/Button.astro';
   }
 
   .projects__previews.is-active {
-    .frame {
-      &::after {
-        opacity: 0;
-      }
+    & > .frame > img {
+      filter: grayscale(0);
     }
   }
 
@@ -310,7 +308,6 @@ import Button from '../../components/Button.astro';
     color: var(--color-text-primary);
     pointer-events: none;
     z-index: 10;
-    /* opacity: 0; */
   }
 
   .frame {
@@ -318,16 +315,10 @@ import Button from '../../components/Button.astro';
     align-items: flex-start;
     position: relative;
 
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: #ffffff;
-      mix-blend-mode: hue;
-    }
-
     & > img {
       height: auto;
+      filter: grayscale(1);
+      transition: filter 0.2s ease;
     }
   }
 </style>
