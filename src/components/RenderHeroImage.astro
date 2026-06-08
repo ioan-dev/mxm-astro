@@ -15,7 +15,15 @@ const direction = index === 0 ? 'up' : 'down';
   data-hero-image={direction}
   data-frame-type="vh"
 >
-  <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${img.image}`} cdn="directus" />
+  <Image
+    alt=""
+    layout="fullWidth"
+    priority
+    breakpoints={[610, 1080, 1920]}
+    aspectRatio={247 / 353}
+    src={`${ASSETS_URL}/${img.image}`}
+    cdn="directus"
+  />
 </div>
 
 <style>

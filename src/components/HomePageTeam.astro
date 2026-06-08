@@ -41,7 +41,8 @@ const { headline = '', list } = Astro.props.item || [];
                     <div class="frame" data-frame-type="square">
                       <Image
                         alt=""
-                        layout="fullWidth"
+                        width={180}
+                        height={180}
                         src={`${ASSETS_URL}/${el.photo}`}
                         cdn="directus"
                       />

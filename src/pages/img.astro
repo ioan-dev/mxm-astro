@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ASSETS_URL } from '../lib/constants';
+import { Image } from '@unpic/astro';
+---
+
+<Layout>
+  <div class="page-wrapper">
+    <div class="wrapper-img">
+      <Image
+        alt=""
+        src={`${ASSETS_URL}/9ded16dd-cfc6-4075-8a01-9d436339d2d0`}
+        cdn="directus"
+        layout="fullWidth"
+        aspectRatio={9 / 16}
+      />
+    </div>
+
+    <div class="img-grid grid">
+      <div class="img-item">
+        <Image
+          alt=""
+          src={`${ASSETS_URL}/9ded16dd-cfc6-4075-8a01-9d436339d2d0`}
+          cdn="directus"
+          layout="fullWidth"
+        />
+      </div>
+      <div class="img-item">
+        <Image
+          alt=""
+          src={`${ASSETS_URL}/9ded16dd-cfc6-4075-8a01-9d436339d2d0`}
+          cdn="directus"
+          layout="fullWidth"
+        />
+      </div>
+      <div class="img-item">
+        <Image
+          alt=""
+          width={800}
+          height={400}
+          src={`${ASSETS_URL}/85eec27e-bbbf-4b7f-8b03-56a72fa32cb8`}
+          cdn="directus"
+          layout="constrained"
+        />
+      </div>
+      <div class="img-item">
+        <Image
+          alt=""
+          src={`${ASSETS_URL}/9ded16dd-cfc6-4075-8a01-9d436339d2d0`}
+          cdn="directus"
+          layout="fullWidth"
+        />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-wrapper {
+    padding-top: 200px;
+    min-height: 100vh;
+    /* width: 600px; */
+  }
+
+  .wrapper-img {
+    width: 200px;
+    height: 400px;
+
+    border: 1px solid blue;
+  }
+
+  .img-grid {
+    width: 100%;
+  }
+
+  .img-item {
+    grid-column: span 3;
+
+    img {
+      max-width: 100% !important;
+      max-height: 100% !important;
+      height: auto;
+    }
+  }
+
+  img {
+    border: 1px solid tomato;
+  }
+</style>

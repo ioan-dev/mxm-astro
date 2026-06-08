@@ -1,6 +1,6 @@
 ---
-import { Image } from '@unpic/astro/base';
 import { Icon } from 'astro-icon/components';
+import { Image } from '@unpic/astro';
 import { ASSETS_URL } from '../lib/constants';
 
 const { contents_block } = Astro.props.item || {};
@@ -54,7 +54,9 @@ const { contents_block } = Astro.props.item || {};
                           <div class="frame" data-frame-type="square">
                             <Image
                               alt=""
-                              layout="fullWidth"
+                              width={180}
+                              height={180}
+                              breakpoints={[610, 1080, 1920]}
                               src={`${ASSETS_URL}/${itemData.preview}`}
                               cdn="directus"
                             />

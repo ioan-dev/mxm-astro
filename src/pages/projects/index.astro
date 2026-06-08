@@ -99,12 +99,15 @@ import Button from '../../components/Button.astro';
                     data-location={loc}
                   >
                     {preview.map((item: any) => {
+                      if (!item.directus_files_id) return null;
                       return (
                         <div class="frame">
                           <Image
                             alt=""
-                            layout="fullWidth"
-                            src={`${ASSETS_URL}/${item.directus_files_id}`}
+                            layout="constrained"
+                            src={`${ASSETS_URL}/${item.directus_files_id.id}`}
+                            width={item.directus_files_id.width}
+                            height={item.directus_files_id.height}
                             cdn="directus"
                           />
                         </div>
@@ -295,6 +298,11 @@ import Button from '../../components/Button.astro';
     --flow-space: var(--spacing-12);
     --columns: 8;
     position: relative;
+
+    img {
+      max-width: 100% !important;
+      max-height: 100% !important;
+    }
   }
 
   .projects__previews.is-active {
