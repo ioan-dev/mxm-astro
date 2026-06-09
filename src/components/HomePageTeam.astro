@@ -7,7 +7,7 @@ const { headline = '', list } = Astro.props.item || [];
 <!--  TEAM-->
 <section class="team">
   <div class="wrapper">
-    <div class="team_inner flow">
+    <div class="team__inner flow">
       <h2 class="heading-medium">{headline}</h2>
       <div class="team__grid grid">
         <div class="team__show-wrapper">
@@ -59,7 +59,7 @@ const { headline = '', list } = Astro.props.item || [];
 </section>
 
 <style>
-  .team {
+  .team__inner {
     --flow-space: var(--spacing-8);
   }
   .team__show-wrapper {

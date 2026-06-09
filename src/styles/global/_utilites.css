@@ -48,6 +48,11 @@
 
 /* COMPOSITION */
 
+.flow > script,
+.flow > style {
+  display: none;
+}
+
 .flow > * + * {
   margin-block-start: var(--flow-space, 1em);
 }
