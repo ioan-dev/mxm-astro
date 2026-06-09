@@ -9,7 +9,7 @@ const allProjects = row.flatMap((rowItem: any) => {
 ---
 
 <section class="projects" data-animation="favorites">
-  <div class="wrapper">
+  <div class="projects__wrapper wrapper flow">
     <h2 class="heading-medium">{headline}</h2>
     <div class="grid">
       {
@@ -42,6 +42,9 @@ const allProjects = row.flatMap((rowItem: any) => {
 </section>
 
 <style>
+  .projects__wrapper {
+    --flow-space: var(--spacing-8);
+  }
   .projects__card {
     grid-column: span 2;
     cursor: pointer;
