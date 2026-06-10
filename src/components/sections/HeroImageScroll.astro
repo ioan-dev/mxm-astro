@@ -196,7 +196,7 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
         // -------- tlMoveImage End --------
 
         let logo = document.querySelector('.logo');
-        let logoText = document.querySelector('.logo__letter');
+        let logoText = document.querySelector('.logo__text');
 
         let tlLogoScale = gsap.timeline({
           scrollTrigger: {
@@ -209,7 +209,7 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
 
         tlLogoScale
           .to(logo, { scale: 0.4, duration: 1, transformOrigin: 'top left' })
-          .to(logoText, { autoAlpha: 0, yPercent: -300 }, '<');
+          .to(logoText, { autoAlpha: 0 }, '<');
       }
     });
   }
