@@ -2,37 +2,78 @@
 import { safeJsonDebug } from '../../utils/jsonHelpers';
 import { ASSETS_URL } from '../../lib/constants';
 import RenderHeroImage from '../RenderHeroImage.astro';
+import { Image } from '@unpic/astro';
+import { render } from 'astro:content';
 
 // Получаем данные блока hero
-const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.props.item || {};
+const {
+  headline = '',
+  images_wrapper = [],
+  images_wrapper_2 = [],
+  images_mobile = [],
+} = Astro.props.item || {};
 ---
 
-<section class="hero-scroll">
-  <div class="hero-scroll__inner grid">
-    <div class="hero-scroll__item">
-      <h1 class="hero-scroll__heading heading-medium">
-        {headline}
-      </h1>
-    </div>
+<div class="hero">
+  <div class="hero-scroll">
+    <div class="hero-scroll__inner grid">
+      <div class="hero-scroll__item">
+        <h1 class="hero-scroll__heading heading-medium">
+          {headline}
+        </h1>
+      </div>
 
-    <div class="hero-scroll__item">
-      {
-        images_wrapper.map((wrapper: any, index: number) => (
-          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} index={index} />
-        ))
-      }
-    </div>
+      <div class="hero-scroll__item">
+        {
+          images_wrapper.map((wrapper: any, index: number) => (
+            <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} index={index} />
+          ))
+        }
+      </div>
 
-    <div class="hero-scroll__item">
-      {
-        images_wrapper_2.map((wrapper: any, index: number) => (
-          <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} index={index} />
-        ))
-      }
+      <div class="hero-scroll__item">
+        {
+          images_wrapper_2.map((wrapper: any, index: number) => (
+            <RenderHeroImage imageData={wrapper} ASSETS_URL={ASSETS_URL} index={index} />
+          ))
+        }
+      </div>
+    </div>
+    <div class="hero-scroll__spacer"></div>
+  </div>
+
+  <div class="hero-mobile">
+    <div class="hero-mobile__inner container">
+      <h1 class="hero-mobile__title heading-large">{headline}</h1>
+      <div class="hero-mobile__footer">
+        <p class="hero-mobile__text">WHERE THOUGHTS BECOME</p>
+        <p class="hero-mobile__text">SPACE</p>
+      </div>
+    </div>
+    <div class="hero-mobile__slider">
+      <div class="swiper hero-mobile__swiper">
+        <div class="swiper-wrapper">
+          {
+            images_mobile.map((slide: any) => {
+              return (
+                <div class="swiper-slide">
+                  <div class="frame">
+                    <Image
+                      alt=""
+                      layout="fullWidth"
+                      src={`${ASSETS_URL}/${slide.directus_files_id.id}`}
+                      cdn="directus"
+                    />
+                  </div>
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
     </div>
   </div>
-  <div class="hero-scroll__spacer"></div>
-</section>
+</div>
 
 <style>
   .hero-scroll {
@@ -75,6 +116,88 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  @media (--tablet-above) {
+    .hero-mobile {
+      display: none;
+    }
+  }
+
+  /* Responsive */
+  @media (--tablet) {
+    .hero-scroll {
+      display: none;
+    }
+
+    .hero-mobile {
+      position: relative;
+      display: block;
+      height: calc(var(--vh, 1vh) * 100);
+      padding-block: 16px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .hero-mobile__swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-mobile__inner {
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding-inline: var(--spacing-4);
+    }
+
+    .hero-mobile__title {
+      margin-top: auto;
+      margin-bottom: auto;
+
+      max-width: 368px;
+    }
+
+    .hero-mobile__footer {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      width: 100%;
+      padding-inline: 16px;
+      left: 0;
+      bottom: 0;
+    }
+
+    .hero-mobile__slider {
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+
+      &:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #000;
+        opacity: 0.5;
+      }
+
+      .frame {
+        height: 100%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
     }
   }
 
@@ -142,8 +265,9 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
 </script> -->
 
 <script>
+  import Swiper from 'swiper/bundle';
+  import 'swiper/css';
   import { gsap } from 'gsap';
-
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
@@ -215,4 +339,18 @@ const { headline = '', images_wrapper = [], images_wrapper_2 = [] } = Astro.prop
   }
 
   scrollingAnimation();
+
+  heroSlider();
+
+  function heroSlider() {
+    let swiper = new Swiper('.hero-mobile__swiper', {
+      direction: 'vertical',
+      autoplay: false,
+      speed: 800,
+      loop: true,
+      allowTouchMove: false,
+    });
+
+    return swiper;
+  }
 </script>

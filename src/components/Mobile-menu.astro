@@ -1,0 +1,77 @@
+---
+import ButtonLink from './Button-link.astro';
+import { links } from '../lib/queries/nav-links';
+---
+
+<div class="mobile-menu">
+  <div class="mobile-menu__header"></div>
+  <div class="mobile-menu__links">
+    {
+      links.map((item) => {
+        return (
+          <a class="mobile-menu__link label-large text-color-secondary" href={item.slug}>
+            {item.name}
+          </a>
+        );
+      })
+    }
+  </div>
+
+  <div class="mobile-menu__buttons">
+    <ButtonLink iconLeft="light-theme" data-theme>Светлая тема</ButtonLink>
+  </div>
+</div>
+
+<style>
+  .mobile-menu {
+    padding: var(--spacing-4);
+
+    position: fixed;
+    inset: 0;
+    background-color: var(--color-bg-primary);
+
+    opacity: 0;
+    visibility: hidden;
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-menu--active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-menu__links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 6px;
+  }
+
+  .mobile-menu__buttons {
+    position: absolute;
+    left: 50%;
+    bottom: var(--spacing-4);
+    transform: translateX(-50%);
+  }
+</style>
+
+<script>
+  const menu = document.querySelector('.mobile-menu');
+  const burger = document.querySelector('.header__burger');
+  const close = document.querySelector('.header__close');
+
+  // Универсальная функция: isOpen = true (открыть) или false (закрыть)
+  function toggleMenu(isOpen: boolean) {
+    menu?.classList.toggle('mobile-menu--active', isOpen);
+    burger?.classList.toggle('header__burger-hide', isOpen);
+    close?.classList.toggle('header__close--show', isOpen);
+  }
+
+  burger?.addEventListener('click', () => toggleMenu(true));
+  close?.addEventListener('click', () => toggleMenu(false));
+</script>

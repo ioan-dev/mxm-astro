@@ -12,6 +12,8 @@ import HomePageSecvices from '../components/HomePageServices.astro';
 import HomePageForm from '../components/HomePageForm.astro';
 import Preloader from '../components/Preloader.astro';
 import LayoutHome from '../layouts/LayoutHome.astro';
+import Modal from '../components/Modal.astro';
+import MobileMenu from '../components/Mobile-menu.astro';
 
 // Один вызов — вся логика скрыта в отдельном файле
 const page = await getHomePage();
@@ -30,7 +32,7 @@ const BlockComponents = {
 ---
 
 <!-- <pre>
-  {safeJsonDebug(socialLinks )}
+  {safeJsonDebug(blocks )}
 </pre> -->
 <LayoutHome>
   <div class="page-wrapper flow flow-space-large">
@@ -53,10 +55,20 @@ const BlockComponents = {
   </div>
 
   <Preloader />
+  <MobileMenu />
+  <Modal />
 </LayoutHome>
 
 <style>
   .page-wrapper {
     overflow: clip;
+  }
+
+  /* Responsive */
+
+  @media (--tablet) {
+    .page-wrapper {
+      /* padding-top: 100px; */
+    }
   }
 </style>

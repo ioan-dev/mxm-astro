@@ -46,8 +46,7 @@ h1,
 
 h2,
 h3,
-.heading-medium,
-.heading-small {
+.heading-medium {
   font-family: var(--font-vela);
   font-weight: 600;
   line-height: var(--lh-small);
@@ -64,12 +63,12 @@ h3,
 
 .text-small {
   font-size: 15px;
-  line-height: var(--lh-small);
 }
 
 .text-medium {
   font-size: 20px;
 }
+
 :is(.label-large, .label-medium, .label-small) {
   line-height: var(--lh-small);
 }
@@ -89,4 +88,56 @@ h3,
 .caption {
   font-size: 8px;
   line-height: var(--lh-small);
+}
+
+/* TABLET */
+
+@media (--tablet) {
+  body {
+    font-size: 11px;
+  }
+  .display-large {
+    font-family: var(--font-vela);
+    font-weight: 600;
+    line-height: var(--lh-medium);
+    letter-spacing: var(--ls-medium);
+    font-size: 23px;
+  }
+
+  .display-medium {
+    font-size: 46px;
+  }
+
+  .heading-large {
+    font-family: var(--font-vela);
+    font-weight: 600;
+    line-height: var(--lh-small);
+    letter-spacing: var(--ls-medium);
+    font-size: 28px;
+  }
+  .heading-medium {
+    font-size: 18px;
+  }
+
+  .text-large {
+    font-size: 13px;
+  }
+  .text-medium {
+    font-size: 11px;
+  }
+  .text-small {
+    font-size: 9px;
+  }
+
+  .label-large {
+    font-size: 18px;
+  }
+
+  .label-medium {
+    font-size: 11px;
+  }
+
+  .label-small {
+    font-size: 9px;
+  }
 }

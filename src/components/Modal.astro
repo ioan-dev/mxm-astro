@@ -1,0 +1,45 @@
+---
+
+---
+
+<div class="modal">
+  <p class="modal__caption caption text-color-secondary">
+    *Instagram — проект компании Meta Platforms Inc., признанной экстремистской организацией и
+    запрещённой в РФ
+  </p>
+</div>
+
+<style>
+  .modal {
+    width: 100%;
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 13, 13, 0.9);
+    backdrop-filter: blur(50px);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .modal--active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal__caption {
+    position: absolute;
+    left: 50%;
+    bottom: var(--spacing-3);
+    transform: translateX(-50%);
+  }
+</style>
+
+<script>
+  let modal = document.querySelector('.modal');
+
+  let btnHeader = document.querySelector('[data-header="modal"]');
+
+  btnHeader?.addEventListener('click', () => {
+    modal?.classList.toggle('modal--active');
+  });
+</script>

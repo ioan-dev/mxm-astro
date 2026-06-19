@@ -1,20 +1,20 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { HTMLAttributes } from 'astro/types';
 
-type ButtonProps = HTMLAttributes<"button"> & { href?: never };
-type AnchorProps = HTMLAttributes<"a"> & { href: string };
+type ButtonProps = HTMLAttributes<'button'> & { href?: never };
+type AnchorProps = HTMLAttributes<'a'> & { href: string };
 
 type Props = {
-  size?: "medium" | "large";
+  size?: 'medium' | 'large';
 } & (ButtonProps | AnchorProps);
 
-const { size = "medium", class: className, ...rest } = Astro.props;
+const { size = 'medium', class: className, ...rest } = Astro.props;
 
-const isLink = "href" in rest;
-const Tag = isLink ? "a" : "button";
+const isLink = 'href' in rest;
+const Tag = isLink ? 'a' : 'button';
 ---
 
-<Tag class:list={["button", className]} data-size={size} {...rest as any}>
+<Tag class:list={['button', className]} data-size={size} {...rest as any}>
   <slot />
 </Tag>
 
@@ -42,14 +42,28 @@ const Tag = isLink ? "a" : "button";
       }
     }
 
-    &[data-size="medium"] {
+    &[data-size='medium'] {
       padding-block: var(--spacing-2);
       padding-inline: var(--spacing-4);
     }
 
-    &[data-size="large"] {
+    &[data-size='large'] {
       padding-block: var(--spacing-4);
       padding-inline: var(--spacing-4);
+    }
+  }
+
+  /* Responsive */
+
+  @media (--tablet) {
+    .button {
+      width: 100%;
+      font-size: 9px;
+
+      &[data-size='large'] {
+        padding-block: var(--spacing-3);
+        padding-inline: var(--spacing-3);
+      }
     }
   }
 </style>

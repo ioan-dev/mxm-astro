@@ -2,6 +2,7 @@
 import { links } from '../lib/queries/nav-links';
 import ButtonLink from './Button-link.astro';
 import Logo from './Logo.astro';
+import { Icon } from 'astro-icon/components';
 ---
 
 <header class="header">
@@ -27,7 +28,13 @@ import Logo from './Logo.astro';
 
     <div class="header__buttons">
       <ButtonLink iconLeft="light-theme" data-theme> Светлая тема </ButtonLink>
-      <ButtonLink iconRight="move-right-link">Связаться</ButtonLink>
+      <ButtonLink iconRight="move-right-link" data-header="modal">Связаться</ButtonLink>
+    </div>
+    <div class="header__burger">
+      <Icon name="menu" />
+    </div>
+    <div class="header__close">
+      <Icon name="close" />
     </div>
   </div>
 </header>
@@ -64,19 +71,70 @@ import Logo from './Logo.astro';
       }
     }
 
-    .header__buttons {
+    /* .header__buttons {
       grid-column: 9 / -1;
       display: flex;
       justify-content: space-between;
       row-gap: var(--spacing-4);
-    }
+    } */
   }
 
-  & :is(.button-link, .header__nav-link) {
+  .header__buttons {
+    grid-column: 9 / -1;
+    display: flex;
+    justify-content: space-between;
+    row-gap: var(--spacing-4);
+  }
+
+  & :is(.button-link, .header__nav-link, .header__burger, .header__close) {
     pointer-events: auto;
   }
 
   .header__logo {
     grid-column: span 4;
+  }
+
+  .header__burger-hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* Responsive */
+
+  @media (--tablet-above) {
+    .header__burger,
+    .header__close {
+      display: none;
+    }
+  }
+
+  @media (--tablet) {
+    .header__logo {
+      grid-column: span 2;
+    }
+    nav {
+      display: none;
+    }
+    .header__buttons {
+      display: none;
+    }
+
+    .header__burger,
+    .header__close {
+      --icon-size: var(--icon-size-large);
+      position: absolute;
+      top: var(--spacing-4);
+      right: var(--spacing-4);
+    }
+
+    .header__close {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .header__close--show {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 </style>

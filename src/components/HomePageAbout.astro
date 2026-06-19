@@ -4,8 +4,10 @@ import { ASSETS_URL } from '../lib/constants';
 import { Image } from '@unpic/astro';
 import Button from './Button.astro';
 
-const { editor, images, button_group } = Astro.props.item || {};
-const buttons = button_group?.buttons || [];
+const { editor, images, button_for_section } = Astro.props.item || {};
+let btn = button_for_section;
+const { label, type, page } = btn;
+const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
 ---
 
 <section class="about">
@@ -163,6 +165,27 @@ const buttons = button_group?.buttons || [];
             </span>
           </div>
         </div>
+        <div class="about__headline-mobile">
+          <svg viewBox="0 0 288 74" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M130.958 18.968L118.352 32.9998H115L129.723 16.6114L130.958 18.968Z"
+              fill="currentColor"></path>
+            <path
+              d="M134.526 14.9973L133.291 12.6408L144.648 0H148L134.526 14.9973Z"
+              fill="currentColor"></path>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M139.665 33L122.379 0.017055L125.203 0.0170555L142.489 33H139.665Z"
+              fill="currentColor"></path>
+            <path
+              d="M17.7979 22.1699H18.1768L27.332 0H36.0195V33H29.1592V11.5166H28.8916L20.2705 32.8447H15.6377L7.08398 11.4727H6.81641V33H0V0H8.66504L17.7979 22.1699ZM45.9072 33H38.8447V0H45.9072V33ZM69.0488 20.7529H69.3359V0H76.2773V33H70.2646L55.9619 12.248H55.6738V33H48.7324V0H54.834L69.0488 20.7529ZM90.9414 0C94.273 1.54008e-05 97.1383 0.664356 99.5371 1.99316C101.936 3.30726 103.78 5.1973 105.068 7.66309C106.357 10.114 107 13.0523 107 16.4775C107 19.9177 106.349 22.8712 105.046 25.3369C103.758 27.8026 101.907 29.7004 99.4932 31.0293C97.0795 32.3434 94.1914 33 90.8301 33H79.1025V0H90.9414ZM86.0771 27.0205H90.5195C92.6072 27.0205 94.3541 26.658 95.7607 25.9346C97.1823 25.1963 98.2492 24.0523 98.96 22.502C99.6855 20.9369 100.048 18.9284 100.048 16.4775C100.048 14.0415 99.6855 12.0483 98.96 10.498C98.2492 8.9477 97.1823 7.81041 95.7607 7.08691C94.3541 6.34884 92.6138 5.97949 90.541 5.97949H86.0771V27.0205Z"
+              fill="currentColor"></path>
+            <path
+              d="M132.759 63.1699H133.136L142.271 41H150.939V74H144.094V52.5166H143.827L135.226 73.8457H130.603L122.067 52.4727H121.801V74H115V41H123.646L132.759 63.1699ZM184.06 74H176.624L174.177 66.4697H162.253L159.806 74H152.349L163.723 41H172.707L184.06 74ZM234.444 46.7588H224.337V74H217.443V46.7588H197.207V74H190.313V46.7588H180.184V41H234.444V46.7588ZM259.063 46.7588H243.597V54.5107H257.898V60.1582H243.597V68.2422H259.108V74H236.559V41H259.063V46.7588ZM274.953 41C277.453 41 279.583 41.4432 281.344 42.3291C283.119 43.2149 284.472 44.4698 285.404 46.0938C286.351 47.7032 286.825 49.6009 286.825 51.7861C286.825 53.9714 286.351 55.8537 285.404 57.4336C284.458 59.0135 283.082 60.2248 281.277 61.0664C281.18 61.1114 281.081 61.1547 280.981 61.1973L288.001 74H280.278L274.006 62.3066H268.896V74H261.928V41H274.953ZM164.023 61.0215H172.406L168.348 48.5303H168.082L164.023 61.0215ZM268.896 56.7031H273.644C274.99 56.7031 276.1 56.5185 276.973 56.1494C277.86 55.7803 278.518 55.234 278.947 54.5107C279.391 53.7872 279.613 52.8788 279.613 51.7861C279.613 50.6787 279.391 49.7558 278.947 49.0176C278.518 48.2647 277.86 47.6964 276.973 47.3125C276.085 46.9139 274.968 46.7139 273.622 46.7139H268.896V56.7031Z"
+              fill="currentColor"></path>
+          </svg>
+        </div>
       </div>
 
       <div class="about__body">
@@ -172,24 +195,29 @@ const buttons = button_group?.buttons || [];
             <span class="text-small" data-js-time>00:00</span>
             <span class="text-small">GMT +3</span>
           </div>
+
           {
-            buttons.map((btn: any) => {
-              const { label, type, page } = btn;
-
-              // Если это ссылка на страницу
-              if (type === 'page' && page?.slug) {
-                return (
-                  <Button href={page.slug} size="medium">
-                    {label}
-                  </Button>
-                );
-              }
-
-              // Если вдруг будет просто кнопка (без ссылки)
-              return <Button size="medium">{label}</Button>;
-            })
+            btnHref ? (
+              <Button href={btnHref} size="medium">
+                {label}
+              </Button>
+            ) : (
+              <Button size="medium">{label}</Button>
+            )
           }
         </div>
+      </div>
+
+      <div class="about__mobile-btn">
+        {
+          btnHref ? (
+            <Button href={btnHref} size="medium">
+              {label}
+            </Button>
+          ) : (
+            <Button size="medium">{label}</Button>
+          )
+        }
       </div>
     </div>
   </div>
@@ -263,6 +291,67 @@ const buttons = button_group?.buttons || [];
     & svg {
       width: 100%;
       height: 100%;
+    }
+  }
+
+  /* Responsive */
+
+  @media (--tablet-above) {
+    .about__headline-mobile {
+      display: none;
+    }
+
+    .about__mobile-btn {
+      display: none;
+    }
+  }
+
+  @media (--tablet) {
+    .about {
+      padding-top: 32px;
+    }
+    .about__content {
+      margin-top: 0px;
+    }
+
+    .about__images {
+      display: none;
+    }
+
+    .about__time {
+      display: none;
+    }
+    .about__headline-wrapper {
+      grid-column: span 4;
+    }
+
+    .about__headline-mobile {
+      svg {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .about__headline {
+      display: none;
+    }
+
+    .about__word-wrapper {
+      display: none;
+    }
+    .about__body {
+      grid-column: span 4;
+      max-width: 214px;
+      padding-top: 32px;
+    }
+
+    .about__footer {
+      display: none;
+    }
+
+    .about__mobile-btn {
+      grid-column: span 4;
+      padding-top: var(--spacing-8);
     }
   }
 </style>

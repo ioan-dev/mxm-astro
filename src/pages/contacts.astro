@@ -105,4 +105,24 @@ import { links } from '../lib/queries/social-link';
   .contacts__by {
     justify-self: end;
   }
+
+  /* Responsive */
+
+  @media (--tablet) {
+    .links__inner {
+      flex-direction: column;
+      row-gap: var(--spacing-2);
+    }
+
+    .contacts__footer {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      row-gap: 6px;
+    }
+
+    .contacts__by {
+      order: -1;
+    }
+  }
 </style>

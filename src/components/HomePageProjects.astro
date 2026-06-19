@@ -1,17 +1,20 @@
 ---
 import { ASSETS_URL } from '../lib/constants';
 import { Image } from '@unpic/astro';
-
-const { headline, row } = Astro.props.item || {};
+import Button from './Button.astro';
+const { headline, row, button } = Astro.props.item || {};
 const allProjects = row.flatMap((rowItem: any) => {
   return rowItem?.item?.content || [];
 });
+
+const { label, type, page } = button;
+const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
 ---
 
 <section class="projects" data-animation="favorites">
   <div class="projects__wrapper wrapper flow">
     <h2 class="heading-medium">{headline}</h2>
-    <div class="grid">
+    <div class="projects__desktop grid">
       {
         allProjects.map((projectWrapper: any, index: any) => {
           const data = projectWrapper?.item; // основная информация карточки
@@ -38,6 +41,42 @@ const allProjects = row.flatMap((rowItem: any) => {
         })
       }
     </div>
+    <div class="projects__mobile grid">
+      {
+        allProjects.map((projectWrapper: any, index: any) => {
+          const data = projectWrapper?.item; // основная информация карточки
+          const previewId = data?.preview;
+          const project = data?.project;
+
+          return (
+            <div class="projects__card" data-case={project.title}>
+              <div class="projects__overlay-wrapper">
+                <div class="frame">
+                  <Image
+                    alt=""
+                    layout="fullWidth"
+                    src={`${ASSETS_URL}/${previewId}`}
+                    cdn="directus"
+                  />
+                </div>
+              </div>
+              <div class="projects__text-wrapper">
+                <h3 class="projects__text text-medium">{project.title} </h3>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+    {
+      btnHref ? (
+        <Button href={btnHref} size="medium">
+          {label}
+        </Button>
+      ) : (
+        <Button size="medium">{label}</Button>
+      )
+    }
   </div>
 </section>
 
@@ -50,28 +89,6 @@ const allProjects = row.flatMap((rowItem: any) => {
     cursor: pointer;
   }
 
-  .projects__card--active {
-    .projects__overlay-wrapper::before {
-      opacity: 0;
-    }
-
-    .projects__text {
-      transform: translateY(0);
-    }
-  }
-
-  .projects__overlay-wrapper {
-    position: relative;
-
-    &::before {
-      position: absolute;
-      inset: 0;
-      content: '';
-      background: rgba(13, 13, 13, 0.8);
-      transition: opacity 0.4s ease;
-    }
-  }
-
   .projects__text-wrapper {
     display: flex;
     padding-left: 4px;
@@ -79,9 +96,49 @@ const allProjects = row.flatMap((rowItem: any) => {
     overflow: hidden;
   }
 
-  .projects__text {
-    transform: translateY(101%);
-    transition: transform 0.4s ease;
+  /* Responsive */
+
+  @media (--tablet-above) {
+    .projects__overlay-wrapper {
+      position: relative;
+
+      &::before {
+        position: absolute;
+        inset: 0;
+        content: '';
+        background: rgba(13, 13, 13, 0.8);
+        transition: opacity 0.4s ease;
+      }
+    }
+
+    .projects__card--active {
+      .projects__overlay-wrapper::before {
+        opacity: 0;
+      }
+
+      .projects__text {
+        transform: translateY(0);
+      }
+    }
+
+    .projects__text {
+      transform: translateY(101%);
+      transition: transform 0.4s ease;
+    }
+  }
+
+  @media (--tablet) {
+    .projects__wrapper {
+      --flow-space: var(--spacing-4);
+    }
+
+    .projects__desktop {
+      display: none;
+    }
+
+    .projects__mobile {
+      row-gap: var(--spacing-4);
+    }
   }
 </style>
 

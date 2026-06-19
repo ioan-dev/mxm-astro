@@ -1,7 +1,12 @@
 ---
 import { ASSETS_URL } from '../lib/constants';
 import { Image } from '@unpic/astro';
-const { headline = '', list } = Astro.props.item || [];
+import Button from './Button.astro';
+const { headline = '', list, button } = Astro.props.item || [];
+
+let btn = button;
+const { label, type, page } = btn;
+const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
 ---
 
 <!--  TEAM-->
@@ -31,29 +36,152 @@ const { headline = '', list } = Astro.props.item || [];
             })
           }
         </div>
-
-        <div class="team__miniatures">
-          {
-            list.map((el: any, index: number) => {
-              if (el.type === 'Сотрудник') {
-                return (
-                  <div class="team__item" data-team-name={el.name} data-team-post={el.position}>
-                    <div class="frame" data-frame-type="square">
-                      <Image
-                        alt=""
-                        layout="fullWidth"
-                        aspectRatio={1 / 1}
-                        sizes="(max-width: 720px) 100vw, 50vw"
-                        breakpoints={[320, 720, 1440]}
-                        src={`${ASSETS_URL}/${el.photo}`}
-                        cdn="directus"
-                      />
+        <div class="team__miniatures-wrapper">
+          <div class="team__miniatures">
+            {
+              list.map((el: any, index: number) => {
+                if (el.type === 'Сотрудник') {
+                  return (
+                    <div class="team__item" data-team-name={el.name} data-team-post={el.position}>
+                      <div class="frame" data-frame-type="square">
+                        <Image
+                          alt=""
+                          layout="fullWidth"
+                          aspectRatio={1 / 1}
+                          sizes="(max-width: 720px) 100vw, 50vw"
+                          breakpoints={[320, 720, 1440]}
+                          src={`${ASSETS_URL}/${el.photo}`}
+                          cdn="directus"
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              }
-            })
-          }
+                  );
+                }
+              })
+            }
+          </div>
+          <div class="team__button-wrapper">
+            {
+              btnHref ? (
+                <Button href={btnHref} size="medium">
+                  {label}
+                </Button>
+              ) : (
+                <Button size="medium">{label}</Button>
+              )
+            }
+          </div>
+        </div>
+      </div>
+      <div class="team__slider-mobile">
+        <div class="swiper team__slider-main">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+
+            {
+              list.map((el: any, index: number) => {
+                if (el.type === 'Сотрудник') {
+                  return (
+                    <div class="swiper-slide">
+                      <div class="team__slider-card">
+                        <div class="team__slider-image">
+                          <div class="frame" data-frame-type="square">
+                            <Image
+                              alt=""
+                              layout="fullWidth"
+                              aspectRatio={1 / 1}
+                              sizes="(max-width: 720px) 100vw, 50vw"
+                              breakpoints={[320]}
+                              src={`${ASSETS_URL}/${el.photo}`}
+                              cdn="directus"
+                            />
+                          </div>
+                        </div>
+                        <div class="team__slider-text-wrapper">
+                          <p class="text-small line-height-large">{el.name}</p>
+                          <p class="text-small line-height-large text-color-secondary">
+                            {el.position}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              })
+            }
+          </div>
+        </div>
+
+        {
+          btnHref ? (
+            <Button href={btnHref} size="medium">
+              {label}
+            </Button>
+          ) : (
+            <Button size="medium">{label}</Button>
+          )
+        }
+      </div>
+      <div class="team__slider-buttons">
+        <button class="team__slider-prev-btn">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 34 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21.0016 28.5002L10 17.0002L21.0016 5.50024L24 8.63441L15.8353 17.0002L24 25.3661L21.0016 28.5002Z"
+              fill="#FBFBFB"></path>
+          </svg>
+        </button>
+
+        <button class="team__slider-next-btn">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 34 34"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.9984 28.5L10 25.3658L18.1647 17L10 8.63417L12.9984 5.5L24 17L12.9984 28.5Z"
+              fill="#FBFBFB"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="team__slider-miniatures">
+        <div class="swiper">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+
+            {
+              list.map((el: any, index: number) => {
+                if (el.type === 'Сотрудник') {
+                  return (
+                    <div class="swiper-slide">
+                      <div class="team__slider-miniatures-card">
+                        <div class="frame" data-frame-type="square">
+                          <Image
+                            alt=""
+                            layout="fullWidth"
+                            aspectRatio={1 / 1}
+                            sizes="(max-width: 720px) 100vw, 50vw"
+                            breakpoints={[320]}
+                            src={`${ASSETS_URL}/${el.photo}`}
+                            cdn="directus"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              })
+            }
+          </div>
         </div>
       </div>
     </div>
@@ -93,8 +221,14 @@ const { headline = '', list } = Astro.props.item || [];
     overflow: hidden;
   }
 
-  .team__miniatures {
+  .team__miniatures-wrapper {
     grid-column: 5 / span 8;
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-8);
+  }
+
+  .team__miniatures {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     align-content: start;
@@ -120,10 +254,329 @@ const { headline = '', list } = Astro.props.item || [];
       opacity: 0;
     }
   }
+
+  .team__button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* Responsive */
+
+  @media (--tablet-above) {
+    .team__slider-mobile,
+    .team__slider-buttons,
+    .team__slider-miniatures {
+      display: none;
+    }
+  }
+
+  @media (--tablet) {
+    .team {
+      position: relative;
+    }
+
+    :is(.team__miniatures, .team__show-wrapper, .team__miniatures-wrapper) {
+      display: none;
+    }
+
+    .team__inner {
+      --flow-space: var(--spacing-2);
+    }
+
+    .team__slider-mobile {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      row-gap: 24px;
+
+      .frame {
+        width: 368px;
+        height: 368px;
+
+        img {
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .team__slider-main {
+      max-width: 368px;
+      background: var(--color-bg-primary);
+    }
+
+    .team__slider-card {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+    }
+
+    .team__slider-miniatures {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 43%;
+      z-index: -1;
+      transform: translateY(-50%);
+
+      .team__slider-miniatures-card {
+        position: relative;
+
+        &:after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--color-bg-primary);
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .team__slider-buttons {
+      /* padding-inline: 45px; */
+      position: absolute;
+      top: 44%;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      z-index: 20;
+      transform: translateY(-50%);
+      pointer-events: none;
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        height: 368px;
+        width: 40px;
+        opacity: 0.6;
+        z-index: 10;
+        transform: translateY(-50%);
+      }
+
+      &:after {
+        left: 0;
+        background: linear-gradient(90deg, #0d0d0d 0%, rgba(13, 13, 13, 0) 100%);
+      }
+
+      &:before {
+        right: 0;
+        background: linear-gradient(270deg, #0d0d0d 0%, rgba(13, 13, 13, 0) 100%);
+      }
+    }
+
+    /* Стилизуем как хотим */
+    .team__slider-prev-btn,
+    .team__slider-next-btn {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      background: transparent;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      pointer-events: auto;
+      z-index: 20;
+    }
+  }
+
+  @media (--mobile) {
+    .team__slider-mobile {
+    }
+    .team__slider-main {
+      max-width: 140px;
+      background: var(--color-bg-primary);
+    }
+    .team__slider-card {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+    }
+    .team__slider-image {
+      width: 140px;
+      height: 140px;
+
+      .frame {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .team__slider-buttons {
+      padding-inline: 8px;
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        height: 140px;
+        width: 40px;
+        opacity: 0.6;
+        z-index: 10;
+        transform: translateY(-50%);
+      }
+    }
+
+    /* Стилизуем как хотим */
+    .team__slider-prev-btn,
+    .team__slider-next-btn {
+      width: 24px;
+      height: 24px;
+    }
+  }
 </style>
 
+<!-- <script>
+  import Swiper from 'swiper/bundle';
+  import 'swiper/css/bundle';
+  import { teamGridAnimation } from '../modules/teamGridAnimation';
+
+  // type="module" выполняется после парсинга всего HTML (как defer),
+  // поэтому можно вызывать сразу, без DOMContentLoaded / astro:page-load
+  teamGridAnimation();
+  teamSlidersInit();
+
+  function teamSlidersInit() {
+    const mediaQuery = window.matchMedia('(max-width: 1023px)');
+
+    let teamSlider = null;
+    let teamSliderMiniatures = null;
+
+    function enableSliders() {
+      if (!teamSlider && !teamSliderMiniatures) {
+        teamSliderMiniatures = new Swiper('.team__slider-miniatures .swiper', {
+          loop: false,
+          slidesPerView: 5,
+          breakpoints: {
+            768: { slidesPerView: 5 },
+          },
+        });
+
+        teamSlider = new Swiper('.team__slider-main', {
+          loop: true,
+          speed: 300,
+          spaceBetween: 10,
+          navigation: {
+            nextEl: '.team__slider-next-btn',
+            prevEl: '.team__slider-prev-btn',
+          },
+          thumbs: {
+            swiper: teamSliderMiniatures,
+          },
+        });
+      }
+    }
+
+    function disableSliders() {
+      if (teamSlider) {
+        teamSlider.destroy(true, true);
+        teamSlider = null;
+      }
+      if (teamSliderMiniatures) {
+        teamSliderMiniatures.destroy(true, true);
+        teamSliderMiniatures = null;
+      }
+    }
+
+    function handleMediaChange(e) {
+      if (e.matches) {
+        enableSliders();
+      } else {
+        disableSliders();
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    if (mediaQuery.matches) {
+      enableSliders();
+    }
+  }
+</script> -->
+
 <script>
+  import Swiper from 'swiper/bundle';
+  import 'swiper/css';
   import { teamGridAnimation } from '../modules/teamGridAnimation';
 
   document.addEventListener('DOMContentLoaded', teamGridAnimation);
+
+  teamSlidersInit();
+
+  function teamSlidersInit() {
+    const mediaQuery = window.matchMedia('(max-width: 1023px)');
+
+    let teamSlider = null;
+    let teamSliderMiniatures = null;
+
+    function enableSliders() {
+      // Инициализируем слайдеры только если они ещё не созданы
+      if (!teamSlider && !teamSliderMiniatures) {
+        teamSliderMiniatures = new Swiper('.team__slider-miniatures .swiper', {
+          loop: true,
+          slidesPerView: 6,
+          breakpoints: {
+            768: {
+              slidesPerView: 6,
+            },
+          },
+        });
+
+        teamSlider = new Swiper('.team__slider-main', {
+          loop: true,
+          navigation: {
+            nextEl: '.team__slider-next-btn',
+            prevEl: '.team__slider-prev-btn',
+          },
+          speed: 300,
+          spaceBetween: 10,
+          on: {
+            slideNextTransitionStart: function () {
+              teamSliderMiniatures.slideNext();
+            },
+            slidePrevTransitionStart: function () {
+              teamSliderMiniatures.slidePrev();
+            },
+          },
+        });
+      }
+    }
+
+    function disableSliders() {
+      // Уничтожаем слайдеры, если они существуют
+      if (teamSlider) {
+        teamSlider.destroy(true, true);
+        teamSlider = null;
+      }
+      if (teamSliderMiniatures) {
+        teamSliderMiniatures.destroy(true, true);
+        teamSliderMiniatures = null;
+      }
+    }
+
+    function handleMediaChange(e) {
+      if (e.matches) {
+        // Экран <= 1023px - включаем слайдеры
+        enableSliders();
+      } else {
+        // Экран > 1023px - выключаем слайдеры
+        disableSliders();
+      }
+    }
+
+    // Слушаем изменения media query
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    // Инициализируем сразу, если условие выполнено
+    if (mediaQuery.matches) {
+      enableSliders();
+    }
+  }
 </script>

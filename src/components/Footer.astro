@@ -10,7 +10,8 @@ const socialLinks = await client.request(readItems('social_link'));
     <div class="footer__inner">
       <div class="footer__body">
         <!-- Переделать сетку -->
-        <div class="grid">
+
+        <div class="footer__desktop grid">
           <div class="footer__address text-small line-height-small">
             Нижний Новгород, ул. Суетинская 1а , офис 212
           </div>
@@ -46,6 +47,50 @@ const socialLinks = await client.request(readItems('social_link'));
             *Instagram — проект компании Meta Platforms Inc., признанной экстремистской организацией
             и запрещённой в РФ
           </p>
+          <span class="footer__date caption text-color-secondary">2026</span>
+        </div>
+
+        <div class="footer__mobile grid">
+          <div class="footer__contacts">
+            <ul class="footer__list" role="list">
+              {
+                socialLinks.map((link: any) => {
+                  return (
+                    <li>
+                      <a class="label-small" href={link.link}>
+                        {link.name}
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
+
+          <div class="repel">
+            <div class="footer__address text-small line-height-small">
+              Нижний Новгород, ул. Суетинская 1а , офис 212
+            </div>
+          </div>
+
+          <a class="footer__politics label-small text-color-secondary" href="#"
+            >Политика конфиденциальности</a
+          >
+          <a class="footer__approval label-small text-color-secondary" href="#"
+            >Согласие на обработку персональных данных</a
+          >
+          <a class="footer__cookie label-small text-color-secondary" href="#"
+            >Политика конфиденциальности файлов cookie</a
+          >
+
+          <p class="footer__caption caption text-color-secondary">
+            *Instagram — проект компании Meta Platforms Inc., признанной экстремистской организацией
+            и запрещённой в РФ
+          </p>
+          <div class="repel">
+            <a class="footer__made label-small text-color-secondary" href="#">Design by SHCH</a>
+            <span class="footer__date caption text-color-secondary">2026</span>
+          </div>
         </div>
       </div>
       <div class="footer__bg">
@@ -60,6 +105,43 @@ const socialLinks = await client.request(readItems('social_link'));
   .footer {
     padding-top: 320px;
     position: relative;
+  }
+
+  .footer__desktop {
+    .footer__address {
+      align-self: end;
+    }
+
+    .footer__contacts {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: center;
+    }
+
+    .footer__list {
+      display: flex;
+      gap: var(--spacing-2);
+    }
+
+    .footer__made {
+      /* grid-column: 2 / 3; */
+      justify-self: end;
+      align-self: end;
+    }
+
+    .footer__approval {
+      justify-self: center;
+    }
+
+    .footer__cookie {
+      justify-self: end;
+    }
+
+    .footer__date {
+      grid-row: 3;
+      grid-column: 3 / -1;
+      justify-self: end;
+    }
   }
 
   .footer__body {
@@ -79,35 +161,6 @@ const socialLinks = await client.request(readItems('social_link'));
     position: relative;
   }
 
-  .footer__address {
-    align-self: end;
-  }
-
-  .footer__contacts {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: center;
-  }
-
-  .footer__list {
-    display: flex;
-    gap: var(--spacing-2);
-  }
-
-  .footer__made {
-    /* grid-column: 2 / 3; */
-    justify-self: end;
-    align-self: end;
-  }
-
-  .footer__approval {
-    justify-self: center;
-  }
-
-  .footer__cookie {
-    justify-self: end;
-  }
-
   .footer__bg {
     position: absolute;
     /* padding-bottom: 0.375rem; */
@@ -120,6 +173,42 @@ const socialLinks = await client.request(readItems('social_link'));
     & img {
       width: 100%;
       height: auto;
+    }
+  }
+
+  /* Responsive */
+
+  @media (--tablet-above) {
+    .footer__mobile {
+      display: none;
+    }
+  }
+
+  @media (--tablet) {
+    .footer {
+      padding-top: 170px;
+    }
+    .footer__body {
+      padding-top: 0px;
+    }
+
+    .footer__desktop {
+      display: none;
+    }
+
+    .footer__mobile {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer__list {
+      display: flex;
+      column-gap: var(--spacing-2);
+    }
+
+    .footer__bg {
+      top: -65px;
+      bottom: auto;
     }
   }
 </style>

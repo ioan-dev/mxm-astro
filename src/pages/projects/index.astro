@@ -121,6 +121,33 @@ import Button from '../../components/Button.astro';
             <div class="spacer"></div>
           </div>
         </div>
+
+        <div class="projects-mobile grid">
+          {
+            projects.map((project) => {
+              const cats =
+                project.categories
+                  ?.map((c: any) => c.categories_id?.name)
+                  .filter(Boolean) // убираем null/undefined на случай пустых записей
+                  .join(',') ?? '';
+              // Локация — берём первый элемент массива (или пустую строку)
+              const loc = project.location?.name ?? '';
+              return (
+                <div class="projects-mobile__item">
+                  <a
+                    class="projects__case"
+                    href={`/projects/${project.slug}`}
+                    data-slug={project.slug}
+                    data-categories={cats}
+                    data-location={loc}
+                  >
+                    <h2 class="text-small">{project.title}</h2>
+                  </a>
+                </div>
+              );
+            })
+          }
+        </div>
       </div>
     </div>
 
@@ -332,6 +359,17 @@ import Button from '../../components/Button.astro';
       height: auto;
       filter: grayscale(1);
       transition: filter 0.2s ease;
+    }
+  }
+
+  /* Responsive */
+
+  @media (--tablet) {
+    .projects {
+      display: none;
+    }
+    .filters-top {
+      display: none;
     }
   }
 </style>

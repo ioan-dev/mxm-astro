@@ -106,6 +106,23 @@
     </div>
   </div>
 
+  <div class="preloader__inner-mobile">
+    <p class="display-large">Max Mikhailov Architecture</p>
+    <div class="counter-mobile">
+      <div class="counter-mobile__inner label-medium text-color-secondary">
+        <span class="counter-mobile__numbers">0</span>
+        <span class="counter-mobile__percentage">%</span>
+      </div>
+    </div>
+    <div class="preloader__logo-mobile">
+      <svg viewBox="0 0 370 117" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M62.6973 78.6016H64.0312L96.2822 0H126.885V117H102.716V40.832H101.774L71.4072 116.45H55.085L24.9531 40.6748H24.0117V117H0V0H30.5244L62.6973 78.6016ZM223.706 117H213.757L152.873 0.0605469H162.822L223.706 117ZM305.812 78.6016H307.146L339.396 0H370V117H345.831V40.832H344.89L314.521 116.45H298.2L268.068 40.6748H267.127V117H243.115V0H273.64L305.812 78.6016ZM183.092 67.25L138.691 116.999H126.885L178.742 58.8955L183.092 67.25ZM195.657 53.1719L191.307 44.8174L231.309 0H243.115L195.657 53.1719Z"
+          fill="currentColor"></path>
+      </svg>
+    </div>
+  </div>
+
   <div class="counter">
     <div class="counter__inner display-large">
       <span class="counter__numbers">0</span>
@@ -168,6 +185,45 @@
   .counter__inner {
     display: flex;
   }
+
+  /* Responsive */
+
+  @media (--tablet-above) {
+    .preloader__inner-mobile {
+      display: none;
+    }
+  }
+
+  @media (--tablet) {
+    :is(.counter, .preloader__inner) {
+      display: none;
+    }
+
+    .preloader__inner-mobile {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      height: 100%;
+    }
+
+    .preloader__logo-mobile {
+      color: var(--color-text-primary);
+      align-self: end;
+
+      & svg {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .counter-mobile {
+      justify-self: center;
+      align-self: center;
+    }
+
+    .counter-mobile__inner {
+      display: flex;
+    }
+  }
 </style>
 
 <script>
@@ -179,97 +235,147 @@
 
     gsap.registerPlugin(Flip);
 
-    let letterArhitecture = gsap.utils.toArray('.architecture path');
-    let letterMikhailov = gsap.utils.toArray('.mikhailov path').reverse();
-    let letterMikhailovNotM = gsap.utils.toArray('.mikhailov svg:not(.letterMove) path').reverse();
-    let letterLogo = gsap.utils.toArray('.mxm .letter');
-    let letterMax = gsap.utils.toArray('.max path');
-    let letterAinMax = letterMax[1];
-    let letterXinMax = letterMax[0];
-    let letterXinMxm = letterLogo[1];
-    let letterMove = document.querySelector('.letterMove');
+    let mm = gsap.matchMedia();
 
-    // COUNTER
-    let counterWrapper = document.querySelector('.counter__inner');
-    let counterElement = document.querySelector('.counter__numbers');
+    let loader = document.querySelector('.preloader');
 
-    gsap.set([letterArhitecture, letterMikhailov, letterMax, letterLogo, counterWrapper], {
-      yPercent: 102,
-    });
+    mm.add({ isLarge: '(min-width: 1024px)', isSmall: '(max-width: 1023px)' }, (context) => {
+      let { isLarge, isSmall } = context.conditions;
 
-    // --- MASTER ---
+      if (isLarge) {
+        let letterArhitecture = gsap.utils.toArray('.architecture path');
+        let letterMikhailov = gsap.utils.toArray('.mikhailov path').reverse();
+        let letterMikhailovNotM = gsap.utils
+          .toArray('.mikhailov svg:not(.letterMove) path')
+          .reverse();
+        let letterLogo = gsap.utils.toArray('.mxm .letter');
+        let letterMax = gsap.utils.toArray('.max path');
+        let letterAinMax = letterMax[1];
+        let letterXinMax = letterMax[0];
+        let letterXinMxm = letterLogo[1];
+        let letterMove = document.querySelector('.letterMove');
 
-    let valueFrom = 102;
-    let valueTo = -102;
+        // COUNTER
+        let counterWrapper = document.querySelector('.counter__inner');
+        let counterElement = document.querySelector('.counter__numbers');
 
-    let charsDuration = 1;
-    let yMovePercent = 102;
-    let charsStagger = 0.1;
-
-    console.log(letterMikhailov);
-
-    let tlMaster = gsap.timeline({
-      onComplete: () => {
-        window.dispatchEvent(new CustomEvent('preloader:complete'));
-      },
-    });
-
-    tlMaster
-      .to(['.preloader__inner', '.counter'], { autoAlpha: 1, duration: 0.1 })
-      .add('start', '0.3')
-      .add(tlLetter(letterArhitecture), 'start')
-      .add(tlLetter(letterMax), 'start')
-      .add(tlLetter(letterMikhailov), '<')
-      .to(counterWrapper, { yPercent: 0 }, 'start')
-      .call(counter, null, 'start+=0.5')
-      .add('timerEnd', '4')
-      .to(counterWrapper, { yPercent: valueTo }, 'timerEnd')
-      .to(letterXinMax, { yPercent: valueTo, duration: 0.4 }, 'timerEnd')
-      .to(letterAinMax, { yPercent: valueTo, duration: 0.4 }, '-=98%')
-      .to(letterXinMxm, { yPercent: 0, duration: 0.6, ease: 'power2.out' }, '<+=20%')
-      .add(tlLetter(letterMikhailovNotM, valueTo, false), '<')
-      .add(tlLetter(letterArhitecture, valueTo, false), '<+=5%')
-      .call(flip, null, '<')
-      .to('.preloader', { autoAlpha: 0, duration: 0.1 }, '5');
-
-    function tlLetter(letters: any, value = 0, direction = true, dur = 0.5, stag = 0.02) {
-      let tl = gsap.timeline();
-
-      if (direction) {
-        tl.to(letters, {
-          yPercent: value,
-          duration: dur,
-          stagger: -stag,
+        gsap.set([letterArhitecture, letterMikhailov, letterMax, letterLogo, counterWrapper], {
+          yPercent: 102,
         });
-      } else {
-        tl.to(letters, {
-          yPercent: value,
-          duration: dur,
-          stagger: stag,
+
+        // --- MASTER ---
+
+        let valueFrom = 102;
+        let valueTo = -102;
+
+        let charsDuration = 1;
+        let yMovePercent = 102;
+        let charsStagger = 0.1;
+
+        let tlMaster = gsap.timeline({
+          onComplete: () => {
+            window.dispatchEvent(new CustomEvent('preloader:complete'));
+          },
         });
+
+        tlMaster
+          .to(['.preloader__inner-mobile', '.counter'], { autoAlpha: 1, duration: 0.1 })
+          .add('start', '0.3')
+          .add(tlLetter(letterArhitecture), 'start')
+          .add(tlLetter(letterMax), 'start')
+          .add(tlLetter(letterMikhailov), '<')
+          .to(counterWrapper, { yPercent: 0 }, 'start')
+          .call(counter, null, 'start+=0.5')
+          .add('timerEnd', '4')
+          .to(counterWrapper, { yPercent: valueTo }, 'timerEnd')
+          .to(letterXinMax, { yPercent: valueTo, duration: 0.4 }, 'timerEnd')
+          .to(letterAinMax, { yPercent: valueTo, duration: 0.4 }, '-=98%')
+          .to(letterXinMxm, { yPercent: 0, duration: 0.6, ease: 'power2.out' }, '<+=20%')
+          .add(tlLetter(letterMikhailovNotM, valueTo, false), '<')
+          .add(tlLetter(letterArhitecture, valueTo, false), '<+=5%')
+          .call(flip, null, '<')
+          .to('.preloader', { autoAlpha: 0, duration: 0.1 }, '5');
+
+        function tlLetter(letters: any, value = 0, direction = true, dur = 0.5, stag = 0.02) {
+          let tl = gsap.timeline();
+
+          if (direction) {
+            tl.to(letters, {
+              yPercent: value,
+              duration: dur,
+              stagger: -stag,
+            });
+          } else {
+            tl.to(letters, {
+              yPercent: value,
+              duration: dur,
+              stagger: stag,
+            });
+          }
+          return tl;
+        }
+
+        function flip() {
+          let logoWrapper = document.querySelector('.mxm');
+          let state = Flip.getState(letterMove);
+          logoWrapper.append(letterMove);
+          Flip.from(state, { duration: 0.9, ease: 'power2.inOut' });
+        }
+
+        function counter(dur = 3.5) {
+          gsap.to(counterElement, {
+            duration: dur,
+            innerHTML: 100,
+            roundProps: 'innerHTML',
+            ease: 'power2.out',
+            onUpdate: function () {
+              // Обновляем текст в элементе при каждом шаге анимации
+              counterElement.textContent = Math.round(counterElement.innerHTML);
+            },
+          });
+        }
       }
-      return tl;
-    }
 
-    function flip() {
-      let logoWrapper = document.querySelector('.mxm');
-      let state = Flip.getState(letterMove);
-      logoWrapper.append(letterMove);
-      Flip.from(state, { duration: 0.9, ease: 'power2.inOut' });
-    }
+      if (isSmall) {
+        // COUNTER
+        let counterWrapper = document.querySelector('.counter-mobile__inner');
+        let counterElement = document.querySelector('.counter-mobile__numbers');
 
-    function counter(dur = 3.5) {
-      gsap.to(counterElement, {
-        duration: dur,
-        innerHTML: 100,
-        roundProps: 'innerHTML',
-        ease: 'power2.out',
-        onUpdate: function () {
-          // Обновляем текст в элементе при каждом шаге анимации
-          counterElement.textContent = Math.round(counterElement.innerHTML);
-        },
-      });
-    }
+        let tlMaster = gsap.timeline({
+          onComplete: () => {
+            window.dispatchEvent(new CustomEvent('preloader:complete'));
+          },
+        });
+
+        tlMaster
+          .to(['.preloader__inner', '.counter'], { autoAlpha: 1, duration: 0.1 })
+          .add('start', '0.3')
+          .to(counterWrapper, { yPercent: 0 }, 'start')
+          .call(counter, null, 'start+=0.5')
+          .to(
+            loader,
+            {
+              yPercent: -101,
+              duration: 0.5,
+              ease: 'power1.in',
+            },
+            'start+=3'
+          );
+
+        function counter(dur = 3.5) {
+          gsap.to(counterElement, {
+            duration: dur,
+            innerHTML: 100,
+            roundProps: 'innerHTML',
+            ease: 'power2.out',
+            onUpdate: function () {
+              // Обновляем текст в элементе при каждом шаге анимации
+              counterElement.textContent = Math.round(counterElement.innerHTML);
+            },
+          });
+        }
+      }
+    });
   }
 
   document.addEventListener('DOMContentLoaded', preloader);

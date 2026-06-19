@@ -6,17 +6,23 @@ import { client, readSingleton, readItems } from '../directus.js';
 // Описываем, какие поля нужны для каждого типа блока
 const blockFields = {
   block_homepage_hero: [
+    // '*',
     'headline',
     {
       images_wrapper: [
         {
-          item: { block_images_item: ['*'] },
+          item: { block_images_item: ['image', 'inverse'] },
         },
       ],
       images_wrapper_2: [
         {
-          item: { block_images_item: ['*'] },
+          item: { block_images_item: ['image', 'inverse'] },
         },
+      ],
+      images_mobile: [
+        'directus_files_id.id',
+        'directus_files_id.width',
+        'directus_files_id.height',
       ],
     },
   ],
@@ -25,14 +31,16 @@ const blockFields = {
     {
       images: [
         {
-          item: { block_images_item: ['*'] },
+          item: { block_images_item: ['image', 'inverse'] },
         },
       ],
 
-      button_group: [
-        'id',
+      button_for_section: [
+        'label',
+        'url',
+        'type',
         {
-          buttons: ['label', 'type', { page: ['name', 'slug'] }],
+          page: ['slug'],
         },
       ],
     },
@@ -40,7 +48,15 @@ const blockFields = {
   block_homepage_team: [
     'headline',
     {
-      list: ['*'],
+      list: ['name', 'position', 'photo', 'type'],
+      button: [
+        'label',
+        'url',
+        'type',
+        {
+          page: ['slug'],
+        },
+      ],
     },
   ],
   block_homepage_projects: [
@@ -65,6 +81,14 @@ const blockFields = {
           ],
         },
       ],
+      button: [
+        'label',
+        'url',
+        'type',
+        {
+          page: ['slug'],
+        },
+      ],
     },
   ],
   block_homepage_services: [
@@ -76,7 +100,7 @@ const blockFields = {
             {
               content_items: [
                 {
-                  item: ['*'],
+                  item: ['headline', 'content', 'preview'],
                 },
               ],
             },
@@ -92,7 +116,7 @@ const blockFields = {
 const fields = [
   {
     blocks: [
-      '*',
+      'collection',
       {
         item: blockFields,
       },

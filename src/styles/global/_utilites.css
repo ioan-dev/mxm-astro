@@ -176,3 +176,14 @@ svg {
     --icon-size: var(--icon-size-large);
   }
 }
+
+/* Responsive */
+
+@media (--tablet) {
+  .flow-space-large {
+    --flow-space: var(--spacing-25);
+  }
+  .grid {
+    --columns: 4;
+  }
+}

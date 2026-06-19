@@ -62,8 +62,9 @@
   --vw-320: 5vw;
 
   /* ICON-SIZE */
-  --icon-size-micro: 16px;
-  --icon-size-small: 20px;
-  --icon-size-medium: 24px;
-  --icon-size-large: 32px;
+  --icon-size-micro: 12px;
+  --icon-size-small: 16px;
+  --icon-size-medium: 20px;
+  --icon-size-large: 24px;
+  --icon-size-huge: 32px;
 }
