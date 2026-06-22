@@ -39,9 +39,14 @@ import '../styles/main.css';
     autoRaf: true,
   });
 
-  lenis.stop();
+  const seen = localStorage.getItem('preloader-seen');
 
-  window.addEventListener('preloader:complete', () => {
-    lenis.start();
-  });
+  if (!seen) {
+    // Первый визит — прелоадер будет показан, блокируем скролл
+    lenis.stop();
+
+    window.addEventListener('preloader:complete', () => {
+      lenis.start();
+    });
+  }
 </script>
