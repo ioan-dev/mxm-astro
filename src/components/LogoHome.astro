@@ -64,7 +64,15 @@
       gsap.set(splitText.chars, { yPercent: 102 });
 
       window.addEventListener('preloader:complete', () => {
-        gsap.to(splitText.chars, { yPercent: 0, stagger: 0.009, duration: 0.25 });
+        const wasShown = localStorage.getItem('preloader-shown');
+
+        if (wasShown) {
+          // Прелоадер проигрывался — анимируем
+          gsap.to(splitText.chars, { yPercent: 0, stagger: 0.009, duration: 0.25 });
+        } else {
+          // Прелоадер пропущен — показываем сразу
+          gsap.set(splitText.chars, { yPercent: 0 });
+        }
       });
     }
   });

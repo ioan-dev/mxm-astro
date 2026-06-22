@@ -250,7 +250,19 @@ const {
         let tlImageUp = gsap.timeline();
 
         window.addEventListener('preloader:complete', () => {
-          tlImageUp.to(imagesUp, { yPercent: 0, stagger: 0.2, duration: 0.9, ease: 'power1.out' });
+          const wasShown = localStorage.getItem('preloader-shown');
+
+          if (wasShown) {
+            tlImageUp.to(imagesUp, {
+              yPercent: 0,
+              stagger: 0.2,
+              duration: 0.9,
+              ease: 'power1.out',
+            });
+          } else {
+            // Без анимации — просто показываем сразу
+            gsap.set(imagesUp, { yPercent: 0 });
+          }
         });
 
         tlMoveImage.to(images, {

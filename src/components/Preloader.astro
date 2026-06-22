@@ -376,5 +376,18 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', preloader);
+  document.addEventListener('DOMContentLoaded', () => {
+    const seen = localStorage.getItem('preloader-seen');
+
+    if (!seen) {
+      localStorage.setItem('preloader-seen', 'true');
+      localStorage.setItem('preloader-shown', 'true'); // <- прелоадер реально показан
+      preloader();
+    } else {
+      localStorage.removeItem('preloader-shown'); // <- прелоадер пропущен
+      const loader = document.querySelector('.preloader');
+      loader.style.display = 'none';
+      window.dispatchEvent(new CustomEvent('preloader:complete'));
+    }
+  });
 </script>
