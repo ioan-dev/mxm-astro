@@ -142,7 +142,7 @@
     padding: var(--spacing-4);
   }
 
-  :is(.counter, .preloader__inner) {
+  :is(.counter, .preloader__inner, .preloader__inner-mobile) {
     visibility: hidden;
   }
 
@@ -346,7 +346,7 @@
         });
 
         tlMaster
-          .to(['.preloader__inner', '.counter'], { autoAlpha: 1, duration: 0.1 })
+          .to(['.preloader__inner-mobile', '.counter'], { autoAlpha: 1, duration: 0.1 })
           .add('start', '0.3')
           .to(counterWrapper, { yPercent: 0 }, 'start')
           .call(counter, null, 'start+=0.5')
