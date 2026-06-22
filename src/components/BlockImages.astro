@@ -142,4 +142,27 @@ const currentAlign = validAligns.includes(align as any) ? align : 'left';
       align-items: start;
     }
   }
+
+  @media (--tablet) {
+    .size-small {
+      .grid {
+        row-gap: var(--spacing-4);
+      }
+    }
+
+    .size-medium {
+      .frame-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .frame {
+        flex-basis: auto;
+        aspect-ratio: auto;
+        img {
+          height: auto;
+        }
+      }
+    }
+  }
 </style>

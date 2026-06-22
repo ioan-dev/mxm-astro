@@ -120,4 +120,28 @@ const { socialLinks = [] } = Astro.props;
   .form__input--task {
     resize: none;
   }
+
+  @media (--tablet) {
+    .connection {
+      margin-bottom: 0px;
+
+      .grid {
+        row-gap: var(--spacing-4);
+      }
+    }
+    .connection__title {
+      grid-column: span 4;
+    }
+    .connection__body {
+      flex-direction: column-reverse;
+      grid-column: span 4;
+    }
+
+    .form {
+      row-gap: var(--spacing-1);
+    }
+    .form__input {
+      font-size: 9px;
+    }
+  }
 </style>

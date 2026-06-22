@@ -1,0 +1,88 @@
+---
+import LayoutContacts from '../layouts/LayoutContacts.astro';
+import { ASSETS_URL } from '../lib/constants';
+import { Image } from '@unpic/astro';
+import ButtonLink from '../components/Button-link.astro';
+---
+
+<LayoutContacts>
+  <div class="page-wrapper">
+    <div class="grid">
+      <div class="item item--left">
+        <div class="links">
+          <p class="text-small line-height-large text-color-secondary">
+            К сожалению, такой страницы не существует.
+          </p>
+          <ButtonLink iconRight="move-right-link" data-theme> Вернуться на главную </ButtonLink>
+        </div>
+        <h1 class="title display-large text-uppercase">Ошибка</h1>
+      </div>
+      <div class="item item--center">
+        <div class="frame" data-frame-type="square">
+          <Image
+            alt=""
+            layout="fullWidth"
+            src={`${ASSETS_URL}/c4b8cb23-ac09-4d53-86e9-97ccdfdc2c8d`}
+            cdn="directus"
+          />
+        </div>
+      </div>
+      <div class="item item--right">
+        <p class="title display-large">404</p>
+      </div>
+    </div>
+  </div>
+</LayoutContacts>
+
+<style>
+  .page-wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .grid {
+    align-items: end;
+    padding: var(--spacing-4);
+  }
+
+  .item--left {
+    grid-column: span 6;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .item--center {
+    grid-column: 7 / span 3;
+  }
+
+  .item--right {
+    grid-column: 10 / span 3;
+    text-align: right;
+  }
+
+  @media (--tablet) {
+    .grid {
+      display: flex;
+      justify-content: space-between;
+      column-gap: 8px;
+    }
+
+    .title {
+      font-size: 46px;
+    }
+    .links {
+      position: absolute;
+      top: 50%;
+      left: var(--spacing-4);
+      transform: translateY(-50%);
+    }
+
+    .item--center {
+      display: none;
+    }
+  }
+</style>

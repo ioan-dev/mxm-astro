@@ -81,6 +81,7 @@ const blockFields = {
           ],
         },
       ],
+      mobile_view: [{ item: ['preview', { project: ['title', 'slug'] }] }],
       button: [
         'label',
         'url',

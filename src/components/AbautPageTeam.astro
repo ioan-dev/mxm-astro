@@ -125,4 +125,27 @@ const currentLayout = validLayouts.includes(layout) ? layout : 'columns';
     gap: var(--spacing-8);
     grid-column: span 8;
   }
+
+  @media (--tablet) {
+    .text-block {
+      .grid {
+        row-gap: var(--spacing-2);
+      }
+
+      .text-block__columns {
+        row-gap: var(--spacing-2);
+      }
+
+      .text-block__col {
+        grid-column: span 2;
+      }
+    }
+    .intro {
+      --flow-space: var(--spacing-8);
+    }
+
+    .team__item {
+      grid-column: span 2;
+    }
+  }
 </style>

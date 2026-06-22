@@ -97,7 +97,7 @@ h3,
     font-size: 11px;
   }
   .display-large {
-    font-family: var(--font-vela);
+    font-family: var(--font-inter);
     font-weight: 600;
     line-height: var(--lh-medium);
     letter-spacing: var(--ls-medium);

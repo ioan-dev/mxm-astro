@@ -81,6 +81,7 @@ export async function getAllProjectsForCatalog() {
           areas: ['name'],
           location: ['name'],
           preview: ['directus_files_id.id', 'directus_files_id.width', 'directus_files_id.height'],
+          preview_mobile: ['id', 'width', 'height'],
           blocks: [
             'collection',
             {

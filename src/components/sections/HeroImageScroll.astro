@@ -206,64 +206,6 @@ const {
   } */
 </style>
 
-<!-- <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  gsap.registerPlugin(ScrollTrigger);
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const hero = document.querySelector(".hero-scroll");
-
-    if (!hero) return;
-
-    // ??? думаю вынести логику в отдельную функцию на глобальный уровень
-    // Все изображения в контейнерах
-    let imageWrappers = gsap.utils.toArray(".hero-scroll__image-wrapper");
-    // Изображения для анимации позиции без скролла
-    let imageMove = [imageWrappers[0], imageWrappers[2]];
-    // Изображения которые будут скроллиться
-    let imageScroll = [imageWrappers[1], imageWrappers[3]];
-
-    // -- Анимация изображений по скроллу START --
-    gsap.set(imageScroll, { yPercent: 101 });
-
-    let tlScroll = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".hero-scroll__spacer",
-        markers: true,
-        scrub: true,
-      },
-    });
-
-    tlScroll.to(imageScroll, {
-      yPercent: 0,
-      stagger: 0.2,
-      duration: 0.9,
-      ease: "power1.out",
-    });
-    // -- Анимация изображений по скроллу END --
-
-    // === 2. Публикуем данные для других компонентов ===
-    const heroData = {
-      element: hero,
-      imageWrappers: imageWrappers,
-      imageMove: imageMove, // для Preloader или других анимаций
-      imageScroll: imageScroll,
-    };
-
-    // Отправляем событие, что Hero готов
-    const event = new CustomEvent("hero:ready", {
-      detail: heroData,
-      bubbles: true,
-    });
-
-    hero.dispatchEvent(event);
-
-    // // Можно также сохранить в глобальный объект (удобно для отладки)
-    // window.heroInstance = heroData;
-  });
-</script> -->
-
 <script>
   import Swiper from 'swiper/bundle';
   import 'swiper/css';

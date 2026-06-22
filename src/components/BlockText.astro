@@ -99,4 +99,20 @@ const currentLayout = validLayouts.includes(layout) ? layout : 'columns';
     gap: var(--spacing-8);
     grid-column: span 8;
   }
+
+  @media (--tablet) {
+    .text-block {
+      .grid {
+        row-gap: var(--spacing-4);
+      }
+
+      .text-block__columns {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: var(--spacing-4);
+      }
+      .text-block__col {
+        grid-column: span 2;
+      }
+    }
+  }
 </style>

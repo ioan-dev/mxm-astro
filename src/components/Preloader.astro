@@ -196,7 +196,7 @@
 
   @media (--tablet) {
     :is(.counter, .preloader__inner) {
-      display: none;
+      /* display: none; */
     }
 
     .preloader__inner-mobile {
@@ -231,8 +231,6 @@
   import { Flip } from 'gsap/Flip';
 
   function preloader() {
-    // gsap.to('.preloader', { autoAlpha: 0 });
-
     gsap.registerPlugin(Flip);
 
     let mm = gsap.matchMedia();
@@ -279,7 +277,7 @@
         });
 
         tlMaster
-          .to(['.preloader__inner-mobile', '.counter'], { autoAlpha: 1, duration: 0.1 })
+          .to(['.preloader__inner', '.counter'], { autoAlpha: 1, duration: 0.1 })
           .add('start', '0.3')
           .add(tlLetter(letterArhitecture), 'start')
           .add(tlLetter(letterMax), 'start')

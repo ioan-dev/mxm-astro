@@ -69,12 +69,18 @@ const nextProject = sorted[(currentIndex + 1) % sorted.length];
     <div class="switch-projects">
       <div class="wrapper">
         <div class="repel">
-          <a href={`/projects/${prevProject.slug}`} class="switch-projects__item">
+          <a
+            href={`/projects/${prevProject.slug}`}
+            class="switch-projects__item switch-projects__item--prev"
+          >
             <h3 class="heading-medium">{prevProject.title}</h3>
             <p class="text-small">Предыдущий проект</p>
           </a>
 
-          <a href={`/projects/${nextProject.slug}`} class="switch-projects__item">
+          <a
+            href={`/projects/${nextProject.slug}`}
+            class="switch-projects__item switch-projects__item--next"
+          >
             <h3 class="heading-medium">{nextProject.title}</h3>
             <p class="text-small">Следующий проект</p>
           </a>
@@ -97,5 +103,31 @@ const nextProject = sorted[(currentIndex + 1) % sorted.length];
   .switch-projects__item {
     display: flex;
     column-gap: var(--spacing-2);
+  }
+
+  @media (--tablet) {
+    .page-wrapper {
+      padding-top: 0px;
+    }
+  }
+
+  @media (--tablet) {
+    .switch-projects {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .switch-projects__item {
+      flex-direction: column;
+      row-gap: 2px;
+
+      p {
+        color: var(--color-text-secondary);
+      }
+    }
+
+    .switch-projects__item--next {
+      align-items: flex-end;
+    }
   }
 </style>

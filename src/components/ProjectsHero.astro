@@ -62,6 +62,16 @@ const currentLayout = validLayouts.includes(layout) ? layout : 'default';
   )
 }
 
+<div class="hero__mobile">
+  <div class="hero__title-wrapper">
+    <h1 class="heading-large">{projectTitle}</h1>
+    <span class="text-small">{projectDate}</span>
+  </div>
+  <div class="frame" data-frame-type="large-format">
+    <Image alt="" layout="fullWidth" src={`${ASSETS_URL}/${image}`} cdn="directus" />
+  </div>
+</div>
+
 <style>
   .hero {
     --flow-space: var(--spacing-16);
@@ -71,6 +81,10 @@ const currentLayout = validLayouts.includes(layout) ? layout : 'default';
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-2);
+
+    h1 {
+      line-height: var(--lh-micro);
+    }
   }
 
   .hero--full {
@@ -107,6 +121,55 @@ const currentLayout = validLayouts.includes(layout) ? layout : 'default';
       aspect-ratio: 8 / 5;
       width: 100%;
       grid-column: 5 / span 8;
+    }
+  }
+
+  @media (--tablet-above) {
+    .hero__mobile {
+      display: none;
+    }
+  }
+
+  @media (--tablet) {
+    .hero {
+      display: none;
+    }
+
+    .hero__mobile {
+      --flow-space: 0px;
+      height: 100dvh;
+      position: relative;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      padding-bottom: 48px;
+
+      &::after {
+        content: '';
+        height: 35.088vh;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, #0d0d0d 100%);
+
+        z-index: 5;
+      }
+
+      .hero__title-wrapper {
+        position: relative;
+        z-index: 10;
+        padding-inline: var(--spacing-4);
+      }
+
+      .frame {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        inset: 0;
+      }
     }
   }
 </style>

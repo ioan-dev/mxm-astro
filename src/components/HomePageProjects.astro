@@ -2,10 +2,14 @@
 import { ASSETS_URL } from '../lib/constants';
 import { Image } from '@unpic/astro';
 import Button from './Button.astro';
-const { headline, row, button } = Astro.props.item || {};
+const { headline, row, button, mobile_view } = Astro.props.item || {};
 const allProjects = row.flatMap((rowItem: any) => {
   return rowItem?.item?.content || [];
 });
+
+const allProjectsMobile = mobile_view.map((entry: any) => ({
+  item: entry?.item,
+}));
 
 const { label, type, page } = button;
 const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
@@ -22,7 +26,7 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
           const project = data?.project;
 
           return (
-            <div class="projects__card" data-case={project.title}>
+            <a href={`/projects/${project.slug}`} class="projects__card" data-case={project.title}>
               <div class="projects__overlay-wrapper">
                 <div class="frame">
                   <Image
@@ -36,20 +40,20 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
               <div class="projects__text-wrapper">
                 <h3 class="projects__text text-medium">{project.title} </h3>
               </div>
-            </div>
+            </a>
           );
         })
       }
     </div>
     <div class="projects__mobile grid">
       {
-        allProjects.map((projectWrapper: any, index: any) => {
-          const data = projectWrapper?.item; // основная информация карточки
+        allProjectsMobile.map((projectWrapper: any, index: any) => {
+          const data = projectWrapper?.item;
           const previewId = data?.preview;
           const project = data?.project;
 
           return (
-            <div class="projects__card" data-case={project.title}>
+            <a href={`/projects/${project.slug}`} class="projects__card" data-case={project.title}>
               <div class="projects__overlay-wrapper">
                 <div class="frame">
                   <Image
@@ -63,20 +67,22 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
               <div class="projects__text-wrapper">
                 <h3 class="projects__text text-medium">{project.title} </h3>
               </div>
-            </div>
+            </a>
           );
         })
       }
     </div>
-    {
-      btnHref ? (
-        <Button href={btnHref} size="medium">
-          {label}
-        </Button>
-      ) : (
-        <Button size="medium">{label}</Button>
-      )
-    }
+    <div class="projects__btn-wrapper">
+      {
+        btnHref ? (
+          <Button href={btnHref} size="medium">
+            {label}
+          </Button>
+        ) : (
+          <Button size="medium">{label}</Button>
+        )
+      }
+    </div>
   </div>
 </section>
 
@@ -87,6 +93,12 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
   .projects__card {
     grid-column: span 2;
     cursor: pointer;
+
+    @media (--hover) {
+      &:hover {
+        color: var(--color-text-primary);
+      }
+    }
   }
 
   .projects__text-wrapper {
@@ -94,6 +106,11 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
     padding-left: 4px;
     padding-top: 4px;
     overflow: hidden;
+  }
+
+  .projects__btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
   }
 
   /* Responsive */

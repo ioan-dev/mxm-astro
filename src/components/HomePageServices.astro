@@ -51,16 +51,18 @@ const { contents_block } = Astro.props.item || {};
 
                       return (
                         <div class="accordion_preview" data-accordion-preview>
-                          <div class="frame" data-frame-type="square">
-                            <Image
-                              alt=""
-                              width={180}
-                              height={180}
-                              breakpoints={[610, 1080, 1920]}
-                              src={`${ASSETS_URL}/${itemData.preview}`}
-                              cdn="directus"
-                            />
-                          </div>
+                          {itemData.preview && ( // если preview есть — рендерим, нет — пропускаем
+                            <div class="frame" data-frame-type="square">
+                              <Image
+                                alt=""
+                                width={180}
+                                height={180}
+                                breakpoints={[610, 1080, 1920]}
+                                src={`${ASSETS_URL}/${itemData.preview}`}
+                                cdn="directus"
+                              />
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -82,17 +84,18 @@ const { contents_block } = Astro.props.item || {};
                             class="accordion__text text-small line-height-large flow"
                             set:html={itemData.content}
                           />
-
-                          <div class="accordion_preview" data-accordion-preview>
-                            <div class="frame" data-frame-type="square">
-                              <Image
-                                alt=""
-                                layout="fullWidth"
-                                src={`${ASSETS_URL}/${itemData.preview}`}
-                                cdn="directus"
-                              />
+                          {itemData.preview && (
+                            <div class="accordion_preview" data-accordion-preview>
+                              <div class="frame" data-frame-type="square">
+                                <Image
+                                  alt=""
+                                  layout="fullWidth"
+                                  src={`${ASSETS_URL}/${itemData.preview}`}
+                                  cdn="directus"
+                                />
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     );

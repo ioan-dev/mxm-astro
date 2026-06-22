@@ -141,7 +141,17 @@ import Button from '../../components/Button.astro';
                     data-categories={cats}
                     data-location={loc}
                   >
-                    <h2 class="text-small">{project.title}</h2>
+                    <div class="frame">
+                      <Image
+                        alt=""
+                        layout="constrained"
+                        src={`${ASSETS_URL}/${project.preview_mobile?.id}`}
+                        width={project.preview_mobile?.width}
+                        height={project.preview_mobile?.height}
+                        cdn="directus"
+                      />
+                    </div>
+                    <h2 class="text-small text-color-primary">{project.title}</h2>
                   </a>
                 </div>
               );
@@ -365,11 +375,33 @@ import Button from '../../components/Button.astro';
   /* Responsive */
 
   @media (--tablet) {
+    .page-wrapper {
+      --flow-space: 0px;
+      padding-top: 90px;
+    }
     .projects {
       display: none;
     }
     .filters-top {
       display: none;
+    }
+
+    .projects-mobile {
+      row-gap: var(--spacing-4);
+    }
+
+    .projects-mobile__item {
+      grid-column: span 2;
+
+      h2 {
+        padding-top: 4px;
+        padding-left: 4px;
+      }
+    }
+
+    .projects__case {
+      display: flex;
+      flex-direction: column;
     }
   }
 </style>
