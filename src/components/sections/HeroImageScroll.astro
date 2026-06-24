@@ -243,15 +243,21 @@ const {
 
         let imagesUp = document.querySelectorAll('[data-hero-image="up"]');
         let imagesDown = document.querySelectorAll('[data-hero-image="down"]');
-        gsap.set([imagesDown, imagesUp], { yPercent: 102 });
+        const wasShown = localStorage.getItem('preloader-shown');
+
+        // Скрываем imagesDown всегда (они анимируются скроллом, не прелоадером)
+        gsap.set(imagesDown, { yPercent: 102 });
+
+        // imagesUp скрываем только если будет анимация
+        if (wasShown) {
+          gsap.set(imagesUp, { yPercent: 102 });
+        }
 
         let images = document.querySelectorAll('.hero-scroll .hero-scroll__image-wrapper');
 
         let tlImageUp = gsap.timeline();
 
         window.addEventListener('preloader:complete', () => {
-          const wasShown = localStorage.getItem('preloader-shown');
-
           if (wasShown) {
             tlImageUp.to(imagesUp, {
               yPercent: 0,
@@ -259,10 +265,8 @@ const {
               duration: 0.9,
               ease: 'power1.out',
             });
-          } else {
-            // Без анимации — просто показываем сразу
-            gsap.set(imagesUp, { yPercent: 0 });
           }
+          // else ветка не нужна — imagesUp уже в yPercent: 0
         });
 
         tlMoveImage.to(images, {

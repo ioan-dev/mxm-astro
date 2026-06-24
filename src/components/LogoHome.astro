@@ -61,18 +61,20 @@
         mask: 'lines',
       });
 
-      gsap.set(splitText.chars, { yPercent: 102 });
+      const wasShown = localStorage.getItem('preloader-shown');
+
+      // Устанавливаем начальное состояние только если будет анимация
+      if (wasShown) {
+        gsap.set(splitText.chars, { yPercent: 102 });
+      }
+      // Если прелоадер пропущен — chars остаются в yPercent: 0 (дефолт),
+      // gsap.set не вызываем вообще
 
       window.addEventListener('preloader:complete', () => {
-        const wasShown = localStorage.getItem('preloader-shown');
-
         if (wasShown) {
-          // Прелоадер проигрывался — анимируем
           gsap.to(splitText.chars, { yPercent: 0, stagger: 0.009, duration: 0.25 });
-        } else {
-          // Прелоадер пропущен — показываем сразу
-          gsap.set(splitText.chars, { yPercent: 0 });
         }
+        // Ветка else больше не нужна — chars уже видны
       });
     }
   });
