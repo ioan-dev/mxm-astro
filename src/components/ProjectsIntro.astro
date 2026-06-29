@@ -1,4 +1,6 @@
 ---
+import { safeJsonDebug } from '../utils/jsonHelpers';
+
 const {
   headline,
   projectStage,
@@ -7,6 +9,7 @@ const {
   projectAreas,
   editor_left,
   editor_right,
+  projectLocationDetails,
 } = Astro.props;
 ---
 
@@ -71,6 +74,15 @@ const {
               }
             </p>
           </div>
+
+          {
+            projectLocationDetails && (
+              <div class="details__item">
+                <p class="text-medium text-color-secondary">Локация:</p>
+                <p class="text-medium">{projectLocationDetails}</p>
+              </div>
+            )
+          }
         </div>
 
         <div class="intro__text editor">

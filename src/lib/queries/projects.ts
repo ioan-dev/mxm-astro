@@ -23,6 +23,7 @@ export async function getProjectBySlug(slug: string) {
         'slug',
         'sort',
         'date',
+        'location_details',
         {
           areas: ['name'],
           location: ['name'],
@@ -71,6 +72,7 @@ export async function getAllProjectsForCatalog() {
         'title',
         'slug',
         'date',
+        'location_details',
         {
           stage: ['name'],
           categories: [
