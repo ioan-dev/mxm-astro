@@ -1,6 +1,7 @@
 ---
 import LayoutContacts from '../layouts/LayoutContacts.astro';
 import { links } from '../lib/queries/social-link';
+import MobileMenu from '../components/Mobile-menu.astro';
 ---
 
 <LayoutContacts>
@@ -45,6 +46,7 @@ import { links } from '../lib/queries/social-link';
       <a href="/" class="contacts__by text-small">Design by SHCH</a>
     </div>
   </div>
+  <MobileMenu />
 </LayoutContacts>
 
 <style>

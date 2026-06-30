@@ -11,8 +11,14 @@ const allProjectsMobile = mobile_view.map((entry: any) => ({
   item: entry?.item,
 }));
 
-const { label, type, page } = button;
-const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
+const { label, type, page, url } = button;
+const btnHref =
+  type === 'page' ? (page?.slug ?? undefined) : type === 'url' ? (url ?? undefined) : undefined;
+
+// Открываем в новой вкладке только для внешних ссылок
+const btnTarget = type === 'url' ? '_blank' : undefined;
+// rel нужен по безопасности, когда есть target="_blank"
+const btnRel = type === 'url' ? 'noopener noreferrer' : undefined;
 ---
 
 <section class="projects" data-animation="favorites">
@@ -75,7 +81,7 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
     <div class="projects__btn-wrapper">
       {
         btnHref ? (
-          <Button href={btnHref} size="medium">
+          <Button href={btnHref} target={btnTarget} rel={btnRel} size="medium">
             {label}
           </Button>
         ) : (
@@ -113,6 +119,10 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
     justify-content: flex-end;
   }
 
+  .projects__desktop {
+    row-gap: var(--spacing-16);
+  }
+
   /* Responsive */
 
   @media (--tablet-above) {
@@ -141,6 +151,10 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
     .projects__text {
       transform: translateY(101%);
       transition: transform 0.4s ease;
+    }
+
+    .projects__mobile {
+      display: none;
     }
   }
 

@@ -9,6 +9,7 @@ import ProjectsIntro from '../../components/ProjectsIntro.astro';
 import BlockImages from '../../components/BlockImages.astro';
 import BlockText from '../../components/BlockText.astro';
 import { projects } from '../../lib/queries/projects.js';
+import MobileMenu from '../../components/Mobile-menu.astro';
 
 export async function getStaticPaths() {
   const projects = await getAllProjects();
@@ -89,6 +90,7 @@ const nextProject = sorted[(currentIndex + 1) % sorted.length];
       </div>
     </div>
   </div>
+  <MobileMenu />
 </Layout>
 
 <style>

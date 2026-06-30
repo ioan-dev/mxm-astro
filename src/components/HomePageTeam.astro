@@ -4,9 +4,14 @@ import { Image } from '@unpic/astro';
 import Button from './Button.astro';
 const { headline = '', list, button } = Astro.props.item || [];
 
-let btn = button;
-const { label, type, page } = btn;
-const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
+const { label, type, page, url } = button;
+const btnHref =
+  type === 'page' ? (page?.slug ?? undefined) : type === 'url' ? (url ?? undefined) : undefined;
+
+// Открываем в новой вкладке только для внешних ссылок
+const btnTarget = type === 'url' ? '_blank' : undefined;
+// rel нужен по безопасности, когда есть target="_blank"
+const btnRel = type === 'url' ? 'noopener noreferrer' : undefined;
 ---
 
 <!--  TEAM-->
@@ -63,7 +68,7 @@ const btnHref = type === 'page' && page?.slug ? page.slug : undefined;
           <div class="team__button-wrapper">
             {
               btnHref ? (
-                <Button href={btnHref} size="medium">
+                <Button href={btnHref} target={btnTarget} rel={btnRel} size="medium">
                   {label}
                 </Button>
               ) : (
