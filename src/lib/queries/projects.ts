@@ -6,6 +6,9 @@ export async function getAllProjects() {
   return client.request(
     readItems('projects', {
       fields: ['slug'],
+      filter: {
+        status: { _eq: 'published' },
+      },
       limit: -1,
     })
   ) as Promise<{ slug: string }[]>;
@@ -17,6 +20,7 @@ export async function getProjectBySlug(slug: string) {
     readItems('projects', {
       filter: {
         slug: { _eq: slug },
+        status: { _eq: 'published' },
       },
       fields: [
         'title',
@@ -57,6 +61,7 @@ export async function getProjectBySlug(slug: string) {
           ],
         },
       ],
+
       limit: 1,
     })
   )) as any[];
@@ -95,11 +100,19 @@ export async function getAllProjectsForCatalog() {
           ],
         },
       ],
+      filter: {
+        status: { _eq: 'published' },
+      },
       limit: -1,
     })
   ) as Promise<any[]>;
 }
 
 export const projects = await client.request(
-  readItems('projects', { fields: ['title', 'sort', 'slug'] })
+  readItems('projects', {
+    fields: ['title', 'sort', 'slug'],
+    filter: {
+      status: { _eq: 'published' },
+    },
+  })
 );
