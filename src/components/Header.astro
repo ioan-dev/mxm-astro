@@ -79,6 +79,10 @@ import { Icon } from 'astro-icon/components';
     } */
   }
 
+  :root[data-theme='light'] .header {
+    background: linear-gradient(180deg, #fbfbfb 0%, rgba(251, 251, 251, 0) 100%);
+  }
+
   .header__buttons {
     grid-column: 9 / -1;
     display: flex;
@@ -138,3 +142,23 @@ import { Icon } from 'astro-icon/components';
     }
   }
 </style>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.querySelector('[data-theme]');
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    root.dataset.theme = savedTheme;
+  }
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const currentTheme = root.dataset.theme || 'dark';
+      const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+      root.dataset.theme = nextTheme;
+      localStorage.setItem('theme', nextTheme);
+    });
+  }
+</script>

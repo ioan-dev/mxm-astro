@@ -138,6 +138,12 @@ const btnRel = type === 'url' ? 'noopener noreferrer' : undefined;
       }
     }
 
+    :root[data-theme='light'] .projects__overlay-wrapper {
+      &::before {
+        background: rgba(251, 251, 251, 0.8);
+      }
+    }
+
     .projects__card--active {
       .projects__overlay-wrapper::before {
         opacity: 0;

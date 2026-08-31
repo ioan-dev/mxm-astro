@@ -68,3 +68,15 @@
   --icon-size-large: 24px;
   --icon-size-huge: 32px;
 }
+
+:root[data-theme='light'] {
+  --color-bg-primary: #fbfbfb;
+  --color-bg-primary-inverse: #0d0d0d;
+
+  --color-bg-secondary: #ededed;
+  --color-bg-secondary-inverse: #1b1b1b;
+
+  --color-text-primary: #0d0d0d;
+  --color-text-primary-inverse: #fbfbfb;
+  --color-text-secondary: #656565;
+}
