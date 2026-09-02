@@ -18,7 +18,7 @@ import { links } from '../lib/queries/nav-links';
   </div>
 
   <div class="mobile-menu__buttons">
-    <ButtonLink iconLeft="light-theme" data-theme
+    <ButtonLink iconLeft="light-theme" data-theme-toggle
       ><span class="light">Светлая тема</span> <span class="dark">Темная тема</span></ButtonLink
     >
   </div>
@@ -81,9 +81,6 @@ import { links } from '../lib/queries/nav-links';
   const menu = document.querySelector('.mobile-menu');
   const burger = document.querySelector('.header__burger');
   const close = document.querySelector('.header__close');
-  const root = document.documentElement;
-  const btn = document.querySelector('[data-theme]');
-  const savedTheme = localStorage.getItem('theme');
 
   // Универсальная функция: isOpen = true (открыть) или false (закрыть)
   function toggleMenu(isOpen: boolean) {
@@ -94,18 +91,4 @@ import { links } from '../lib/queries/nav-links';
 
   burger?.addEventListener('click', () => toggleMenu(true));
   close?.addEventListener('click', () => toggleMenu(false));
-
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    root.dataset.theme = savedTheme;
-  }
-
-  if (btn) {
-    btn.addEventListener('click', () => {
-      const currentTheme = root.dataset.theme || 'dark';
-      const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-      root.dataset.theme = nextTheme;
-      localStorage.setItem('theme', nextTheme);
-    });
-  }
 </script>

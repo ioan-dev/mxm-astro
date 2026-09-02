@@ -31,7 +31,7 @@ import { Icon } from 'astro-icon/components';
     </nav>
 
     <div class="header__buttons">
-      <ButtonLink iconLeft="light-theme" data-theme>
+      <ButtonLink iconLeft="light-theme" data-theme-toggle>
         <span class="light">Светлая тема</span> <span class="dark">Темная тема</span></ButtonLink
       >
       <ButtonLink iconRight="move-right-link" data-header="modal">Связаться</ButtonLink>
@@ -157,30 +157,3 @@ import { Icon } from 'astro-icon/components';
     }
   }
 </style>
-
-<script>
-  // const btn = document.querySelector('[data-theme]');
-
-  // btn.addEventListener('click', () => {
-  //   const isLight = document.documentElement.dataset.theme === 'light';
-  //   document.documentElement.dataset.theme = isLight ? 'dark' : 'light';
-  // });
-
-  const root = document.documentElement;
-  const btn = document.querySelector('[data-theme]');
-  const savedTheme = localStorage.getItem('theme');
-
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    root.dataset.theme = savedTheme;
-  }
-
-  if (btn) {
-    btn.addEventListener('click', () => {
-      const currentTheme = root.dataset.theme || 'dark';
-      const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-      root.dataset.theme = nextTheme;
-      localStorage.setItem('theme', nextTheme);
-    });
-  }
-</script>

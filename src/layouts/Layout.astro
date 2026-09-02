@@ -34,4 +34,53 @@ const { isProject = false } = Astro.props;
   });
 
   lenis.start();
+
+  const seen = localStorage.getItem('preloader-seen');
+
+  if (!seen) {
+    lenis.stop();
+    window.addEventListener('preloader:complete', () => {
+      lenis.start();
+    });
+  }
+
+  // === ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ===
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    root.dataset.theme = savedTheme;
+  }
+
+  function toggleTheme(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    const currentTheme = root.dataset.theme || 'dark';
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    root.dataset.theme = nextTheme;
+    localStorage.setItem('theme', nextTheme);
+  }
+
+  function initThemeButtons() {
+    const buttons = document.querySelectorAll('[data-theme-toggle]');
+
+    buttons.forEach((btn) => {
+      // Используем capture phase для перехвата события ДО всплытия
+      btn.removeEventListener('click', toggleTheme, true);
+      btn.addEventListener('click', toggleTheme, true);
+    });
+  }
+
+  // Используем astro:page-load для поддержки View Transitions
+  document.addEventListener('astro:page-load', initThemeButtons);
+
+  // Запускаем сразу для первой загрузки
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeButtons);
+  } else {
+    initThemeButtons();
+  }
 </script>
