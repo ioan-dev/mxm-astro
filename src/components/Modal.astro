@@ -1,11 +1,12 @@
 ---
 import ConnectionsForm from './ConnectionsForm.astro';
+const { socialLinks = [] } = Astro.props;
 ---
 
 <div class="modal">
   <div class="grid">
     <div class="modal__inner">
-      <ConnectionsForm />
+      <ConnectionsForm socialLinks={socialLinks} />
     </div>
   </div>
 
@@ -39,7 +40,7 @@ import ConnectionsForm from './ConnectionsForm.astro';
   .modal__inner {
     grid-column: 5 / span 4;
     display: flex;
-    justify-content: center;
+    align-items: center;
   }
 
   .modal__caption {
