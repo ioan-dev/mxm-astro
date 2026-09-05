@@ -1,8 +1,14 @@
 ---
-
+import ConnectionsForm from './ConnectionsForm.astro';
 ---
 
 <div class="modal">
+  <div class="grid">
+    <div class="modal__inner">
+      <ConnectionsForm />
+    </div>
+  </div>
+
   <p class="modal__caption caption text-color-secondary">
     *Instagram — проект компании Meta Platforms Inc., признанной экстремистской организацией и
     запрещённой в РФ
@@ -21,9 +27,19 @@
     visibility: hidden;
   }
 
+  .modal .grid {
+    height: 100%;
+  }
+
   .modal--active {
     opacity: 1;
     visibility: visible;
+  }
+
+  .modal__inner {
+    grid-column: 5 / span 4;
+    display: flex;
+    justify-content: center;
   }
 
   .modal__caption {
@@ -38,8 +54,17 @@
   let modal = document.querySelector('.modal');
 
   let btnHeader = document.querySelector('[data-header="modal"]');
+  let btnModalClose = document.querySelector('[data-header="modal-close"]');
 
-  btnHeader?.addEventListener('click', () => {
+  btnHeader?.addEventListener('click', (event) => {
+    event.currentTarget.classList.toggle('is-active');
     modal?.classList.toggle('modal--active');
+    btnModalClose?.classList.toggle('is-show');
+  });
+
+  btnModalClose?.addEventListener('click', () => {
+    btnHeader?.classList.remove('is-active');
+    modal?.classList.remove('modal--active');
+    btnModalClose?.classList.remove('is-show');
   });
 </script>

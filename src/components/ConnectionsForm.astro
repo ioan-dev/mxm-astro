@@ -1,0 +1,174 @@
+---
+import Button from './Button.astro';
+const { socialLinks = [] } = Astro.props;
+---
+
+<div class="connection__body">
+  <div class="connection__contacts">
+    <ul class="connection__list" role="list">
+      {
+        socialLinks.map((link: any) => {
+          return (
+            <li>
+              <a class="label-medium" href={link.link}>
+                {link.name}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+  <div class="connection__form">
+    <form class="form">
+      <div class="form__field">
+        <label class="form__label" for="">Имя</label>
+        <input class="form__input" type="text" name="name" id="" placeholder="Имя" />
+      </div>
+      <div class="form__field">
+        <label class="form__label" for="geo">Местоположение</label>
+        <input class="form__input" type="text" name="geo" id="" placeholder="Местоположение" />
+      </div>
+      <div class="form__field">
+        <label class="form__label" for="">Почта</label>
+        <input class="form__input" type="email" name="email" id="" placeholder="Почта" />
+      </div>
+      <div class="form__field">
+        <label class="form__label" for="">В чём заключается задача</label>
+        <textarea
+          class="form__input form__input--task"
+          cols="30"
+          rows="10"
+          placeholder="Почта"
+          placeholder="В чём заключается задача"></textarea>
+      </div>
+      <div class="form__submit-wrapper">
+        <Button size="large">Отправить</Button>
+        <div class="form__checkbox-wrapper">
+          <input type="checkbox" class="form__submit-checkbox" id="checkbox" />
+          <label for="checkbox" class="text-small line-height-large text-color-secondary">
+            Нажимая на кнопку, вы даете <a href="" class="text-small text-color-primary"
+              >Cогласие на обработку своих персональных данных</a
+            > и соглашаетесь с <a href="/" class="text-small text-color-primary"
+              >Политикой конфиденциальности</a
+            >
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .connection__body {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-8);
+  }
+  .connection__form {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-m);
+  }
+
+  .connection__list {
+    display: flex;
+    column-gap: var(--spacing-8);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-4);
+  }
+
+  .form__label {
+    display: none;
+  }
+
+  .form__input {
+    font-family: var(--font-vela);
+    font-size: 15px;
+    line-height: var(--lh-small);
+    letter-spacing: var(--ls-medium);
+    color: var(--color-text-secondary);
+    width: 100%;
+    padding: var(--spacing-2);
+    background: var(--color-bg-secondary);
+    border-width: medium;
+    border-style: none;
+    border-color: currentcolor;
+    border-image: initial;
+    border-radius: var(--border-radius-m);
+  }
+
+  .form__input--task {
+    resize: none;
+  }
+
+  .form__submit-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-4);
+  }
+
+  .form__checkbox-wrapper {
+    display: flex;
+    column-gap: var(--spacing-4);
+  }
+
+  .form__submit-checkbox {
+    flex-shrink: 0;
+    appearance: none;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background: transparent;
+    border: 3px solid var(--color-bg-primary-inverse);
+    transition: 500ms;
+    cursor: pointer;
+  }
+
+  .form__submit-checkbox::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI3IiB2aWV3Qm94PSIwIDAgOCA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNy40MjY3NiAxLjE3Njc2TDMuMDUxNzYgNS41NTE3NkwyLjQ2MzM4IDYuMTM4OTJMMS44NzUgNS41NTE3NkwwIDMuNjc2NzZMMS4xNzY3NiAyLjVMMi40NjMzOCAzLjc4NjYyTDYuMjUgMEw3LjQyNjc2IDEuMTc2NzZaIiBmaWxsPSIjRkJGQkZCIi8+Cjwvc3ZnPgo=');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 50ms;
+  }
+
+  .form__submit-checkbox:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+    transition: 50ms;
+  }
+
+  @media (--tablet) {
+    .connection__body {
+      flex-direction: column-reverse;
+      grid-column: span 4;
+    }
+    .form {
+      row-gap: var(--spacing-1);
+    }
+    .form__input {
+      font-size: 9px;
+    }
+  }
+
+  @media (--mobile) {
+    .form__submit-wrapper {
+      row-gap: 12px;
+    }
+
+    .form__checkbox-wrapper {
+      column-gap: var(--spacing-3);
+    }
+  }
+</style>

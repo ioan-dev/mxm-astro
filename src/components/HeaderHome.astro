@@ -1,15 +1,11 @@
 ---
 import { links } from '../lib/queries/nav-links';
-import { safeJsonDebug } from '../utils/jsonHelpers';
 import ButtonLink from './Button-link.astro';
 import LogoHome from './LogoHome.astro';
 import { Icon } from 'astro-icon/components';
 ---
 
 <header class="header">
-  <!-- <pre>
-  {safeJsonDebug(links)}
-</pre> -->
   <div class="grid">
     <div class="header__logo">
       <LogoHome />
@@ -35,6 +31,7 @@ import { Icon } from 'astro-icon/components';
         <span class="light">Светлая тема</span> <span class="dark">Темная тема</span></ButtonLink
       >
       <ButtonLink iconRight="move-right-link" data-header="modal">Связаться</ButtonLink>
+      <ButtonLink iconRight="close" data-header="modal-close">Закрыть</ButtonLink>
     </div>
     <div class="header__burger">
       <Icon name="menu" />
@@ -87,6 +84,7 @@ import { Icon } from 'astro-icon/components';
     display: flex;
     justify-content: space-between;
     row-gap: var(--spacing-4);
+    position: relative;
   }
 
   & :is(.button-link, .header__nav-link, .header__burger, .header__close) {
@@ -116,6 +114,20 @@ import { Icon } from 'astro-icon/components';
   }
   :root[data-theme='light'] .dark {
     display: inline;
+  }
+
+  [data-header='modal'].is-active {
+    visibility: hidden;
+  }
+
+  [data-header='modal-close'] {
+    position: absolute;
+    right: 0;
+    visibility: hidden;
+  }
+
+  [data-header='modal-close'].is-show {
+    visibility: visible;
   }
 
   /* Responsive */
