@@ -1,0 +1,1 @@
+Стек directus cms, astro.js, dokploy, redis, postgresql
