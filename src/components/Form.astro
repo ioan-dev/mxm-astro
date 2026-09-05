@@ -57,7 +57,14 @@ const { socialLinks = [] } = Astro.props;
                 placeholder="Почта"
                 placeholder="В чём заключается задача"></textarea>
             </div>
-            <Button size="large">Отправить</Button>
+            <div class="form__submit-wrapper">
+              <input type="checkbox" />
+              <p>
+                Нажимая на кнопку, вы даете Cогласие на обработку своих персональных данных и
+                соглашаетесь с Политикой конфиденциальности
+              </p>
+              <Button size="large">Отправить</Button>
+            </div>
           </form>
         </div>
       </div>

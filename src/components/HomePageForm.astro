@@ -1,5 +1,6 @@
 ---
 import Button from './Button.astro';
+import Form from './Form.astro';
 
 const { headline = '' } = Astro.props.item || {};
 const { socialLinks = [] } = Astro.props;
@@ -57,7 +58,19 @@ const { socialLinks = [] } = Astro.props;
                 placeholder="Почта"
                 placeholder="В чём заключается задача"></textarea>
             </div>
-            <Button size="large">Отправить</Button>
+            <div class="form__submit-wrapper">
+              <Button size="large">Отправить</Button>
+              <div class="form__checkbox-wrapper">
+                <input type="checkbox" class="form__submit-checkbox" id="checkbox" />
+                <label for="checkbox" class="text-small line-height-large text-color-secondary">
+                  Нажимая на кнопку, вы даете <a href="" class="text-color-primary"
+                    >Cогласие на обработку своих персональных данных</a
+                  > и соглашаетесь с <a href="/" class="text-color-primary"
+                    >Политикой конфиденциальности</a
+                  >
+                </label>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -119,6 +132,49 @@ const { socialLinks = [] } = Astro.props;
 
   .form__input--task {
     resize: none;
+  }
+
+  .form__submit-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-4);
+  }
+
+  .form__checkbox-wrapper {
+    display: flex;
+    column-gap: var(--spacing-4);
+  }
+
+  .form__submit-checkbox {
+    flex-shrink: 0;
+    appearance: none;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background: transparent;
+    border: 3px solid var(--color-bg-primary-inverse);
+    transition: 500ms;
+    cursor: pointer;
+  }
+
+  .form__submit-checkbox::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI3IiB2aWV3Qm94PSIwIDAgOCA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNy40MjY3NiAxLjE3Njc2TDMuMDUxNzYgNS41NTE3NkwyLjQ2MzM4IDYuMTM4OTJMMS44NzUgNS41NTE3NkwwIDMuNjc2NzZMMS4xNzY3NiAyLjVMMi40NjMzOCAzLjc4NjYyTDYuMjUgMEw3LjQyNjc2IDEuMTc2NzZaIiBmaWxsPSIjRkJGQkZCIi8+Cjwvc3ZnPgo=');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 50ms;
+  }
+
+  .form__submit-checkbox:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+    transition: 50ms;
   }
 
   /* Responsive */
