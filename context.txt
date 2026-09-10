@@ -1,1 +1,2 @@
-Стек directus cms, astro.js, dokploy, redis, postgresql
+Стек directus cms, astro.js, dokploy, redis, postgresql. Забыл оплатить сервер и он перезапустился.
+При этом directus обновился, а часть данных из коллекции не обновлсяется на фронте. Возможно проблема в redis?
