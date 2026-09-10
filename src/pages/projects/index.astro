@@ -5,12 +5,12 @@ import { ASSETS_URL } from '../../lib/constants';
 import { Image } from '@unpic/astro';
 import { getAllProjectsForCatalog } from '../../lib/queries/projects.js';
 const projects = await getAllProjectsForCatalog();
-import { safeJsonDebug } from '../../utils/jsonHelpers';
 import { getCategories } from '../../lib/queries/categories';
+import { getLocations } from '../../lib/queries/location';
 
-import { locations } from '../../lib/queries/location';
 import Button from '../../components/Button.astro';
 import MobileMenu from '../../components/Mobile-menu.astro';
+const locations = await getLocations();
 const categories = await getCategories();
 ---
 

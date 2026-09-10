@@ -1,5 +1,4 @@
 ---
-import { safeJsonDebug } from '../../utils/jsonHelpers';
 // src/pages/projects/[slug].astro
 
 import { getAllProjects, getProjectBySlug } from '../../lib/queries/projects.js';
@@ -8,8 +7,9 @@ import ProjectsHero from '../../components/ProjectsHero.astro';
 import ProjectsIntro from '../../components/ProjectsIntro.astro';
 import BlockImages from '../../components/BlockImages.astro';
 import BlockText from '../../components/BlockText.astro';
-import { projects } from '../../lib/queries/projects.js';
+import { getProjects } from '../../lib/queries/projects.js';
 import MobileMenu from '../../components/Mobile-menu.astro';
+const projects = await getProjects();
 
 export async function getStaticPaths() {
   const projects = await getAllProjects();

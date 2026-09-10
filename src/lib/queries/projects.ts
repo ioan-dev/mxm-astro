@@ -1,5 +1,4 @@
 import { client, readItems } from '../directus.js';
-import { categories } from './categories.js';
 
 // Только slug — для getStaticPaths
 export async function getAllProjects() {
@@ -33,7 +32,7 @@ export async function getProjectBySlug(slug: string) {
           location: ['name'],
           categories: [
             {
-              categories_id: ['name', 'slug', 'id'], // ← Поля из коллекции categories
+              categories_id: ['name', 'slug', 'id'],
             },
           ],
           stage: ['name'],
@@ -61,7 +60,6 @@ export async function getProjectBySlug(slug: string) {
           ],
         },
       ],
-
       limit: 1,
     })
   )) as any[];
@@ -82,7 +80,7 @@ export async function getAllProjectsForCatalog() {
           stage: ['name'],
           categories: [
             {
-              categories_id: ['name'], // Поля из коллекции categories
+              categories_id: ['name'],
             },
           ],
           areas: ['name'],
@@ -93,7 +91,6 @@ export async function getAllProjectsForCatalog() {
             'collection',
             {
               item: {
-                // Берём только hero, чтобы достать превью
                 block_projects_hero: ['image', 'layout'],
               },
             },
@@ -108,11 +105,14 @@ export async function getAllProjectsForCatalog() {
   ) as Promise<any[]>;
 }
 
-export const projects = await client.request(
-  readItems('projects', {
-    fields: ['title', 'sort', 'slug'],
-    filter: {
-      status: { _eq: 'published' },
-    },
-  })
-);
+// Заменён top-level await на функцию
+export async function getProjects() {
+  return client.request(
+    readItems('projects', {
+      fields: ['title', 'sort', 'slug'],
+      filter: {
+        status: { _eq: 'published' },
+      },
+    })
+  );
+}

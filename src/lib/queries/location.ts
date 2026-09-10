@@ -1,3 +1,5 @@
 import { client, readItems } from '../directus.js';
 
-export const locations = await client.request(readItems('locations', { fields: ['name'] }));
+export async function getLocations() {
+  return client.request(readItems('locations', { fields: ['name'] }));
+}
