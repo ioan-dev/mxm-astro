@@ -1,2 +1,6 @@
 Стек directus cms, astro.js, dokploy, redis, postgresql. Забыл оплатить сервер и он перезапустился.
 При этом directus обновился, а часть данных из коллекции не обновлсяется на фронте. Возможно проблема в redis?
+
+Сброс кеша в REDIS
+
+docker exec -it 6f55b4eb6c3a redis-cli -a cSzCbwyrMJY0bfgGRvxm FLUSHDB
