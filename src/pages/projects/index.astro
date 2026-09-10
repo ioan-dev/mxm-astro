@@ -6,18 +6,14 @@ import { Image } from '@unpic/astro';
 import { getAllProjectsForCatalog } from '../../lib/queries/projects.js';
 const projects = await getAllProjectsForCatalog();
 import { safeJsonDebug } from '../../utils/jsonHelpers';
-import { categories } from '../../lib/queries/categories';
+// import { categories } from '../../lib/queries/categories';
 import { locations } from '../../lib/queries/location';
 import Button from '../../components/Button.astro';
 import MobileMenu from '../../components/Mobile-menu.astro';
 ---
 
-<Layout>
+<!-- <Layout>
   <div class="page-wrapper">
-    <!-- <pre>
-      {safeJsonDebug( projects )}
-    </pre> -->
-
     <div class="wrapper">
       <div class="flow">
         <div class="filters-top">
@@ -199,8 +195,7 @@ import MobileMenu from '../../components/Mobile-menu.astro';
     <div class="shadow"></div>
   </div>
   <MobileMenu />
-</Layout>
-
+</Layout> -->
 <style>
   .page-wrapper {
     --flow-space: var(--spacing-8);
