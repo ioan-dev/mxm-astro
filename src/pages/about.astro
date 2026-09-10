@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { safeJsonDebug } from '../utils/jsonHelpers';
-import { aboutPage } from '../lib/queries/about';
+import { getAboutPage } from '../lib/queries/about';
 import AbautPageTeam from '../components/AbautPageTeam.astro';
 import BlockText from '../components/BlockText.astro';
 import Form from '../components/Form.astro';
 import MobileMenu from '../components/Mobile-menu.astro';
+
+const aboutPage = await getAboutPage();
 
 const blockComponents: Record<string, any> = {
   block_aboutpage_team: AbautPageTeam,
@@ -16,10 +17,6 @@ const blockComponents: Record<string, any> = {
 
 <Layout>
   <div class="page-wrapper">
-    <!-- <pre>
-  {safeJsonDebug(aboutPage)}
-</pre> -->
-
     <!-- Рендер компонентов -->
     <div class="about__blocks flow">
       {
